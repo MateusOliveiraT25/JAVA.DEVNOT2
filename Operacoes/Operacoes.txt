@@ -1,0 +1,9 @@
+variavel x;
+x= 200;
+x= 200+20;x+20
+x=220
+
+int umNumero = 5;
+umNumero += 2;
+
+3 variaveis :numerico,logico,texto
