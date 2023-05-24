@@ -5,9 +5,10 @@ package CalculadoraDescontos;
  */
 import java.util.Scanner;
 public class CalculadoraDescontos {
+  java.util.Scanner sc = new Scanner(System.in);
     public  void calcular20(){
-      java.util.Scanner sc = new Scanner(System.in);("Informe o 
-      Preço do Produto")
+      
+      System.out.println("Informe o Preço do Produto");
         double precoProduto = sc.nextDouble();
       final int desconto20 = 20;
       double precoComDesconto = precoProduto
