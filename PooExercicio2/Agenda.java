@@ -1,16 +1,24 @@
 package PooExercicio2;
 
 public class Agenda {
+    //atributos
     String Nome;
     int idade;
     double altura;
-    //contrutor default
+    //metodos
+    //contrutor default / parametros
+    
     //sets e gets
     public String getNome() {
         return Nome;
     }
     public void setNome(String nome) {
         Nome = nome;
+    }
+    public Agenda(String nome, int idade, double altura) {
+        Nome = nome;
+        this.idade = idade;
+        this.altura = altura;
     }
     public int getIdade() {
         return idade;
