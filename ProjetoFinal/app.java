@@ -53,7 +53,7 @@ public class App {
                     if(nContaBuscada==clientePJ[i].getnConta()){
                         JOptionPane.showMessageDialog(null,"Conta Encontrada");
                         break;
-                    }}}
+                     }}}
             else if(acao==4){ //acessar uma conta já criada
                 //localizar a conta no vetor
                 int i;//contador
@@ -66,7 +66,7 @@ public class App {
                      int op =Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
                         +"\n 1-Consultar o Saldo"
                         +"\n 2-Realizar um Saque"
-                        +"\n 3-..."));
+                        +"\n 3-Solicitar um Emprestimo"));
                      break;
                 }
                 }
