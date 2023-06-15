@@ -1,6 +1,7 @@
 package ProjetoFinal.Conta;
 
 public class ContaPJ extends Conta  {
+    public static final String deposito = null;
     String nCnpj;
     double saldo;
 

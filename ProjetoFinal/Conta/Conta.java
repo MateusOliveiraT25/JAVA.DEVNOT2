@@ -3,6 +3,12 @@ import javax.swing.JOptionPane;
 public abstract class   Conta  {
     String Nome;
     int nConta;
+    double saldo;
+    double saque;
+    double valor;
+    double deposito;
+     
+
     public int getnConta() {
         return nConta;
     }
@@ -16,6 +22,28 @@ public abstract class   Conta  {
         Nome = nome;
     }
 
+    public void extrato(){
+        System.out.println("\tEXTRATO");
+        System.out.println("Nome: " + this.Nome);
+        System.out.println("Número da conta: " + this.nConta);
+        System.out.printf("Saldo atual: %.2f\n",this.saldo);
+        System.out.println("Saques realizados hoje: " + this.saque + "\n");
+        
+    }
     
+    public void Saque(){
+        if(saldo >= saque){
+            saldo -= saque;
+            saque++;
+            System.out.println("Sacado: " + saque);
+            System.out.println("Novo saldo: " + saldo + "\n");
+        } else {
+            System.out.println("Saldo insuficiente. Faça um depósito\n");
+        }
+    }
     
+    public void deposito()
+    {
+    
+}
 }
