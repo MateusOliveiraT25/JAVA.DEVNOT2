@@ -4,9 +4,7 @@ public abstract class   Conta  {
     String Nome;
     int nConta;
     double saldo;
-    double saque;
-    double valor;
-    double deposito;
+   
      
 
     public int getnConta() {
@@ -23,27 +21,27 @@ public abstract class   Conta  {
     }
 
     public void extrato(){
-        System.out.println("\tEXTRATO");
-        System.out.println("Nome: " + this.Nome);
-        System.out.println("Número da conta: " + this.nConta);
-        System.out.printf("Saldo atual: %.2f\n",this.saldo);
-        System.out.println("Saques realizados hoje: " + this.saque + "\n");
+        double extrato = Double.parseDouble(JOptionPane.showInputDialog("O extrato é: "+Nome; nConta;Saldo));
+        
         
     }
     
-    public void Saque(){
-        if(saldo >= saque){
-            saldo -= saque;
-            saque++;
-            System.out.println("Sacado: " + saque);
-            System.out.println("Novo saldo: " + saldo + "\n");
+    public void saque() {
+        double sacar = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor que deseja sacar: "));
+        if (sacar <= saldo) {
+            double resultado = saldo - sacar;
+            JOptionPane.showMessageDialog(null, "O saque foi realizado com sucesso!"
+                    + "\n Saldo atual: "
+                    + resultado);
         } else {
-            System.out.println("Saldo insuficiente. Faça um depósito\n");
+            JOptionPane.showMessageDialog(null, "O saldo é Insuficiente");
         }
     }
-    
-    public void deposito()
-    {
-    
-}
-}
+
+    public void deposito() {
+        double depositar = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor que deseja depositar: "));
+        double resultado = saldo + depositar;
+        JOptionPane.showMessageDialog(null, "O deposito foi realizado com sucesso!"
+                    + "\n Saldo atual: "
+                    + resultado);
+    }
