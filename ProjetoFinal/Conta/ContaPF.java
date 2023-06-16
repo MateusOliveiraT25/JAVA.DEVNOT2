@@ -2,6 +2,7 @@ package ProjetoFinal.Conta;
 
 public class ContaPF extends Conta  {
     String nCpf;
+     double saldo;
 
     public String getnCpf() {
         return nCpf;
