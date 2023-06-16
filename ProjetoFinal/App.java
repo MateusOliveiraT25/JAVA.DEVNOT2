@@ -16,7 +16,7 @@ public class App {
         while (aberto) {
             int acao = Integer.parseInt(JOptionPane.showInputDialog("Informe a ação Desejada:"
                         +"\n 1-Abrir Conta PJ"
-                        +"\n 2-Abrir Cont PF"
+                        +"\n 2-Abrir Conta PF"
                         +"\n 3-Acessar Conta PJ"
                         +"\n 4-Acessar Conta PF"
                         +"\n 5-Sair"));
