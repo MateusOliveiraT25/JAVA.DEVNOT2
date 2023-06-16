@@ -76,7 +76,8 @@ public class App {
                         +"\n 2-Realizar um Saque"
                         +"\n 3-Realizar um Deposito"
                         +"\n 4-Realizar um Extrato"
-                        +"\n 5-Sair do app"));
+                        +"\n 5-Realizar um Emprestimo"                                                    
+                        +"\n 6-Sair do app"));
                      if (acao == 1) { // saldo
                                 JOptionPane.showMessageDialog(null,
                                         "Seu Saldo é de R$ " + clientePJ[i].getSaldo());
@@ -88,11 +89,15 @@ public class App {
                                 clientePJ[i].deposito();
                                 JOptionPane.showMessageDialog(null,
                                         "Seu Saldo é de R$ " + clientePJ[i].getSaldo());
-                            } else if (acao2 == 4) { // emprestimo
+                            } else if (acao2 == 4) { // extrato
                                 clientePJ[i].extrato();
                                 JOptionPane.showMessageDialog(null,
                                         "Seu Saldo é de R$ " + clientePJ[i].getSaldo());
-                            } else if (acao2 == 5) { // Sair da conta
+                            } else if (acao2 == 5) { // emprestimo
+                                clientePJ[i].emprestimo();
+                                JOptionPane.showMessageDialog(null,
+                                        "Seu Saldo é de R$ " + clientePJ[i].getSaldo());
+                     } else if (acao2 == 6) { // Sair da conta
                                 JOptionPane.showMessageDialog(null,
                                         "Sessão encerrada.");
                                 acesso = false; // Define acesso como falso para sair do loop
@@ -110,7 +115,8 @@ public class App {
                         +"\n 2-Realizar um Saque"
                         +"\n 3-Realizar um Deposito"
                         +"\n 4-Realizar um Extrato"
-                        +"\n 5-Sair do app"));
+                        +"\n 5-Realizar um Emprestimo"                                                    
+                        +"\n 6-Sair do app"));
                     }
                       if (acao == 1) { // saldo
                                 JOptionPane.showMessageDialog(null,
@@ -127,7 +133,11 @@ public class App {
                                 clientePF[i].extrato();
                                 JOptionPane.showMessageDialog(null,
                                         "Seu Saldo é de R$ " + clientePF[i].getSaldo());
-                            } else if (acao2 == 5) { // Sair da conta
+                           } else if (acao2 == 5) { // emprestimo
+                                clientePF[i].emprestimo();
+                                JOptionPane.showMessageDialog(null,
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
+                            } else if (acao2 == 6) { // Sair da conta
                                 JOptionPane.showMessageDialog(null,
                                         "Sessão encerrada.");
                                 acesso = false; // Define acesso como falso para sair do loop
