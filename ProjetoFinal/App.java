@@ -35,9 +35,9 @@ public class App {
             } else if(acao==3){ //acessar uma conta já criada
                 //localizar a conta no vetor
                 int i;//contador
-                int nContaBuscada = Integer.parseInt(JOptionPane.showInputDialog("Informe o nº da Conta buscada"));
+                int nContaBuscadaPJ = Integer.parseInt(JOptionPane.showInputDialog("Informe o nº da Conta buscada"));
                 for (i = 0; i < clientePJ.length; i++) {
-                    if(nContaBuscada==clientePJ[i].getnConta()){
+                    if(nContaBuscadaPJ==clientePJ[i].getnConta()){
                         JOptionPane.showMessageDialog(null,"Conta Encontrada");
                          break; // Sai do loop while (acesso)
                             } else {
@@ -47,8 +47,8 @@ public class App {
                 //criar um objeto
                  clientePF[contPF] = new ContaPF();//chamei o construtor
                 //preencher os atributos do objeto
-                 clientePF[contPF].setNome(JOptionPane.showInputDialog("Informe o Nome da Empresa:"));
-                clientePF[contPF].setnCpf(JOptionPane.showInputDialog("Informe o CNPJ da Empresa:"));
+                 clientePF[contPF].setNome(JOptionPane.showInputDialog("Informe o Nome:"));
+                clientePF[contPF].setnCpf(JOptionPane.showInputDialog("Informe o CPF:"));
                 clientePF[contPF].setnConta(
                     1000+contPF);
                 clientePF[contPF].setSaldo(0);
@@ -57,10 +57,10 @@ public class App {
                 contPF++;
             } else if(acao==4){ //acessar uma conta já criada
                 //localizar a conta no vetor
-                int j;//contador
-                int nContaBuscada  = Integer.parseInt(JOptionPane.showInputDialog("Informe o nº da Conta buscada"));
-                for ( = 0; i < clientePF.length; j++) {
-                    if(nContaBuscada==clientePF[j].getnConta()){
+                int i;//contador
+                int nContaBuscadaPF  = Integer.parseInt(JOptionPane.showInputDialog("Informe o nº da Conta buscada"));
+                for ( = 0; i < clientePF.length; i++) {
+                    if(nContaBuscadaPF==clientePF[i].getnConta()){
                         JOptionPane.showMessageDialog(null,"Conta Encontrada");
                         break;
                     }
