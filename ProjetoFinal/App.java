@@ -70,7 +70,7 @@ public class App {
 
                 //menu de acesso da conta
                 boolean acesso = true;
-                while(acesso){ //acessei a conta
+                while(acessoPJ){ //acessei a conta
                     int acao2 = Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
                         +"\n 1-Consultar o Saldo"
                         +"\n 2-Realizar um Saque"
@@ -104,7 +104,7 @@ public class App {
                         if (i == contPJ) {
                             JOptionPane.showMessageDialog(null, "Conta PJ não encontrada");
                         } boolean acesso = true;
-                while(acesso){ //acessei a conta
+                while(acessoPF){ //acessei a conta
                     int acao2 = Integer.parseInt(JOptionPane.showInputDialog("Informe a operação Desejada:"
                         +"\n 1-Consultar o Saldo"
                         +"\n 2-Realizar um Saque"
@@ -114,19 +114,19 @@ public class App {
                     }
                       if (acao == 1) { // saldo
                                 JOptionPane.showMessageDialog(null,
-                                        "Seu Saldo é de R$ " + clientePF[j].getSaldo());
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
                             } else if (acao2 == 2) { // Saque
-                                clientePJ[i].Saque();
+                                clientePF[i].Saque();
                                 JOptionPane.showMessageDialog(null,
-                                        "Seu Saldo é de R$ " + clientePF[j].getSaldo());
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
                             } else if (acao2 == 3) { // deposito
-                                clientePJ[i].deposito();
+                                clientePF[i].deposito();
                                 JOptionPane.showMessageDialog(null,
-                                        "Seu Saldo é de R$ " + clientePF[j].getSaldo());
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
                             } else if (acao2 == 4) { // emprestimo
-                                clientePJ[i].extrato();
+                                clientePF[i].extrato();
                                 JOptionPane.showMessageDialog(null,
-                                        "Seu Saldo é de R$ " + clientePF[j].getSaldo());
+                                        "Seu Saldo é de R$ " + clientePF[i].getSaldo());
                             } else if (acao2 == 5) { // Sair da conta
                                 JOptionPane.showMessageDialog(null,
                                         "Sessão encerrada.");
@@ -136,8 +136,8 @@ public class App {
                                 acesso=false;
                             }
                         }
-                        if (i == contPJ) {
-                            JOptionPane.showMessageDialog(null, "Conta PJ não encontrada");
+                        if (i == contPF) {
+                            JOptionPane.showMessageDialog(null, "Conta PF não encontrada");
                         }
                     }
                 }
