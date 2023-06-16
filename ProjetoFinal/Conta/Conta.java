@@ -45,3 +45,11 @@ public abstract class   Conta  {
                     + "\n Saldo atual: "
                     + resultado);
     }
+    public void emprestimo() 
+        double emprestar = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor do emprestimo:"));
+        double resultado = saldo + emprestar;
+        JOptionPane.showMessageDialog(null, "O emprestimo foi realizado com sucesso!"
+                    + "\n Saldo atual: "
+                    + resultado);
+       
+    }
