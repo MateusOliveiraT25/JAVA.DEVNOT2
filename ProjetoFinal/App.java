@@ -39,10 +39,10 @@ public class App {
                 for (i = 0; i < clientePJ.length; i++) {
                     if(nContaBuscada==clientePJ[i].getnConta()){
                         JOptionPane.showMessageDialog(null,"Conta Encontrada");
-                        break;
+                         break; // Sai do loop while (acesso)
+                            } else {
+                                aberto=false;
                     }
-                }
-            
   if(acao==2){//abrir a conta 
                 //criar um objeto
                  clientePF[contPF] = new ContaPF();//chamei o construtor
