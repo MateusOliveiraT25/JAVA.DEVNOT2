@@ -21,9 +21,10 @@ public abstract class   Conta  {
     }
 
     public void extrato(){
-        double extrato = Double.parseDouble(JOptionPane.showInputDialog("O extrato é: "+Nome; nConta;Saldo));
-        
-        
+        double extrato = Double.parseDouble(JOptionPane.showInputDialog("O extrato é: 
+                                                                        + "\n Nome; 
+                                                                        + "\n nConta;
+                                                                        + "\n Saldo))
     }
     
     public void saque() {
