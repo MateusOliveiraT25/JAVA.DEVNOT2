@@ -1,4 +1,4 @@
-package POOHeranca.Pessoas;
+package Cadastro.Pessoas;
 
 public abstract class   Pessoas  {
     //Superclasse - Atributos genericos
