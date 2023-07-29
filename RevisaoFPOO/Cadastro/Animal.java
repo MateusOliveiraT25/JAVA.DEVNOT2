@@ -1,5 +1,4 @@
 package RevisaoFPOO.Cadastro;
-java.util.Scanner sc = new Scanner(System.in);
 public abstract class Animal {
     //Atributos
     String nome;
@@ -26,8 +25,8 @@ public abstract class Animal {
     public double getPeso() {
         return peso;
     }
-    public void setPeso(String string) {
-        this.peso = string;
+    public void setPeso(double peso) {
+        this.peso = peso;
     }
     public String getEspecie() {
         return especie;

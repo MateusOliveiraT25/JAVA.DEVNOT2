@@ -1,9 +1,7 @@
 package RevisaoFPOO.Cadastro;
 
 public class Cachorro extends Animal {
-    public Cachorro() {
-        super();
-    }
+
     String raca;
 
     public String getRaca() {
