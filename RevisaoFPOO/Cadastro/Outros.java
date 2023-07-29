@@ -1,11 +1,8 @@
 package RevisaoFPOO.Cadastro;
 
 public class Outros extends Animal{
-public Outros() {
-    super();
-}
-    String raca;
 
+    String raca;
 
     public String getRaca() {
         return raca;
@@ -15,3 +12,6 @@ public Outros() {
         this.raca = raca;
     }
 }
+
+
+

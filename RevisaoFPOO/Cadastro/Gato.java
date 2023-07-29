@@ -1,12 +1,8 @@
 package RevisaoFPOO.Cadastro;
 
 public class Gato extends  Animal{
-  public Gato() {
-    super();
-  }
-    String raca;
-
-    public String getRaca() {
+  String raca;
+ public String getRaca() {
         return raca;
     }
 
@@ -14,3 +10,5 @@ public class Gato extends  Animal{
         this.raca = raca;
     }
 }
+
+  
