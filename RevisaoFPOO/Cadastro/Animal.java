@@ -14,7 +14,7 @@ public abstract class Animal {
         this.proprietario = proprietario;
     }
     // declarar construtor vazio
-    public Animal()();
+    public Animal();
 
     public String getNome() {
         return nome;
