@@ -1,6 +1,7 @@
 package EstudoArrayList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -8,7 +9,7 @@ public class ExemploArrayList {
     // atributo
     // Declarando o ArrayList do tipo String
     ArrayList<String> Carros = new ArrayList<>();
-
+    ArrayList<Integer> numero = new ArrayList<>();
     // metodos
     public void teste() {
         Carros.add(JOptionPane.showInputDialog("Informe o Nome do carro"));
@@ -18,6 +19,10 @@ public class ExemploArrayList {
         Carros.add("Celta");
         Carros.add("Monza");
         Carros.add("Gol");
+        //ordenando a lista
+        Collections.sort(Carros);
+        // reversa a lista
+         Collections.reverse(Carros);
         // Imprimir toda alista
         System.out.println(Carros);
         // pegando o valor correspodente a 5 posição(index 4)
@@ -37,12 +42,15 @@ public class ExemploArrayList {
     }
 
     public void exercicio() {
-        ArrayList<Integer> numero = new ArrayList<>();
-        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite um Nº Inteiro")));
-        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite um Nº Inteiro")));
-        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite um Nº Inteiro")));
-        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite um Nº Inteiro")));
-        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite um Nº Inteiro")));
-         System.out.println(numero);
+      for (int i = 0; i < 5; i++) {
+        
+      
+        numero.add(Integer.parseInt(JOptionPane.showInputDialog("Digite 5 numeros inteiro")));
+      }Collections.sort(numero);
+      Collections.reverse(numero);
+        for (int i : numero) {
+            System.out.println(i);
+        }
+         
         }
 }
