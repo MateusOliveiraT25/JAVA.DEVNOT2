@@ -3,6 +3,7 @@ public class App {
      //new FrameAWT();
       //new  JFrameSwing();
       //new JOptionPaneExemplo();
-      new ContainerComponentes();
+      //new ContainerComponentes();
+      new JButtonAmndJLabel();
     }
 }

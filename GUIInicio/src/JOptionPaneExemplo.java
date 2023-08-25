@@ -6,8 +6,8 @@ public class JOptionPaneExemplo extends JOptionPane {
     public JOptionPaneExemplo(){
         super();
         String informacao = "Minha Janela Dialog";
-        this.showMessageDialog(getComponentPopupMenu(),
-         informacao, informacao,
-         JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+            informacao, "Título da Janela",
+            JOptionPane.INFORMATION_MESSAGE);
     }
 }
