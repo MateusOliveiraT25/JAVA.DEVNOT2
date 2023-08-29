@@ -1,34 +1,35 @@
 import java.awt.GridLayout;
-
+import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class ExemploGridLayout {
     public ExemploGridLayout() {
-     JFrame janela1 = new JFrame("Exemplo GridLayout");
-     JPanel painel1 = new  JPanel();
+     JFrame janela1 = new JFrame("Layout Calculadora");
+     
+     BorderLayout border = new BorderLayout();
+      janela1.setLayout(border);
+      JPanel painelV = new JPanel();
+      JPanel painelB = new JPanel();//padrao flowLayout
+
+     //layout da Jframe padrao é GridLayout
+     //Alterar para flowLayout
      GridLayout grid = new GridLayout(4,4);
-     painel1.setLayout(grid);
-     // adicionar Jpainel ao Jframe
-     janela1.getContentPane().add(painel1);
+     painelB.setLayout(grid);
+     
+     janela1.getContentPane().add(painelB,BorderLayout.CENTER);
+     janela1.getContentPane().add(painelV,BorderLayout.NORTH);
+     JTextField caixa1 = new JTextField(25);
+     painelV.add(caixa1);
      // adicionar componentes ao painel
-     painel1.add(new JButton("%"));
-     painel1.add(new JButton("CE"));
-     painel1.add(new JButton("C"));
-     painel1.add(new JButton("/"));
-      painel1.add(new JButton("7"));
-     painel1.add(new JButton("8"));
-     painel1.add(new JButton("9"));
-     painel1.add(new JButton("X"));
-     painel1.add(new JButton("5"));
-     painel1.add(new JButton("6"));
-     painel1.add(new JButton("-"));
-     painel1.add(new JButton("1"));
-      painel1.add(new JButton("2"));
-     painel1.add(new JButton("3"));
-      painel1.add(new JButton("+"));
-      painel1.add(new JButton("="));
+       String textBotoes[]={"+","9","8","7","/","6","5","4","*","3","2","1","-","C","0","="};
+   for (int i = 0; i < textBotoes.length;i++) {
+       painelB.add(new JButton(textBotoes[i]));
+   }
+  
+   
 
      //config janela1
      janela1.setBounds(300,300,300,300);
