@@ -1,0 +1,64 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+public class ViagemGUI extends JFrame implements ActionListener {
+    private JTextField distanciaField, consumoField, precoField;
+    private JButton calcularButton;
+    
+    public ViagemGUI() {
+        setTitle("Calculadora de Custo de Viagem");
+        setSize(300, 200);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(4, 2));
+        
+        add(new JLabel("Distância percorrida (km):"));
+        distanciaField = new JTextField();
+        add(distanciaField);
+        
+        add(new JLabel("Consumo do transporte (km/l):"));
+        consumoField = new JTextField();
+        add(consumoField);
+        
+        add(new JLabel("Preço do combustível (R$/litro):"));
+        precoField = new JTextField();
+        add(precoField);
+        
+        calcularButton = new JButton("Calcular");
+        calcularButton.addActionListener(this);
+        add(calcularButton);
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == calcularButton) {
+            int distanciaPercorrida = Integer.parseInt(distanciaField.getText());
+            double consumoTransporte = Double.parseDouble(consumoField.getText());
+            double precoCombustivelPorLitro = Double.parseDouble(precoField.getText());
+
+            double quantidadeLitrosCombustivel = distanciaPercorrida / consumoTransporte;
+            double custoTotal = quantidadeLitrosCombustivel * precoCombustivelPorLitro;
+
+            DecimalFormat df = new DecimalFormat("#,##0.00");
+            String custoFormatado = "R$" + df.format(custoTotal);
+
+            String mensagem = "Distância percorrida: " + distanciaPercorrida + " km\n"
+                    + "Consumo do transporte: " + consumoTransporte + " km/l\n"
+                    + "Preço do combustível: R$" + precoCombustivelPorLitro + " por litro\n"
+                    + "Quantidade de litros de combustível: " + df.format(quantidadeLitrosCombustivel) + " litros\n"
+                    + "Custo total da viagem: " + custoFormatado;
+
+            JOptionPane.showMessageDialog(this, mensagem, "Resultado da Viagem", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ViagemGUI viagemGUI = new ViagemGUI();
+            viagemGUI.setVisible(true);
+        });
+    }
+}
