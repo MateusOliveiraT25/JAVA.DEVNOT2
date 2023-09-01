@@ -16,7 +16,7 @@ public class ExemploGridLayout {
 
      //layout da Jframe padrao é GridLayout
      //Alterar para flowLayout
-     GridLayout grid = new GridLayout(4,4);
+     GridLayout grid = new GridLayout(6,6);
      painelB.setLayout(grid);
      
      janela1.getContentPane().add(painelB,BorderLayout.CENTER);
