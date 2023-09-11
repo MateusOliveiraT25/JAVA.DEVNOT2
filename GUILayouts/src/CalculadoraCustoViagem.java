@@ -124,7 +124,8 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos!", "Erro", JOptionPane.ERROR_MESSAGE);
-            } else if (e.getSource() limparButton) {
+                
+            } else if (e.getSource() == limparButton) {
         // Verifica qual campo de texto está em foco e remove o último caractere
         if (distanciaField.isFocusOwner()) {
             String texto = distanciaField.getText();
