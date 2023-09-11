@@ -125,24 +125,24 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos!", "Erro", JOptionPane.ERROR_MESSAGE);
                 
-            } (e.getSource() == limparButton)  {
-        // Verifica qual campo de texto está em foco e remove o último caractere
-        if (distanciaField.isFocusOwner()) {
-            String texto = distanciaField.getText();
-            if (texto.length() > 0) {
-                distanciaField.setText(texto.substring(0, texto.length() - 1));
-            }
-        } else if (consumoField.isFocusOwner()) {
-            String texto = consumoField.getText();
-            if (texto.length() > 0) {
-                consumoField.setText(texto.substring(0, texto.length() - 1));
-            }
-        } else if (precoField.isFocusOwner()) {
-            String texto = precoField.getText();
-            if (texto.length() > 0) {
-                precoField.setText(texto.substring(0, texto.length() - 1));
+            } else if (e.getSource() == limparButton) {
+    // Verifica qual campo de texto está em foco e remove o último caractere
+    if (distanciaField.isFocusOwner()) {
+        String texto = distanciaField.getText();
+        if (texto.length() > 0) {
+            distanciaField.setText(texto.substring(0, texto.length() - 1));
+        }
+    } else if (consumoField.isFocusOwner()) {
+        String texto = consumoField.getText();
+        if (texto.length() > 0) {
+            consumoField.setText(texto.substring(0, texto.length() - 1));
+        }
+    } else if (precoField.isFocusOwner()) {
+        String texto = precoField.getText();
+        if (texto.length() > 0) {
+            precoField.setText(texto.substring(0, texto.length() - 1));
         }
     }
-        }
-    
+}
+
    
