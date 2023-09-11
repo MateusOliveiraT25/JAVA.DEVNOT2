@@ -15,7 +15,7 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(400, 200));//altura e largura
         setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();// para definir as características de posicionamento e tamanho de cada componente individualmente
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento interno
         gbc.anchor = GridBagConstraints.WEST;
 
@@ -93,6 +93,7 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+          // Código para lidar com eventos
         if (e.getSource() == apagarButton) {
             // Limpa os campos de entrada
             distanciaField.setText("");
