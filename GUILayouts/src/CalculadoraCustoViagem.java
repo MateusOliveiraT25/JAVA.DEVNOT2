@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 public class CalculadoraCustoViagem extends JFrame implements ActionListener {
     private JTextField distanciaField, consumoField, precoField;
-    private JButton calcularButton, apagarButton, sairButton;
+    private JButton calcularButton, apagarButton,limparButton, sairButton;
 
     public CalculadoraCustoViagem() {
         super("Calculadora de Custo de Viagem");
@@ -54,6 +54,12 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
         apagarButton = new JButton("Apagar");
         apagarButton.addActionListener(this);
         add(apagarButton, gbc);
+        // Botão Limpar Caractere
+       gbc.gridx = 2; // Coluna 2 (ou qualquer outra coluna desejada)
+       gbc.gridy = 0; // Linha 0 (ou qualquer outra linha desejada)
+       limparButton = new JButton("Limpar");
+       limparButton.addActionListener(this);
+       add(limparButton, gbc);
 
         // Painel para os botões (Calcular, Sair)
         JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -118,15 +124,24 @@ public class CalculadoraCustoViagem extends JFrame implements ActionListener {
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Por favor, insira valores válidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            } else if (e.getSource() limparButton) {
+        // Verifica qual campo de texto está em foco e remove o último caractere
+        if (distanciaField.isFocusOwner()) {
+            String texto = distanciaField.getText();
+            if (texto.length() > 0) {
+                distanciaField.setText(texto.substring(0, texto.length() - 1));
             }
+        } else if (consumoField.isFocusOwner()) {
+            String texto = consumoField.getText();
+            if (texto.length() > 0) {
+                consumoField.setText(texto.substring(0, texto.length() - 1));
+            }
+        } else if (precoField.isFocusOwner()) {
+            String texto = precoField.getText();
+            if (texto.length() > 0) {
+                precoField.setText(texto.substring(0, texto.length() - 1));
         }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new CalculadoraCustoViagem();
-            }
-        });
+        }
     }
-}
+   
