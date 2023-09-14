@@ -14,7 +14,7 @@ public class CalculadoraCustoViagem extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(400, 200));//altura e largura
         setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();  // Cria um novo objeto GridBagConstraints para configurar o layout.
         gbc.insets = new Insets(5, 5, 5, 5); // Espaçamento interno margem
         gbc.anchor = GridBagConstraints.WEST; // Alinhar à esquerda
 
@@ -90,7 +90,7 @@ add(sairButton, gbc);
       //  setLocationRelativeTo(null); // Centraliza a janela na tela
         //setVisible(true);
     }
-
+  // Implementação do método actionPerformed para lidar com eventos de botões.
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == apagarButton) {
