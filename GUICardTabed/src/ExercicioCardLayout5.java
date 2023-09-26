@@ -35,7 +35,7 @@ public class ExercicioCardLayout5 extends JFrame {
         JPanel card8 = new JPanel();
         JPanel card9 = new JPanel();
         JPanel card10 = new JPanel();
-        
+        JPanel card11 = new JPanel();
         
         
         // Adiciona um rótulo e um campo de texto ao card1
@@ -56,7 +56,7 @@ public class ExercicioCardLayout5 extends JFrame {
         card3.setLayout(new FlowLayout()); // Usar FlowLayout para organizar os componentes
         card3.add(new JLabel("Qual o número mínimo de jogadores em cada time numa partida de futebol?")); // Rótulo para usuário
         card3.add(new JLabel("11")); // Rótulo para usuário
-        card3.add(new JLabel("12")); // Rótulo para usuário
+        card3.add(new JLabel("7")); // Rótulo para usuário
         card3.add(new JTextField(30)); // Campo de texto para usuário
       
         // Adiciona um rótulo e um campo de texto ao card4
@@ -108,10 +108,13 @@ public class ExercicioCardLayout5 extends JFrame {
          card10.add(new JLabel("1990")); // Rótulo para usuário
         card10.add(new JTextField(30)); // Campo de texto para usuário
      
-       
+       card11.setLayout(new FlowLayout());
+JLabel resultadoLabel = new JLabel("Pontuação Final: " + pontos + " pontos");
+card11.add(resultadoLabel);
+
 
         // Adiciona os card1, card2, card3 aos cards
-        cards.add(card1, "card1"); // Adiciona o card e atribui um "nome"
+        cards.add(card1, "Quiz 1"); // Adiciona o card e atribui um "nome"
         cards.add(card2, "card2");
         cards.add(card3, "card3");
         cards.add(card4, "card2");
@@ -121,6 +124,7 @@ public class ExercicioCardLayout5 extends JFrame {
         cards.add(card8, "card3");
         cards.add(card9, "card2");
         cards.add(card10, "card3");
+         cards.add(card11, "Resultado")
         
         // Diferenciando os cards
        
@@ -133,68 +137,62 @@ public class ExercicioCardLayout5 extends JFrame {
         this.setVisible(true);
 
 
-       // Cria o evento para o botão "Avançar"
 lNext.addActionListener(e -> {
-    // Verificar a resposta correta com base no card atual
-    String cardName = cl.toString();
-    boolean respostaCorreta = false;
+            // Verificar a resposta correta com base no card atual
+            String cardName = cl.toString();
+            boolean respostaCorreta = false;
 
-    if (cardName.equals("card1")) {
-        // Verificar a resposta para o card1 (De quem é a famosa frase “Penso, logo existo”?)
-        String respostaUsuario = card1.getComponents()[6].getText(); // Índice 6 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Descartes");
-    } else if (cardName.equals("card2")) {
-        // Verificar a resposta para o card2 (De onde é a invenção do chuveiro elétrico?)
-        String respostaUsuario = card2.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Brasil");
-        } else if (cardName.equals("card3")) {
-        // Verificar a resposta para o card3 (Qual o número mínimo de jogadores em cada time numa partida de futebol?)
-        String respostaUsuario = card3.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("11");
- } else if (cardName.equals("card4")) {
-        // Verificar a resposta para o card4 (Em qual local da Ásia o português é língua oficial?)
-        String respostaUsuario = card4.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Macau");
- } else if (cardName.equals("card5")) {
-        // Verificar a resposta para o card5 (Qual a nacionalidade de Che Guevara?)
-        String respostaUsuario = card5.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Argentina");
- } else if (cardName.equals("card6")) {
-        // Verificar a resposta para o card6 (Jim Morrison era vocalista de que grupo?)
-        String respostaUsuario = card6.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("The Doors");
-         } else if (cardName.equals("card7")) {
-        // Verificar a resposta para o card7 (Quem é o autor do famoso discurso "Eu tenho um sonho"?)
-        String respostaUsuario = card7.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Martin Luther King");
+            if (cardName.equals("card1")) {
+                // Verificar a resposta para o card1 (De quem é a famosa frase “Penso, logo existo”?)
+                String respostaUsuario = card1.getComponents()[6].getText(); // Índice 6 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Descartes");
+            } else if (cardName.equals("card2")) {
+                // Verificar a resposta para o card2 (De onde é a invenção do chuveiro elétrico?)
+                String respostaUsuario = card2.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Brasil");
+            } else if (cardName.equals("card3")) {
+                // Verificar a resposta para o card3 (Qual o número mínimo de jogadores em cada time numa partida de futebol?)
+                String respostaUsuario = card3.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("11");
+            } else if (cardName.equals("card4")) {
+                // Verificar a resposta para o card4 (Em qual local da Ásia o português é língua oficial?)
+                String respostaUsuario = card4.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Macau");
+            } else if (cardName.equals("card5")) {
+                // Verificar a resposta para o card5 (Qual a nacionalidade de Che Guevara?)
+                String respostaUsuario = card5.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Argentina");
+            } else if (cardName.equals("card6")) {
+                // Verificar a resposta para o card6 (Jim Morrison era vocalista de que grupo?)
+                String respostaUsuario = card6.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("The Doors");
+            } else if (cardName.equals("card7")) {
+                // Verificar a resposta para o card7 (Quem é o autor do famoso discurso "Eu tenho um sonho"?)
+                String respostaUsuario = card7.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Martin Luther King");
+            } else if (cardName.equals("card8")) {
+                // Verificar a resposta para o card8 (Que acontecimento importante para a história da humanidade teve lugar em 20 de julho de 1969?)
+                String respostaUsuario = card8.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Chegada do homem à Lua");
+            } else if (cardName.equals("card9")) {
+                // Verificar a resposta para o card9 (Kryptonita é a fraqueza de qual super-herói?)
+                String respostaUsuario = card9.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("Superman");
+            } else if (cardName.equals("card10")) {
+                // Verificar a resposta para o card10 (Em que ano foi usado um celular pela primeira vez no Brasil?)
+                String respostaUsuario = card10.getComponents()[3].getText(); // Índice 3 é o campo de texto
+                respostaCorreta = respostaUsuario.equalsIgnoreCase("1990");
+            }
 
-         } else if (cardName.equals("card8")) {
-        // Verificar a resposta para o card8 (Que acontecimento importante para a história da humanidade teve lugar em 20 de julho de 1969?)
-        String respostaUsuario = card8.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Chegada do homem à Lua");
-
-         } else if (cardName.equals("card9")) {
-        // Verificar a resposta para o card9 (Kryptonita é a fraqueza de qual super-herói?)
-        String respostaUsuario = card9.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("Superman");
-
-         } else if (cardName.equals("card10")) {
-        // Verificar a resposta para o card6 (Em que ano foi usado um celular pela primeira vez no Brasil?)
-        String respostaUsuario = card6.getComponents()[3].getText(); // Índice 3 é o campo de texto
-        respostaCorreta = respostaUsuario.equalsIgnoreCase("1990");
-
-
-        
-        
-    } // Adicione verificação para outros cards conforme necessário
-
-    // Exibir uma mensagem com base na resposta
-    if (respostaCorreta) {
-        JOptionPane.showMessageDialog(this, "Resposta correta!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        cl.next(cards); // Avança para o próximo card
-    } else {
-        JOptionPane.showMessageDialog(this, "Resposta incorreta. Tente novamente.", "Aviso", JOptionPane.ERROR_MESSAGE);
-    }
+            // Exibir uma mensagem com base na resposta
+            if (respostaCorreta) {
+                JOptionPane.showMessageDialog(this, "Resposta correta! +1 ponto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                pontos++; // Incrementa os pontos
+                cl.next(cards); // Avança para o próximo card
+            } else {
+                JOptionPane.showMessageDialog(this, "Resposta incorreta. Tente novamente.", "Aviso", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 });
        
     }
