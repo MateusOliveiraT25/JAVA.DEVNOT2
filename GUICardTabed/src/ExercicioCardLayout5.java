@@ -183,12 +183,10 @@ lNext.addActionListener(e -> {
                 String respostaUsuario = card10.getComponents()[3].getText(); // Índice 3 é o campo de texto
                 respostaCorreta = respostaUsuario.equalsIgnoreCase("1990");
             }
-
-            // Exibir uma mensagem com base na resposta
-            if (respostaCorreta) {
-                JOptionPane.showMessageDialog(this, "Resposta correta! +1 ponto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                pontos++; // Incrementa os pontos
-                cl.next(cards); // Avança para o próximo card
+           // Verificar se todas as perguntas foram respondidas
+    if (cl.getLayoutComponent(card10) == null) {
+        // Todas as perguntas foram respondidas, mostre o card11
+        cl.show(cards, "card11");
             } else {
                 JOptionPane.showMessageDialog(this, "Resposta incorreta. Tente novamente.", "Aviso", JOptionPane.ERROR_MESSAGE);
             }
