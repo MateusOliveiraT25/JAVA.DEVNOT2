@@ -6,10 +6,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.*;
-public class ExercicioCardLayout3 extends JFrame {
+public class ExercicioCardLayout5 extends JFrame {
 
-    public ExercicioCardLayout3() {
-        super("Exercício 3");
+    public ExercicioCardLayout5() {
+        super("Exercício 5");
         JPanel pMain = new JPanel(); // Painel Principal dentro do JFrame
         // Adiciona o painel principal ao JFrame
         this.add(pMain);
