@@ -16,7 +16,7 @@ public class ExercicioCardLayout3 extends JFrame {
         pMain.setLayout(new BorderLayout()); // Usa o BorderLayout para o painel principal
 
         // Criando um botão e um painel de cards
-        JButton lNext = new JButton("Login"); // Botão
+        JButton lNext = new JButton("Avançar"); // Botão
         // Cria o objeto do CardLayout
         CardLayout cl = new CardLayout();
         JPanel cards = new JPanel(cl); // Painel de cards no padrão CL
@@ -28,26 +28,42 @@ public class ExercicioCardLayout3 extends JFrame {
         JPanel card1 = new JPanel();
         JPanel card2 = new JPanel();
         JPanel card3 = new JPanel();
-        JPanel cardT = new JPanel();
+        
+         // Adiciona um rótulo e um campo de texto ao card1
+        card1.setLayout(new FlowLayout()); // Usar FlowLayout para organizar os componentes
+        card1.add(new JLabel("Nome de Usuario:")); // Rótulo para usuário
+        card1.add(new JTextField(30)); // Campo de texto para usuário
+        card1.add(new JLabel("email:")); // Rótulo para usuário
+        card1.add(new JTextField(30)); // Campo de texto para usuário
+        card1.add(new JLabel("Senha:")); // Rótulo para senha
+        card1.add(new JTextField(15)); // Campo de texto para senha
+        
+        // Adiciona um rótulo e um campo de texto ao card2
+        card2.setLayout(new FlowLayout()); // Usar FlowLayout para organizar os componentes
+        card2.add(new JLabel("Email:")); // Rótulo para usuário
+        card2.add(new JTextField(15)); // Campo de texto para usuário
+        card2.add(new JLabel("Senha:")); // Rótulo para senha
+        card2.add(new JTextField(15)); // Campo de texto para senha
 
-        // Adiciona um GridLayout ao painel cardT e rótulos para usuário e senha
-        cardT.setLayout(new GridLayout(2, 2)); // 2 linhas, 2 colunas
-
-        cardT.add(new JLabel("Usuário:")); // Rótulo para usuário
-        cardT.add(new JTextField()); // Campo de texto para usuário
-        cardT.add(new JLabel("Senha:")); // Rótulo para senha
-        cardT.add(new JTextField()); // Campo de texto para senha
-
-        this.add(cardT, BorderLayout.CENTER); // Adiciona cardT ao centro do JFrame
+        
 
         // Adiciona os card1, card2, card3 aos cards
-        cards.add(card1, "card1"); // Adiciona o card e atribui um "nome"
-        cards.add(card2, "card2");
-        cards.add(card3, "card3");
+        cards.add(card1, "Registro"); // Adiciona o card e atribui um "nome"
+        cards.add(card2, "Login");
+        cards.add(card3, "TelaP");
         // Diferenciando os cards
-        card1.add(new JLabel("Card 1"));
         card2.add(new JLabel("Card 2"));
-        card3.add(new JLabel("Card 3"));
+      // Conteúdo do card3
+        card3.setLayout(new BorderLayout()); // Usar BorderLayout para organizar os componentes
+        card3.add(new JLabel("Bem-vindo ao nosso aplicativo!"), BorderLayout.NORTH); // Mensagem de boas-vindas
+        JPanel contatoPanel = new JPanel();
+        contatoPanel.setLayout(new FlowLayout());
+        contatoPanel.add(new JLabel("Entre em contato conosco:"));
+        JButton contatoButton = new JButton("Contato");
+        contatoPanel.add(contatoButton);
+        card3.add(contatoPanel, BorderLayout.CENTER); // Adicione informações de contato
+
+
 
         // Configurações do frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Usa JFrame.EXIT_ON_CLOSE
@@ -61,8 +77,16 @@ public class ExercicioCardLayout3 extends JFrame {
         lNext.addActionListener(e -> {
             cl.next(cards); // Toda vez que clicar no botão, vai mudar o card (card1, card2, card3)
         });
+           // Crie o evento para o botão "Contato"
+        contatoButton.addActionListener(e -> {
+            // Adicione aqui a ação que você deseja executar quando o botão "Contato" for clicado.
+            // Pode ser uma abertura de um formulário de contato ou algo semelhante.
+            JOptionPane.showMessageDialog(this, "Formulário de contato será aberto aqui.", "Contato", JOptionPane.INFORMATION_MESSAGE);
+        });
+    }
     }
 
    
     }
 }
+
