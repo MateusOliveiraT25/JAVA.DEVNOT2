@@ -1,4 +1,4 @@
-import javax.swing.JButton;
+/*import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,6 +14,7 @@ public class ExercicioCardLayout5 extends JFrame {
         // Adiciona o painel principal ao JFrame
         this.add(pMain);
         pMain.setLayout(new BorderLayout()); // Usa o BorderLayout para o painel principal
+        int pontos = 0;
 
         // Criando um botão e um painel de cards
         JButton lNext = new JButton("Avançar"); // Botão
@@ -183,21 +184,152 @@ lNext.addActionListener(e -> {
                 String respostaUsuario = card10.getComponents()[3].getText(); // Índice 3 é o campo de texto
                 respostaCorreta = respostaUsuario.equalsIgnoreCase("1990");
             }
-           // Verificar se todas as perguntas foram respondidas
-    if (cl.getLayoutComponent(card10) == null) {
-        // Todas as perguntas foram respondidas, mostre o card11
-        cl.show(cards, "card11");
+    // Verificar se a resposta está correta
+            if (respostaCorreta) {
+                pontos++; // Incrementar o contador de pontos
             } else {
                 JOptionPane.showMessageDialog(this, "Resposta incorreta. Tente novamente.", "Aviso", JOptionPane.ERROR_MESSAGE);
             }
-        });
+          // Verificar se todas as perguntas foram respondidas
+    if (cl.getLayoutComponent(card10) == null) {
+        // Todas as perguntas foram respondidas, mostrar o card11
+        cl.show(cards, "Resultado");
+        resultadoLabel.setText("Pontuação Final: " + pontos + " pontos");
+    }
 });
+*\
+
+
+
+
+
+
        
+/*   import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExercicioCardLayout5 extends JFrame {
+
+    private JPanel cards;
+    private CardLayout cardLayout;
+    private int pontos;
+
+    public ExercicioCardLayout5() {
+        super("Exercício 5");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+
+        JPanel pMain = new JPanel(new BorderLayout());
+        add(pMain);
+
+        JButton lNext = new JButton("Avançar");
+        cardLayout = new CardLayout();
+        cards = new JPanel(cardLayout);
+
+        pMain.add(lNext, BorderLayout.NORTH);
+        pMain.add(cards, BorderLayout.CENTER);
+
+        List<Pergunta> perguntas = criarPerguntas();
+        for (Pergunta pergunta : perguntas) {
+            cards.add(pergunta.getPanel(), pergunta.getNome());
+        }
+
+        lNext.addActionListener(e -> {
+            Pergunta perguntaAtual = perguntas.get(cardLayout.getHgap());
+            if (perguntaAtual.verificarResposta()) {
+                pontos++;
+            } else {
+                JOptionPane.showMessageDialog(this, "Resposta incorreta. Tente novamente.",
+                        "Aviso", JOptionPane.ERROR_MESSAGE);
+            }
+
+            if (cardLayout.getHgap() < perguntas.size() - 1) {
+                cardLayout.next(cards);
+            } else {
+                cardLayout.show(cards, "Resultado");
+                perguntas.get(perguntas.size() - 1).atualizarPontuacao(pontos);
+            }
+        });
+
+        setVisible(true);
+    }
+
+    private List<Pergunta> criarPerguntas() {
+        List<Pergunta> perguntas = new ArrayList<>();
+
+        perguntas.add(new Pergunta("De quem é a famosa frase 'Penso, logo existo'?", "Descartes"));
+        perguntas.add(new Pergunta("De onde é a invenção do chuveiro elétrico?", "Brasil"));
+        perguntas.add(new Pergunta("Qual é o maior planeta do Sistema Solar?", "Júpiter"));
+perguntas.add(new Pergunta("Quem escreveu 'Romeu e Julieta'?", "William Shakespeare"));
+perguntas.add(new Pergunta("Qual é a capital da Austrália?", "Camberra"));
+perguntas.add(new Pergunta("Quem foi o primeiro presidente do Brasil?", "Marechal Deodoro da Fonseca"));
+perguntas.add(new Pergunta("Quantos elementos químicos existem na tabela periódica?", "118"));
+perguntas.add(new Pergunta("Qual é o oceano mais extenso?", "Oceano Pacífico"));
+perguntas.add(new Pergunta("Quem pintou a 'Mona Lisa'?", "Leonardo da Vinci"));
+perguntas.add(new Pergunta("Quantos lados tem um heptágono?", "7"));
+
+        // Adicione outras perguntas conforme necessário
+
+        // Adicione um painel final para mostrar a pontuação
+        JPanel resultadoPanel = new JPanel(new FlowLayout());
+        JLabel resultadoLabel = new JLabel("Pontuação Final: " + pontos + " pontos");
+        resultadoPanel.add(resultadoLabel);
+        perguntas.add(new Pergunta("Resultado", resultadoPanel));
+
+        return perguntas;
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new ExercicioCardLayout3();
-        });
+        SwingUtilities.invokeLater(() -> new ExercicioCardLayout5());
     }
 }
+
+class Pergunta {
+    private JPanel panel;
+    private String nome;
+    private String respostaCorreta;
+
+    public Pergunta(String nome, String respostaCorreta) {
+        this.nome = nome;
+        this.respostaCorreta = respostaCorreta;
+        this.panel = criarPainel();
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public boolean verificarResposta() {
+        if (respostaCorreta == null) {
+            return true; // Painel de resultado, não há resposta a verificar
+        }
+        String respostaUsuario = ((JTextField) panel.getComponents()[3]).getText();
+        return respostaUsuario.equalsIgnoreCase(respostaCorreta);
+    }
+
+    public void atualizarPontuacao(int pontos) {
+        JLabel resultadoLabel = (JLabel) panel.getComponents()[0];
+        resultadoLabel.setText("Pontuação Final: " + pontos + " pontos");
+    }
+
+    private JPanel criarPainel() {
+        JPanel cardPanel = new JPanel(new FlowLayout());
+        cardPanel.add(new JLabel(nome));
+
+        if (respostaCorreta != null) {
+            cardPanel.add(new JTextField(30));
+            cardPanel.add(new JLabel(respostaCorreta));
+        } else {
+            cardPanel.add(new FlowLayout()); // Painel vazio para o resultado
+        }
+
+        return cardPanel;
+    }
+}
+*\
