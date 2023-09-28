@@ -1,115 +1,149 @@
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import javax.swing.*;
 import java.awt.*;
 
 public class ExercicioCardLayout3 extends JFrame {
 
+    private CardLayout cardLayout;
+    private JPanel cards;
+
     public ExercicioCardLayout3() {
         super("Exercício 3");
-        JPanel pMain = new JPanel(); // Painel Principal dentro do JFrame
-        // Adiciona o painel principal ao JFrame
-        this.add(pMain);
-        pMain.setLayout(new BorderLayout()); // Usa o BorderLayout para o painel principal
 
-        // Criando um botão e um painel de cards
-     //   JButton lNext = new JButton("Avançar"); // Botão
-        // Cria o objeto do CardLayout
-        CardLayout cl = new CardLayout();
-        JPanel cards = new JPanel(cl); // Painel de cards no padrão CL
-        // Adiciona o botão e o cards ao painel principal
-     //   pMain.add(lNext, BorderLayout.NORTH); // Coloca o botão na parte superior
-        pMain.add(cards, BorderLayout.CENTER); // Coloca os cards no centro
+        // Painel Principal dentro do JFrame
+        JPanel painelPrincipal = new JPanel();
+        this.add(painelPrincipal);
+        painelPrincipal.setLayout(new BorderLayout());
 
-        // Criar 3 painéis de cards (card1, card2, card3)
+        // Criando o CardLayout
+        cardLayout = new CardLayout();
+        cards = new JPanel(cardLayout);
+        painelPrincipal.add(cards, BorderLayout.CENTER);
 
-        JPanel card1 = new JPanel();
-        JPanel card2 = new JPanel();
-        JPanel card3 = new JPanel();
+        // Criando os três painéis de cards
+        JPanel card1 = criarCard1();
+        JPanel card2 = criarCard2();
+        JPanel card3 = criarCard3();
 
-        // Conteúdo do card1
-        card1.setLayout(new BorderLayout()); // Usar BorderLayout para organizar os componentes
-        card1.add(new JLabel("Bem-vindo ao nosso aplicativo!"), BorderLayout.NORTH); // Mensagem de boas-vindas
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new FlowLayout());
-         loginPanel.add(new JLabel("Entre em Login:"));
-        JPanel registroPanel = new JPanel();
-        registroPanel.setLayout(new FlowLayout());
-        registroPanel.add(new JLabel("Entre em Login:"));
-        JButton loginButton = new JButton("Login");
-         loginPanel.add(loginButton);
-        card1.add( loginPanel, BorderLayout.CENTER); // Adicione informações de contato
-        JButton registroButton = new JButton("Registro");
-         registroPanel.add( registroButton);
-        card1.add( registroPanel, BorderLayout.CENTER); // Adicione informações de contato
-        String mensagem = "Registre-se";
-        JOptionPane.showMessageDialog(this, mensagem, "Bem-vindo!", JOptionPane.INFORMATION_MESSAGE);
-
-        // Adiciona um rótulo e um campo de texto ao card2
-        card2.setLayout(new FlowLayout()); // Usar FlowLayout para organizar os componentes
-        card2.add(new JLabel("Email:")); // Rótulo para usuário
-        card2.add(new JTextField(30)); // Campo de texto para usuário
-        card2.add(new JLabel("Senha:")); // Rótulo para senha
-        card2.add(new JTextField(30)); // Campo de texto para senha
-          JPanel registroPanel1 = new JPanel();
-        registroPanel1.setLayout(new FlowLayout());
-        registroPanel1.add(new JLabel("Entre em Login:"));
-        card2.add( registroPanel1, BorderLayout.CENTER);
-          JPanel iPanel1 = new JPanel();
-        iPanel1.setLayout(new FlowLayout());
-        iPanel1.add(new JLabel("Entre em registro:"));
-        card2.add( iPanel1, BorderLayout.CENTER);
-         JButton registroButton1 = new JButton("Inicial");
-           registroPanel1.add( registroButton1);
-
-
-         
-
-        // Adiciona um rótulo e um campo de texto ao card3
-        card1.setLayout(new FlowLayout()); // Alinha os componentes à direita
-
-        card3.add(new JLabel("Usuario:")); // Rótulo para usuário
-        card3.add(new JTextField(30));// Campo de texto para usuário
-        card3.add(new JLabel("Email:")); // Rótulo para email
-        card3.add(new JTextField(30)); // Campo de texto para email
-        card3.add(new JLabel("Senha:")); // Rótulo para senha
-        card3.add(new JTextField(30)); // Campo de texto para senha
-
-        // Adiciona os card1, card2, card3 aos cards
-        cards.add(card1, "Registro"); // Adiciona o card e atribui um "nome"
+        // Adicionando os cards ao painel de cards
+        cards.add(card1, "Registro");
         cards.add(card2, "Login");
         cards.add(card3, "TelaP");
-        // Diferenciando os cards
 
         // Configurações do frame
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Usa JFrame.EXIT_ON_CLOSE
-        this.setSize(400, 300); // Define o tamanho
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(400, 300);
         this.setVisible(true);
+    }
 
-       
+    private JPanel criarCard1() {
+        JPanel card = new JPanel();
+        card.setLayout(new BorderLayout());
 
-        // Cria o evento para o botão
-       registroButton.addActionListener(e -> {
-            cl.next(cards); // Toda vez que clicar no botão, vai mudar o card (card1, card2, card3)
-        });
-        // Crie o evento para o botão "Contato"
-        loginButton.addActionListener(e -> {
-            // Adicione aqui a ação que você deseja executar quando o botão "Contato" for
-            // clicado.
-            // Pode ser uma abertura de um formulário de contato ou algo semelhante.
-            // JOptionPane.showMessageDialog(this, "Formulário de contato será aberto
-            // aqui.", "Contato", JOptionPane.INFORMATION_MESSAGE);
-            cl.previous(cards);
+        // Componentes do card1
+        card.add(new JLabel("Bem-vindo ao nosso aplicativo!"), BorderLayout.NORTH);
 
-        });
-          registroButton1.addActionListener(e -> {
-            cl.previous(cards); // Toda vez que clicar no botão, vai mudar o card (card1, card2, card3)
-        });
+        JPanel painelLogin = new JPanel(new FlowLayout());
+        painelLogin.add(new JLabel("Digite seu login:"));
+        JButton botaoLogin = new JButton("Login");
+        painelLogin.add(botaoLogin);
+
+        JPanel painelRegistro = new JPanel(new FlowLayout());
+        painelRegistro.add(new JLabel("Registre-se:"));
+        JButton botaoRegistro = new JButton("Registro");
+        painelRegistro.add(botaoRegistro);
+
+        card.add(painelLogin, BorderLayout.CENTER);
+        card.add(painelRegistro, BorderLayout.SOUTH);
+
+        // Botões para avançar e voltar
+        JPanel painelBotoes = new JPanel(new FlowLayout());
+        JButton botaoAvancar = new JButton("Avançar");
+        JButton botaoVoltar = new JButton("Voltar");
+        JButton botaoTelaP = new JButton("TelaP");
+        painelBotoes.add(botaoVoltar);
+        painelBotoes.add(botaoAvancar);
+        painelBotoes.add(botaoTelaP);
+        card.add(painelBotoes, BorderLayout.SOUTH);
+
+        // Adicionando ação aos botões
+        botaoRegistro.addActionListener(e -> cardLayout.show(cards, "Registro"));
+        botaoLogin.addActionListener(e -> cardLayout.show(cards, "Login"));
+        botaoAvancar.addActionListener(e -> cardLayout.next(cards));
+        botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
+        botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
+
+        return card;
+    }
+
+    private JPanel criarCard2() {
+        JPanel card = new JPanel();
+        card.setLayout(new FlowLayout());
+
+        // Componentes do card2
+        card.add(new JLabel("Email:"));
+        card.add(new JTextField(30));
+        card.add(new JLabel("Senha:"));
+        card.add(new JTextField(30));
+
+        JPanel painelRegistro = new JPanel(new FlowLayout());
+        painelRegistro.add(new JLabel("Digite seu login:"));
+        JPanel painel1 = new JPanel(new FlowLayout());
+        painel1.add(new JLabel("Digite seu registro:"));
+        JButton botaoRegistro = new JButton("Inicial");
+        painelRegistro.add(botaoRegistro);
+        card.add(painelRegistro);
+        card.add(painel1);
+
+        // Botões para avançar e voltar
+        JPanel painelBotoes = new JPanel(new FlowLayout());
+        JButton botaoAvancar = new JButton("Avançar");
+        JButton botaoVoltar = new JButton("Voltar");
+        JButton botaoTelaP = new JButton("TelaP");
+        painelBotoes.add(botaoVoltar);
+        painelBotoes.add(botaoAvancar);
+        painelBotoes.add(botaoTelaP);
+        card.add(painelBotoes);
+
+        // Adicionando ação aos botões
+        botaoRegistro.addActionListener(e -> cardLayout.show(cards, "Registro"));
+        botaoAvancar.addActionListener(e -> cardLayout.next(cards));
+        botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
+        botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
+
+        return card;
+    }
+
+    private JPanel criarCard3() {
+        JPanel card = new JPanel();
+        card.setLayout(new FlowLayout());
+
+        // Componentes do card3
+        card.add(new JLabel("Usuário:"));
+        card.add(new JTextField(30));
+        card.add(new JLabel("Email:"));
+        card.add(new JTextField(30));
+        card.add(new JLabel("Senha:"));
+        card.add(new JTextField(30));
+
+        // Botões para avançar e voltar
+        JPanel painelBotoes = new JPanel(new FlowLayout());
+        JButton botaoAvancar = new JButton("Avançar");
+        JButton botaoVoltar = new JButton("Voltar");
+        JButton botaoTelaP = new JButton("TelaP");
+        painelBotoes.add(botaoVoltar);
+        painelBotoes.add(botaoAvancar);
+        painelBotoes.add(botaoTelaP);
+        card.add(painelBotoes);
+
+        // Adicionando ação aos botões
+        botaoAvancar.addActionListener(e -> cardLayout.next(cards));
+        botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
+        botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
+
+        return card;
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new ExercicioCardLayout3());
     }
 }
-
-
