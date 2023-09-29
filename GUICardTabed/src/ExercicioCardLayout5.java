@@ -37,6 +37,7 @@ public class ExercicioCardLayout5 extends JFrame {
         JPanel card4 = new JPanel();
         JPanel card5 = new JPanel();
         JPanel card6 = new JPanel();
+        JPanel card7 = new JPanel();
 
         // Defina a cor de fundo dos cards
         card1.setBackground(Color.WHITE);
@@ -45,6 +46,7 @@ public class ExercicioCardLayout5 extends JFrame {
         card4.setBackground(Color.WHITE);
         card5.setBackground(Color.WHITE);
         card6.setBackground(Color.WHITE);
+        card7.setBackground(Color.WHITE);
         
         cards.add(card1, "Quiz 1");
         cards.add(card2, "Quiz 2");
@@ -52,6 +54,7 @@ public class ExercicioCardLayout5 extends JFrame {
         cards.add(card4, "Quiz 4");
         cards.add(card5, "Quiz 5");
         cards.add(card6, "Resultado");
+        cards.add(card7, "Tente Novamente");
 
 
         String[] options1 = {"","Nietzsche", "Sartre", "Descartes"};
@@ -83,6 +86,12 @@ public class ExercicioCardLayout5 extends JFrame {
         card5.setLayout(new FlowLayout());
         card5.add(new JLabel("Qual a nacionalidade de Che Guevara?"));
         card5.add(combo5);
+        
+        card7.setLayout(new FlowLayout());
+        card7.add(new JButton("Tente Novamente"));
+
+        JButton novamenteBotao = new JButton("Tente Novamente");
+      card7.add(novamenteBotao);
 
       
 
@@ -130,5 +139,18 @@ public class ExercicioCardLayout5 extends JFrame {
                 }
             }
         });
+        novamenteBotao.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Reinicialize as variáveis de controle
+        indiceAtual = 0;
+        pontos = 0;
+
+        // Mostre a primeira pergunta
+        cl.show(cards, "Quiz 1");
+    }
+});
+
+
     }
 }
