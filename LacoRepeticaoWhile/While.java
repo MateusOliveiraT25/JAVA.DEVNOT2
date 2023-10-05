@@ -9,7 +9,7 @@ public class While {
             iteracao += 1;
             //System.out.println("O numero da iteracao é " + iteracao); = 10
         }
-        public void adivinhar() {
+       /*  public void adivinhar() {
             Randon rd = new  Randon();
             int nSorteado = rd.nextInt(bound:10);
             boolean tenteNovamente;
@@ -17,7 +17,7 @@ public class While {
                 System.out.println("Digite um nº");
                 tenteNovamente = false;
                 int nDigitado = sc.nextInt("Acertou Miseravel");
-                if(nDigitado==nSorteado)
+                if(nDigitado==nSorteado)*/
 
 
             }
@@ -30,5 +30,3 @@ public class While {
 
 
         }
-}
-}
