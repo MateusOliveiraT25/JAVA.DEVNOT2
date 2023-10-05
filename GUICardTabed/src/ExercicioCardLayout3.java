@@ -25,9 +25,9 @@ public class ExercicioCardLayout3 extends JFrame {
         JPanel card3 = criarCard3();
 
         // Adicionando os cards ao painel de cards
-        cards.add(card1, "Registro");
+        cards.add(card1, "TelaP");
         cards.add(card2, "Login");
-        cards.add(card3, "TelaP");
+        cards.add(card3, "Registro");
 
         // Configurações do frame
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,34 +42,31 @@ public class ExercicioCardLayout3 extends JFrame {
         // Componentes do card1
         card.add(new JLabel("Bem-vindo ao nosso aplicativo!"), BorderLayout.NORTH);
 
-        JPanel painelLogin = new JPanel(new FlowLayout());
-        painelLogin.add(new JLabel("Digite seu login:"));
-        JButton botaoLogin = new JButton("Login");
-        painelLogin.add(botaoLogin);
+        
 
         JPanel painelRegistro = new JPanel(new FlowLayout());
         painelRegistro.add(new JLabel("Registre-se:"));
         JButton botaoRegistro = new JButton("Registro");
         painelRegistro.add(botaoRegistro);
 
-        card.add(painelLogin, BorderLayout.CENTER);
         card.add(painelRegistro, BorderLayout.SOUTH);
 
         // Botões para avançar e voltar
         JPanel painelBotoes = new JPanel(new FlowLayout());
         JButton botaoAvancar = new JButton("Avançar");
-        JButton botaoVoltar = new JButton("Voltar");
+        JButton botaoLogin = new JButton("Login");
         JButton botaoTelaP = new JButton("TelaP");
-        painelBotoes.add(botaoVoltar);
+
+        painelBotoes.add(botaoLogin);
         painelBotoes.add(botaoAvancar);
-        painelBotoes.add(botaoTelaP);
+        painelBotoes.add(botaoRegistro);
         card.add(painelBotoes, BorderLayout.SOUTH);
 
         // Adicionando ação aos botões
         botaoRegistro.addActionListener(e -> cardLayout.show(cards, "Registro"));
         botaoLogin.addActionListener(e -> cardLayout.show(cards, "Login"));
         botaoAvancar.addActionListener(e -> cardLayout.next(cards));
-        botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
+     //   botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
         botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
 
         return card;
@@ -89,24 +86,25 @@ public class ExercicioCardLayout3 extends JFrame {
         painelRegistro.add(new JLabel("Digite seu login:"));
         JPanel painel1 = new JPanel(new FlowLayout());
         painel1.add(new JLabel("Digite seu registro:"));
-        JButton botaoRegistro = new JButton("Inicial");
+        JButton botaoRegistro = new JButton("Registro");
         painelRegistro.add(botaoRegistro);
         card.add(painelRegistro);
         card.add(painel1);
 
         // Botões para avançar e voltar
         JPanel painelBotoes = new JPanel(new FlowLayout());
-        JButton botaoAvancar = new JButton("Avançar");
+
+      //  JButton botaoRegistro = new JButton("Registro");
         JButton botaoVoltar = new JButton("Voltar");
-        JButton botaoTelaP = new JButton("TelaP");
+        JButton botaoTelaP = new JButton("Inicio");
         painelBotoes.add(botaoVoltar);
-        painelBotoes.add(botaoAvancar);
+        painelBotoes.add(botaoRegistro);
         painelBotoes.add(botaoTelaP);
         card.add(painelBotoes);
 
         // Adicionando ação aos botões
         botaoRegistro.addActionListener(e -> cardLayout.show(cards, "Registro"));
-        botaoAvancar.addActionListener(e -> cardLayout.next(cards));
+        botaoRegistro.addActionListener(e -> cardLayout.show(cards,"Login"));
         botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
         botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
 
@@ -115,6 +113,7 @@ public class ExercicioCardLayout3 extends JFrame {
 
     private JPanel criarCard3() {
         JPanel card = new JPanel();
+
         card.setLayout(new FlowLayout());
 
         // Componentes do card3
@@ -127,23 +126,58 @@ public class ExercicioCardLayout3 extends JFrame {
 
         // Botões para avançar e voltar
         JPanel painelBotoes = new JPanel(new FlowLayout());
-        JButton botaoAvancar = new JButton("Avançar");
+        JButton botaoLogin = new JButton("Login");
         JButton botaoVoltar = new JButton("Voltar");
-        JButton botaoTelaP = new JButton("TelaP");
+        JButton botaoTelaP = new JButton("Inicio");
         painelBotoes.add(botaoVoltar);
-        painelBotoes.add(botaoAvancar);
+        painelBotoes.add(botaoLogin);
         painelBotoes.add(botaoTelaP);
         card.add(painelBotoes);
 
         // Adicionando ação aos botões
-        botaoAvancar.addActionListener(e -> cardLayout.next(cards));
+        botaoLogin.addActionListener(e -> cardLayout.show(cards,"Login"));
         botaoVoltar.addActionListener(e -> cardLayout.previous(cards));
         botaoTelaP.addActionListener(e -> cardLayout.show(cards, "TelaP"));
 
         return card;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ExercicioCardLayout3());
-    }
 }
+/*
+ import javax.swing.*;
+import java.awt.*;
+
+public class ExercicioCardLayout3 extends JFrame {
+
+    private CardLayout cardLayout;
+    private JPanel cards;
+
+    public ExercicioCardLayout3() {
+        super("Exercício 3");
+
+        // Painel Principal dentro do JFrame
+        JPanel painelPrincipal = new JPanel();
+        this.add(painelPrincipal);
+        painelPrincipal.setLayout(new BorderLayout());
+
+        // Criando o CardLayout
+        cardLayout = new CardLayout();
+        cards = new JPanel(cardLayout);
+        painelPrincipal.add(cards, BorderLayout.CENTER);
+
+        // Criando os três painéis de cards
+        JPanel card1 = criarCard1();
+        JPanel card2 = criarCard2();
+        JPanel card3 = criarCard3();
+
+        // Adicionando os cards ao painel de cards
+        cards.add(card1, "TelaP");
+        cards.add(card2, "Login");
+        cards.add(card3, "Registro");
+
+        // Configurações do frame
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(400, 300);
+        this.setVisible(true);
+    }
+ */

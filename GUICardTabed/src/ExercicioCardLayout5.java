@@ -86,9 +86,7 @@ public class ExercicioCardLayout5 extends JFrame {
         card5.setLayout(new FlowLayout());
         card5.add(new JLabel("Qual a nacionalidade de Che Guevara?"));
         card5.add(combo5);
-        
-        card7.setLayout(new FlowLayout());
-        card7.add(new JButton("Tente Novamente"));
+       
 
         JButton novamenteBotao = new JButton("Tente Novamente");
       card7.add(novamenteBotao);
