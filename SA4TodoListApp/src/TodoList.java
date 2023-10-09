@@ -18,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.TransferHandler;
 
 public class TodoList extends JFrame {
@@ -35,6 +36,7 @@ public class TodoList extends JFrame {
 
     // Construtor
     public TodoList() {
+        // Configuração da janela
         super("TodoListApp");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(480, 400);
@@ -53,7 +55,7 @@ public class TodoList extends JFrame {
         addButton = new JButton("Adicionar");
         deleteButton = new JButton("Excluir");
         markDoneButton = new JButton("Concluir");
-        filterComboBox = new JComboBox<>(new String[]{"Todas", "Ativas","Concluídas"});
+        filterComboBox = new JComboBox<>(new String[]{"Todas", "Ativas", "Concluídas"});
         clearCompletedButton = new JButton("Limpar Concluídas");
 
         // Configuração do painel de entrada
@@ -115,6 +117,7 @@ public class TodoList extends JFrame {
         if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
             Task task = tasks.get(selectedIndex);
             task.setDone(true);
+            task.stopTimer();
             updateTaskList();
         }
     }
@@ -151,9 +154,60 @@ public class TodoList extends JFrame {
         }
     }
 
+    // Classe interna Task com timer
+    private class Task {
+        private String description;
+        private boolean done;
+        private Timer timer;
+        private int elapsedTime; // em segundos
+
+        public Task(String description) {
+            this.description = description;
+            this.done = false;
+            this.elapsedTime = 0;
+
+            // Inicializa o timer com um ActionListener
+            this.timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    elapsedTime++;
+                    System.out.println("Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
+                }
+            });
+        }
+
+        public void startTimer() {
+            timer.start();
+        }
+
+        public void stopTimer() {
+            timer.stop();
+        }
+
+        // ... (outros métodos)
+
+        public String getDescription() {
+            return description;
+        }
+
+        public boolean isDone() {
+            return done;
+        }
+
+        public void setDone(boolean done) {
+            this.done = done;
+        }
+    }
+
+    // Classe principal para representar uma tarefa
+    private static class TaskTransferable {
+        static final DataFlavor TASK_FLAVOR = new DataFlavor(Task.class, "Task");
+    }
+
     // Método principal para executar a aplicação
-    public void run() {
-        this.setVisible(true);
+    public static void main(String[] args) {
+        TodoList todoList = new TodoList();
+        todoList.setVisible(true);
     }
 
     // TransferHandler para a JList
@@ -171,53 +225,4 @@ public class TodoList extends JFrame {
 
             Transferable transferable = support.getTransferable();
             try {
-                Task task = (Task) transferable.getTransferData(TaskTransferable.TASK_FLAVOR);
-                tasks.add(task);
-                updateTaskList();
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-    }
-
-    // DataFlavor para transferência de tarefa
-    private static class TaskTransferable {
-        static final DataFlavor TASK_FLAVOR = new DataFlavor(Task.class, "Task");
-    }
-
-    // Classe principal para representar uma tarefa
-    private static class Task {
-        private String description;
-        private boolean done;
-
-        public Task(String description) {
-            this.description = description;
-            this.done = false;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public boolean isDone() {
-            return done;
-        }
-
-        public void setDone(boolean done) {
-            this.done = done;
-        }
-    }
-
-    // Método principal para executar a aplicação
-    public static void main(String[] args) {
-        TodoList todoList = new TodoList();
-        todoList.run();
-    }
-}
-
-
-
-  
-
+                Task task = (Task) transferable.getTransferData(TaskTransferable.T
