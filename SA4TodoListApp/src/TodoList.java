@@ -66,6 +66,45 @@ mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 this.add(mainPanel);
 }
 // Configuração de Listener para os Eventos
+// Adicione ActionListener ao botão "Adicionar"
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addTask();
+            }
+        });
+
+        // Adicione ActionListener ao botão "Excluir"
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteTask();
+            }
+        });
+
+        // Adicione ActionListener ao botão "Concluir"
+        markDoneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                markTaskDone();
+            }
+        });
+
+        // Adicione ActionListener ao botão "Limpar Concluídas"
+        clearCompletedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearCompletedTasks();
+            }
+        });
+
+        // Adicione ActionListener ao JComboBox de filtro
+        filterComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filterTasks();
+            }
+        });
 
 
 //criar os metodos (CRUD)
