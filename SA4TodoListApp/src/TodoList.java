@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -82,23 +83,67 @@ public class TodoList extends JFrame {
         // Adiciona o painel principal à janela
         this.add(mainPanel);
 
-        // Configuração do MouseListener para o botão "Excluir"
-        deleteButton.addMouseListener(new MouseAdapter() {
+        // Configuração do MouseListener para o botão "Add"
+       deleteButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                deleteSelectedTask();
+               deleteSelectedTask();
             }
-        });
-    }
 
-    // Método para excluir a tarefa selecionada
-    private void deleteSelectedTask() {
-        int selectedIndex = taskList.getSelectedIndex();
-        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+        });
+         addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+               addTask();
+            }
+
+        });
+         markDoneButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                markTaskDone();
+            }
+
+        });
+          filterComboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                 filterTasks();
+            }
+
+        });
+         clearCompletedButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                clearCompletedTasks();
+            }
+
+        });
+    }   
+ // Método para excluir a tarefa selecionada
+ private void deleteSelectedTask() {
+    int selectedIndex = taskList.getSelectedIndex();
+    if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+        Object[] options = {"Sim", "Não"};
+        int choice = JOptionPane.showOptionDialog(this,
+                "Você tem certeza que deseja excluir esta tarefa?",
+                "Confirmação de Exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (choice == 0) { // 0 representa "Sim" no array
             tasks.remove(selectedIndex);
             updateTaskList();
+            JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
+        } else {
+            
         }
     }
+}
+
 
     // Método para adicionar uma nova tarefa
     private void addTask() {
@@ -233,6 +278,12 @@ public class TodoList extends JFrame {
                 e.printStackTrace();
                 return false;
             }
-        }
+       
     }
+} public void run() {
+// Exibe a janela
+this.setVisible(true);
+}
+  
+
 }
