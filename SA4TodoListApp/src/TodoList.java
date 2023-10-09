@@ -225,4 +225,14 @@ public class TodoList extends JFrame {
 
             Transferable transferable = support.getTransferable();
             try {
-                Task task = (Task) transferable.getTransferData(TaskTransferable.T
+                Task task = (Task) transferable.getTransferData(TaskTransferable.TASK_FLAVOR);
+                tasks.add(task);
+                updateTaskList();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+}
