@@ -65,13 +65,13 @@ public class TodoList extends JFrame {
                 handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
             }
         });
-
-        addButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                addTask();
-            }
-        });
+        
+addButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        addTask();
+    }
+});
         
         markDoneButton.addMouseListener(new MouseAdapter() {
             @Override
