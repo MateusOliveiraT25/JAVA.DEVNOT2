@@ -2,10 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +10,8 @@ public class TodoList extends JFrame {
     private JPanel mainPanel;
     private JTextField taskInputField;
     private JButton addButton;
-    private JList<String> taskList;
-    private DefaultListModel<String> listModel;
+    private JList<Task> taskList;
+    private DefaultListModel<Task> listModel;
     private JButton deleteButton;
     private JButton markDoneButton;
     private JComboBox<String> filterComboBox;
@@ -65,14 +62,14 @@ public class TodoList extends JFrame {
                 handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
             }
         });
-        
-addButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        addTask();
-    }
-});
-        
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addTask();
+            }
+        });
+
         markDoneButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -91,6 +88,14 @@ addButton.addActionListener(new ActionListener() {
             @Override
             public void mousePressed(MouseEvent e) {
                 clearCompletedTasks();
+            }
+        });
+
+        // Adiciona um listener de seleção de item para atualizar o tempo decorrido quando uma tarefa é selecionada
+        taskList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                updateElapsedTimeLabel();
             }
         });
 
@@ -146,7 +151,7 @@ addButton.addActionListener(new ActionListener() {
         for (Task task : tasks) {
             if (filter.equals("Todas") || (filter.equals("Ativas") && !task.isDone()) ||
                     (filter.equals("Concluídas") && task.isDone())) {
-                listModel.addElement(task.getDescription());
+                listModel.addElement(task);
             }
         }
     }
@@ -165,7 +170,17 @@ addButton.addActionListener(new ActionListener() {
     private void updateTaskList() {
         listModel.clear();
         for (Task task : tasks) {
-            listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : ""));
+            listModel.addElement(task);
+        }
+    }
+
+    // Atualiza o rótulo de tempo decorrido com base na tarefa selecionada
+    private void updateElapsedTimeLabel() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+            Task selectedTask = tasks.get(selectedIndex);
+            // Adapte isso conforme necessário com o componente de exibição real que você usa para o tempo decorrido
+            System.out.println("Tempo decorrido para a tarefa '" + selectedTask.getDescription() + "': " + selectedTask.getElapsedTime() + " segundos");
         }
     }
 
@@ -184,9 +199,11 @@ addButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     elapsedTime++;
-                    System.out.println("Tempo decorrido para a tarefa '" + description + "': " + elapsedTime + " segundos");
+                    // Atualiza o rótulo de tempo decorrido ao invés de imprimir no console
+                    updateElapsedTimeLabel();
                 }
             });
+            this.timer.start();
         }
 
         public void startTimer() {
@@ -207,6 +224,15 @@ addButton.addActionListener(new ActionListener() {
 
         public void setDone(boolean done) {
             this.done = done;
+        }
+
+        public int getElapsedTime() {
+            return elapsedTime;
+        }
+
+        @Override
+        public String toString() {
+            return description + (done ? " (Concluída)" : "");
         }
     }
 
@@ -238,7 +264,9 @@ addButton.addActionListener(new ActionListener() {
     }
 
     public void run() {
-// Exibe a janela
-this.setVisible(true);
+        // Exibe a janela
+        this.setVisible(true);
     }
+
+   
 }
