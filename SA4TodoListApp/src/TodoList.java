@@ -83,14 +83,17 @@ public class TodoList extends JFrame {
         // Adiciona o painel principal à janela
         this.add(mainPanel);
 
-        // Configuração do MouseListener para o botão "Add"
-       deleteButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-               deleteSelectedTask();
-            }
+       // Configuração do MouseListener para o botão "Excluir"
+    deleteButton.setTransferHandler(new TaskTransferHandler());
+    deleteButton.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            // Inicia a transferência de dados ao pressionar o botão "Excluir"
+            TransferHandler handler = deleteButton.getTransferHandler();
+            handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
+        }
+    });
 
-        });
          addButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -120,8 +123,8 @@ public class TodoList extends JFrame {
 
         });
     }   
- // Método para excluir a tarefa selecionada
- private void deleteSelectedTask() {
+// Alterações no método deleteSelectedTask()
+private void deleteSelectedTask() {
     int selectedIndex = taskList.getSelectedIndex();
     if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
         Object[] options = {"Sim", "Não"};
@@ -139,7 +142,7 @@ public class TodoList extends JFrame {
             updateTaskList();
             JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
         } else {
-            
+            // ...
         }
     }
 }
