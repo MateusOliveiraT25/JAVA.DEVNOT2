@@ -54,19 +54,18 @@ public class TodoList extends JFrame {
         taskList.setDropMode(DropMode.ON);
         taskList.setTransferHandler(new TaskTransferHandler());
 
-        deleteButton.setTransferHandler(new TaskTransferHandler());
-        deleteButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                TransferHandler handler = deleteButton.getTransferHandler();
-                handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
-            }
-        });
-
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addTask();
+            }
+        });
+
+        deleteButton.setTransferHandler(new TaskTransferHandler());
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteSelectedTask();
             }
         });
 
@@ -116,9 +115,9 @@ public class TodoList extends JFrame {
                     options[0]);
 
             if (choice == 0) {
-                tasks.remove(selectedIndex);
-                updateTaskList();
-                JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
+                TransferHandler handler = deleteButton.getTransferHandler();
+                handler.exportAsDrag(deleteButton, new MouseEvent(deleteButton, MouseEvent.MOUSE_PRESSED,
+                        System.currentTimeMillis(), 0, 0, 0, 1, false), TransferHandler.COPY);
             } else {
                 // Operação de Não
             }
@@ -263,10 +262,33 @@ public class TodoList extends JFrame {
         }
     }
 
+    private class TaskTransferHandler extends TransferHandler {
+        @Override
+        public int getSourceActions(JComponent c) {
+            return TransferHandler.COPY;
+        }
+
+        @Override
+        protected Transferable createTransferable(JComponent c) {
+            JList<?> list = (JList<?>) c;
+            int index = list.getSelectedIndex();
+            if (index < 0) {
+                return null;
+            }
+            Task task = listModel.get(index);
+            return new TaskTransferable(task);
+        }
+
+        @Override
+        public boolean canImport(TransferHandler.TransferSupport support) {
+            return support.getComponent() instanceof JButton;
+        }
+    }
+
     public void run() {
         // Exibe a janela
         this.setVisible(true);
     }
 
-   
+    }
 }
