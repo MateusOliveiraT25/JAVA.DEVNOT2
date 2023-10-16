@@ -1,5 +1,5 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
@@ -9,21 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.Timer;
-import javax.swing.TransferHandler;
-
 public class TodoList extends JFrame {
-    // Atributos
     private JPanel mainPanel;
     private JTextField taskInputField;
     private JButton addButton;
@@ -35,23 +21,18 @@ public class TodoList extends JFrame {
     private JButton clearCompletedButton;
     private List<Task> tasks;
 
-    // Construtor
     public TodoList() {
-        // Configuração da janela
         super("TodoListApp");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(480, 400);
 
-        // Inicializa o painel principal
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        // Inicializa a lista de tasks e a lista de tasks concluídas
         tasks = new ArrayList<>();
         listModel = new DefaultListModel<>();
         taskList = new JList<>(listModel);
 
-        // Inicializa campos de entrada, botões e JComboBox
         taskInputField = new JTextField();
         addButton = new JButton("Adicionar");
         deleteButton = new JButton("Excluir");
@@ -59,96 +40,86 @@ public class TodoList extends JFrame {
         filterComboBox = new JComboBox<>(new String[]{"Todas", "Ativas", "Concluídas"});
         clearCompletedButton = new JButton("Limpar Concluídas");
 
-        // Configuração do painel de entrada
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(taskInputField, BorderLayout.CENTER);
         inputPanel.add(addButton, BorderLayout.EAST);
 
-        // Configuração do painel de botões
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel.add(deleteButton);
         buttonPanel.add(markDoneButton);
         buttonPanel.add(filterComboBox);
         buttonPanel.add(clearCompletedButton);
 
-        // Adiciona os componentes ao painel principal
         mainPanel.add(inputPanel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Configuração do TransferHandler para a JList
         taskList.setDropMode(DropMode.ON);
         taskList.setTransferHandler(new TaskTransferHandler());
 
-        // Adiciona o painel principal à janela
-        this.add(mainPanel);
-
-       // Configuração do MouseListener para o botão "Excluir"
-    deleteButton.setTransferHandler(new TaskTransferHandler());
-    deleteButton.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            // Inicia a transferência de dados ao pressionar o botão "Excluir"
-            TransferHandler handler = deleteButton.getTransferHandler();
-            handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
-        }
-    });
-
-         addButton.addMouseListener(new MouseAdapter() {
+        deleteButton.setTransferHandler(new TaskTransferHandler());
+        deleteButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-               addTask();
+                TransferHandler handler = deleteButton.getTransferHandler();
+                handler.exportAsDrag(deleteButton, e, TransferHandler.COPY);
             }
-
         });
-         markDoneButton.addMouseListener(new MouseAdapter() {
+
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                addTask();
+            }
+        });
+        
+        markDoneButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 markTaskDone();
             }
-
         });
-          filterComboBox.addMouseListener(new MouseAdapter() {
+
+        filterComboBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                 filterTasks();
+                filterTasks();
             }
-
         });
-         clearCompletedButton.addMouseListener(new MouseAdapter() {
+
+        clearCompletedButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 clearCompletedTasks();
             }
-
         });
-    }   
-// Alterações no método deleteSelectedTask()
-private void deleteSelectedTask() {
-    int selectedIndex = taskList.getSelectedIndex();
-    if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
-        Object[] options = {"Sim", "Não"};
-        int choice = JOptionPane.showOptionDialog(this,
-                "Você tem certeza que deseja excluir esta tarefa?",
-                "Confirmação de Exclusão",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
 
-        if (choice == 0) { // 0 representa "Sim" no array
-            tasks.remove(selectedIndex);
-            updateTaskList();
-            JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
-        } else {
-            // ...
+        this.add(mainPanel);
+    }
+
+    private void deleteSelectedTask() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
+            Object[] options = {"Sim", "Não"};
+            int choice = JOptionPane.showOptionDialog(this,
+                    "Você tem certeza que deseja excluir esta tarefa?",
+                    "Confirmação de Exclusão",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == 0) {
+                tasks.remove(selectedIndex);
+                updateTaskList();
+                JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!");
+            } else {
+                // Operação de Não
+            }
         }
     }
-}
 
-
-    // Método para adicionar uma nova tarefa
     private void addTask() {
         String taskDescription = taskInputField.getText().trim();
         if (!taskDescription.isEmpty()) {
@@ -159,7 +130,6 @@ private void deleteSelectedTask() {
         }
     }
 
-    // Método para marcar uma tarefa como concluída
     private void markTaskDone() {
         int selectedIndex = taskList.getSelectedIndex();
         if (selectedIndex >= 0 && selectedIndex < tasks.size()) {
@@ -170,7 +140,6 @@ private void deleteSelectedTask() {
         }
     }
 
-    // Método para filtrar as tarefas com base na seleção do JComboBox
     private void filterTasks() {
         String filter = (String) filterComboBox.getSelectedItem();
         listModel.clear();
@@ -182,7 +151,6 @@ private void deleteSelectedTask() {
         }
     }
 
-    // Método para limpar as tarefas concluídas da lista
     private void clearCompletedTasks() {
         List<Task> completedTasks = new ArrayList<>();
         for (Task task : tasks) {
@@ -194,7 +162,6 @@ private void deleteSelectedTask() {
         updateTaskList();
     }
 
-    // Método para atualizar a lista de tarefas na GUI
     private void updateTaskList() {
         listModel.clear();
         for (Task task : tasks) {
@@ -202,19 +169,17 @@ private void deleteSelectedTask() {
         }
     }
 
-    // Classe interna Task com timer
     private class Task {
         private String description;
         private boolean done;
         private Timer timer;
-        private int elapsedTime; // em segundos
+        private int elapsedTime;
 
         public Task(String description) {
             this.description = description;
             this.done = false;
             this.elapsedTime = 0;
 
-            // Inicializa o timer com um ActionListener
             this.timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -232,8 +197,6 @@ private void deleteSelectedTask() {
             timer.stop();
         }
 
-        // ... (outros métodos)
-
         public String getDescription() {
             return description;
         }
@@ -247,46 +210,35 @@ private void deleteSelectedTask() {
         }
     }
 
-    // Classe principal para representar uma tarefa
-    private static class TaskTransferable {
+    private static class TaskTransferable implements Transferable {
         static final DataFlavor TASK_FLAVOR = new DataFlavor(Task.class, "Task");
-    }
+        private Task task;
 
-    // Método principal para executar a aplicação
-    public static void main(String[] args) {
-        TodoList todoList = new TodoList();
-        todoList.setVisible(true);
-    }
-
-    // TransferHandler para a JList
-    private class TaskTransferHandler extends TransferHandler {
-        @Override
-        public boolean canImport(TransferSupport support) {
-            return support.isDataFlavorSupported(TaskTransferable.TASK_FLAVOR);
+        public TaskTransferable(Task task) {
+            this.task = task;
         }
 
         @Override
-        public boolean importData(TransferSupport support) {
-            if (!canImport(support)) {
-                return false;
-            }
+        public DataFlavor[] getTransferDataFlavors() {
+            return new DataFlavor[]{TASK_FLAVOR};
+        }
 
-            Transferable transferable = support.getTransferable();
-            try {
-                Task task = (Task) transferable.getTransferData(TaskTransferable.TASK_FLAVOR);
-                tasks.add(task);
-                updateTaskList();
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
+        @Override
+        public boolean isDataFlavorSupported(DataFlavor flavor) {
+            return flavor.equals(TASK_FLAVOR);
+        }
+
+        @Override
+        public Object getTransferData(DataFlavor flavor) {
+            if (isDataFlavorSupported(flavor)) {
+                return task;
             }
-       
+            return null;
+        }
     }
-} public void run() {
+
+    public void run() {
 // Exibe a janela
 this.setVisible(true);
-}
-  
-
+    }
 }
