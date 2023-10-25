@@ -1,5 +1,8 @@
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -55,6 +58,7 @@ public class FlowLayoutExemplo extends JFrame{
         } catch (NumberFormatException e) {
             resultadoLabel.setText("Por favor, insira valores válidos.");
         }
+<<<<<<< HEAD
     //set do Frame
     frame.setDefaultCloseOperation(2);
     frame.pack();
@@ -64,6 +68,11 @@ public class FlowLayoutExemplo extends JFrame{
 
     
     }}
+=======
+    }
+    
+    }
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
 
     
 

@@ -2,12 +2,20 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+<<<<<<< HEAD
+=======
+import java.awt.BorderLayout;
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
 
 
 public class Calculadora extends JPanel{
     public Calculadora() {
         super(new BorderLayout());
+<<<<<<< HEAD
         //mudando o Lyout dathis
+=======
+        //mudando o Lyout daFrame
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
         BorderLayout border = new BorderLayout();
         this.setLayout(border);
         JPanel painelV = new JPanel();
@@ -34,12 +42,16 @@ public class Calculadora extends JPanel{
         painelC.add(new JButton("-"));
         painelC.add(new JButton("/"));
         painelC.add(new JButton("x"));
+<<<<<<< HEAD
      //set do Frame
    
     this.pack();
    this.setVisible(true);
     this.setBounds(300,300,300,300);
 
+=======
+    
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
 
        // String textBotoes2[] = {  "0","="};
         //for (int i = 0; i < textBotoes2.length; i++) {
@@ -47,7 +59,11 @@ public class Calculadora extends JPanel{
         // Vetor com os txtos dos botoes
        
     }
+<<<<<<< HEAD
 
     private void pack() {
     }
 }
+=======
+}
+>>>>>>> 63e0b5528dd2e85af9e8b9a045104dab10a1a348
