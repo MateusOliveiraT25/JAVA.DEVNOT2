@@ -59,7 +59,7 @@ public class App {
                 //localizar a conta no vetor
                 int i;//contador
                 int nContaBuscadaPF  = Integer.parseInt(JOptionPane.showInputDialog("Informe o nº da Conta buscada"));
-                for (i = 0; i < clientePF.length; i++) {
+                for ( = 0; i < clientePF.length; i++) {
                     if(nContaBuscadaPF==clientePF[i].getnConta()){
                         JOptionPane.showMessageDialog(null,"Conta Encontrada");
                         break;
@@ -152,4 +152,3 @@ public class App {
                     }
                 }
             }
-        }
