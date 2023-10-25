@@ -34,5 +34,10 @@ return (List<Usuario>) inputStream.readObject();
 System.err.println("Erro ao deserializar os dados: " + e.getMessage());
 return null; // Retorna nulo para indicar que ocorreu um erro
 }
+}
+public static List<AgendaItem> deserializarAgenda(String string) {
+  return null;
+}
+public static void serializarAgenda(List<AgendaItem> agenda, String fileName) {
 }  
 }
