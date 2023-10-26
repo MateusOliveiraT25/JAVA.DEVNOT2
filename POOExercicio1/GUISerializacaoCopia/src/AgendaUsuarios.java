@@ -29,10 +29,10 @@ public class AgendaUsuarios extends JPanel {
         tableModel.addColumn("Descrição"); 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
-        inputDia = new JTextField(5);
+        inputDia = new JTextField(8);
         inputHora = new JTextField(5);
           inputUsuario = new JTextField(15);
-        inputDescricao = new JTextField(15);
+        inputDescricao = new JTextField(20);
          // Added description field
         JButton cadastrarButton = new JButton("Agendar");
         JButton atualizarButton = new JButton("Atualizar");
