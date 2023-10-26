@@ -47,10 +47,13 @@ public class AgendaOperacoes {
         tableModel.setRowCount(0);
     }
 
-    public void salvarAgenda(String fileName) {
-        Serializacao.serializarAgenda(agenda, fileName);
+    public void salvarAgenda() {
+        Serializacao.serializarAgenda("dados1.text", agenda);
     }
 
     public void atualizarEvento(int linhaSelecionada, String text, String text2, String text3, String text4,String text5) {
+    }
+
+    public void salvarAgenda(String string) {
     }
 }

@@ -62,7 +62,7 @@ public class AgendaUsuarios extends JPanel {
             agenda = Serializacao.deserializarAgenda("agenda.txt"); // Change deserialization method
             atualizarTabela();
         }
-        // Event handlers
+        // tratamentos de eventos 
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -104,12 +104,12 @@ public class AgendaUsuarios extends JPanel {
                 operacoes.apagarTodosEventos(); // Modify to delete all agenda items
             }
         });
-        salvarButton.addActionListener(new ActionListener() {
+      /*  salvarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 operacoes.salvarAgenda("agenda.txt"); // Modify to save the agenda
             }
-        });
+        }); */
     }
 
     private void atualizarTabela() {
