@@ -1,7 +1,5 @@
-package View;
-
-import java.awt.event.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
@@ -81,11 +79,6 @@ public class CarrosPainel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (camposObrigatoriosVazios()) {
-                        JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
                     if (!isNumeroValido(carAnoField.getText()) || Integer.parseInt(carAnoField.getText()) < 1886) {
                         JOptionPane.showMessageDialog(null, "Ano inválido. Insira um ano numérico válido maior que 1886.", "Erro", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -96,19 +89,26 @@ public class CarrosPainel extends JPanel {
                         return;
                     }
 
-                    boolean cadastroSucesso = operacoes.cadastrar(
-                            carMarcaField.getText(),
-                            carModeloField.getText(),
-                            Integer.parseInt(carAnoField.getText()),
-                            carPlacaField.getText(),
-                            Integer.parseInt(carValorField.getText()));
+                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar este carro?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if (confirmacao == JOptionPane.YES_OPTION) {
+                        boolean cadastroSucesso = operacoes.cadastrar(
+                                carMarcaField.getText(),
+                                carModeloField.getText(),
+                                Integer.parseInt(carAnoField.getText()),
+                                carPlacaField.getText(),
+                                Integer.parseInt(carValorField.getText()));
 
-                    if (cadastroSucesso) {
-                        JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
-                        limparCampos();
-                        atualizarTabela();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        if (cadastroSucesso) {
+                            JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
+                            carMarcaField.setText("");
+                            carModeloField.setText("");
+                            carAnoField.setText("");
+                            carPlacaField.setText("");
+                            carValorField.setText("");
+                            atualizarTabela();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Erro de formato. Certifique-se de inserir números válidos para Ano e Valor.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -119,22 +119,36 @@ public class CarrosPainel extends JPanel {
         editar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                operacoes.atualizar(carMarcaField.getText(),
-                        carModeloField.getText(),
-                        Integer.parseInt(carAnoField.getText()),
-                        carPlacaField.getText(),
-                        Integer.parseInt(carValorField.getText()));
-                limparCampos();
-                atualizarTabela();
+                int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente editar este carro?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    operacoes.atualizar(carMarcaField.getText(),
+                            carModeloField.getText(),
+                            Integer.parseInt(carAnoField.getText()),
+                            carPlacaField.getText(),
+                            Integer.parseInt(carValorField.getText()));
+                    carMarcaField.setText("");
+                    carModeloField.setText("");
+                    carAnoField.setText("");
+                    carPlacaField.setText("");
+                    carValorField.setText("");
+                    atualizarTabela();
+                }
             }
         });
 
         apagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                operacoes.apagar(carPlacaField.getText());
-                limparCampos();
-                atualizarTabela();
+                int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente apagar este carro?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    operacoes.apagar(carPlacaField.getText());
+                    carMarcaField.setText("");
+                    carModeloField.setText("");
+                    carAnoField.setText("");
+                    carPlacaField.setText("");
+                    carValorField.setText("");
+                    atualizarTabela();
+                }
             }
         });
     }
@@ -158,17 +172,18 @@ public class CarrosPainel extends JPanel {
         }
     }
 
-    // Método auxiliar para verificar campos obrigatórios vazios
-    private boolean camposObrigatoriosVazios() {
-        return carMarcaField.getText().isEmpty() || carModeloField.getText().isEmpty() || carAnoField.getText().isEmpty() || carPlacaField.getText().isEmpty() || carValorField.getText().isEmpty();
-    }
-
-    // Método auxiliar para limpar os campos
-    private void limparCampos() {
-        carMarcaField.setText("");
-        carModeloField.setText("");
-        carAnoField.setText("");
-        carPlacaField.setText("");
-        carValorField.setText("");
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("Cadastro de Carros");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.getContentPane().add(new CarrosPainel());
+                frame.setPreferredSize(new Dimension(600, 400));
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
+        });
     }
 }
