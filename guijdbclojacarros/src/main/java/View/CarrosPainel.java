@@ -156,11 +156,15 @@ public class CarrosPainel extends JPanel {
     }
     // Método auxiliar para verificar se uma string contém apenas números
 private boolean isNumeroValido(String texto) {
-    try {
-        Integer.parseInt(texto);
-        return true;
-    } catch (NumberFormatException e) {
+    if (texto == null || texto.isEmpty()) {
         return false;
     }
-}
+
+    for (char c : texto.toCharArray()) {
+        if (!Character.isDigit(c)) {
+            return false;
+        }
+    }
+
+    return true;
 }
