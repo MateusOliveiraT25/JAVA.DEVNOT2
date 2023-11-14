@@ -80,23 +80,37 @@ public class CarrosPainel extends JPanel {
         cadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean cadastroSucesso = operacoes.cadastrar(
-                        carMarcaField.getText(),
-                        carModeloField.getText(),
-                        Integer.parseInt(carAnoField.getText()),
-                        carPlacaField.getText(),
-                        Integer.parseInt(carValorField.getText()));
+                try {
+                    if (!isNumeroValido(carAnoField.getText()) || Integer.parseInt(carAnoField.getText()) < 1886) {
+                        JOptionPane.showMessageDialog(null, "Ano inválido. Insira um ano numérico válido maior que 1886.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
-                if (cadastroSucesso) {
-                    JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
-                    carMarcaField.setText("");
-                    carModeloField.setText("");
-                    carAnoField.setText("");
-                    carPlacaField.setText("");
-                    carValorField.setText("");
-                    atualizarTabela();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    if (!isNumeroValido(carValorField.getText())) {
+                        JOptionPane.showMessageDialog(null, "Valor inválido. Insira um valor numérico válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    boolean cadastroSucesso = operacoes.cadastrar(
+                            carMarcaField.getText(),
+                            carModeloField.getText(),
+                            Integer.parseInt(carAnoField.getText()),
+                            carPlacaField.getText(),
+                            Integer.parseInt(carValorField.getText()));
+
+                    if (cadastroSucesso) {
+                        JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
+                        carMarcaField.setText("");
+                        carModeloField.setText("");
+                        carAnoField.setText("");
+                        carPlacaField.setText("");
+                        carValorField.setText("");
+                        atualizarTabela();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro de formato. Certifique-se de inserir números válidos para Ano e Valor.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -140,4 +154,13 @@ public class CarrosPainel extends JPanel {
                     carro.getAno(), carro.getPlaca(), carro.getValor()});
         }
     }
+    // Método auxiliar para verificar se uma string contém apenas números
+private boolean isNumeroValido(String texto) {
+    try {
+        Integer.parseInt(texto);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 }
