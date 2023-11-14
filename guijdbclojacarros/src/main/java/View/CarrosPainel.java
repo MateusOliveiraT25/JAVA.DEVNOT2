@@ -81,11 +81,13 @@ public class CarrosPainel extends JPanel {
                 try {
                     if (!isNumeroValido(carAnoField.getText()) || Integer.parseInt(carAnoField.getText()) < 1886) {
                         JOptionPane.showMessageDialog(null, "Ano inválido. Insira um ano numérico válido maior que 1886.", "Erro", JOptionPane.ERROR_MESSAGE);
+                         carAnoField.setForeground(Color.RED);
                         return;
                     }
 
                     if (!isNumeroValido(carValorField.getText())) {
                         JOptionPane.showMessageDialog(null, "Valor inválido. Insira um valor numérico válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                         carValorField.setForeground(Color.RED);
                         return;
                     }
 
