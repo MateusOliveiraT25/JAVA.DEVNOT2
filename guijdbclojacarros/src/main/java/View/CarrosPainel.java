@@ -81,6 +81,11 @@ public class CarrosPainel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    if (camposObrigatoriosVazios()) {
+                        JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
                     if (!isNumeroValido(carAnoField.getText()) || Integer.parseInt(carAnoField.getText()) < 1886) {
                         JOptionPane.showMessageDialog(null, "Ano inválido. Insira um ano numérico válido maior que 1886.", "Erro", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -100,11 +105,7 @@ public class CarrosPainel extends JPanel {
 
                     if (cadastroSucesso) {
                         JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
-                        carMarcaField.setText("");
-                        carModeloField.setText("");
-                        carAnoField.setText("");
-                        carPlacaField.setText("");
-                        carValorField.setText("");
+                        limparCampos();
                         atualizarTabela();
                     } else {
                         JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -123,11 +124,7 @@ public class CarrosPainel extends JPanel {
                         Integer.parseInt(carAnoField.getText()),
                         carPlacaField.getText(),
                         Integer.parseInt(carValorField.getText()));
-                carMarcaField.setText("");
-                carModeloField.setText("");
-                carAnoField.setText("");
-                carPlacaField.setText("");
-                carValorField.setText("");
+                limparCampos();
                 atualizarTabela();
             }
         });
@@ -136,11 +133,7 @@ public class CarrosPainel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 operacoes.apagar(carPlacaField.getText());
-                carMarcaField.setText("");
-                carModeloField.setText("");
-                carAnoField.setText("");
-                carPlacaField.setText("");
-                carValorField.setText("");
+                limparCampos();
                 atualizarTabela();
             }
         });
@@ -154,17 +147,28 @@ public class CarrosPainel extends JPanel {
                     carro.getAno(), carro.getPlaca(), carro.getValor()});
         }
     }
-    // Método auxiliar para verificar se uma string contém apenas números
-private boolean isNumeroValido(String texto) {
-    if (texto == null || texto.isEmpty()) {
-        return false;
-    }
 
-    for (char c : texto.toCharArray()) {
-        if (!Character.isDigit(c)) {
+    // Método auxiliar para verificar se uma string contém apenas números
+    private boolean isNumeroValido(String texto) {
+        try {
+            Integer.parseInt(texto);
+            return true;
+        } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    return true;
+    // Método auxiliar para verificar campos obrigatórios vazios
+    private boolean camposObrigatoriosVazios() {
+        return carMarcaField.getText().isEmpty() || carModeloField.getText().isEmpty() || carAnoField.getText().isEmpty() || carPlacaField.getText().isEmpty() || carValorField.getText().isEmpty();
+    }
+
+    // Método auxiliar para limpar os campos
+    private void limparCampos() {
+        carMarcaField.setText("");
+        carModeloField.setText("");
+        carAnoField.setText("");
+        carPlacaField.setText("");
+        carValorField.setText("");
+    }
 }
