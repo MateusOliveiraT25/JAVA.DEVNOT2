@@ -12,7 +12,12 @@ add(jTPane);
 // criandos as tabs
 // tab1 carros
 CarrosPainel tab1 = new CarrosPainel();
+ClientesPainel tab2 = new ClientesPainel();
+//VendasPainel tab3 = new VendasPainel();
+
 jTPane.add("Carros", tab1);
+jTPane.add("Clientes", tab2);
+//jTPane.add("Vendas", tab3);
 setBounds(100, 100, 600, 600);
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }
