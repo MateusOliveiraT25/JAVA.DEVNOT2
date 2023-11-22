@@ -76,68 +76,90 @@ table.addMouseListener(new MouseAdapter() {
     }
     });
 
-    ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
-// Configura a ação do botão "cadastrar" para adicionar um novo registro no banco
-//de dados
-cadastrar.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    // Chama o método "cadastrar" do objeto operacoes com os valores dos
-    
-    //campos de entrada
-    
-    operacoes.cadastrar(clienteNomeField.getText(), clienteEnderecoField.getText(),
-    
-    clienteTelefoneField.getText(),clienteEmailField.getText(), clienteCPFField.getText());
-    // Limpa os campos de entrada após a operação de cadastro
-    clienteNomeField.setText("");
-    clienteEnderecoField.setText("");
-    clienteTelefoneField.setText("");
-    clienteEmailField.setText("");
-    clienteCPFField.setText("");
-    }
-    });
+  ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
 
-// Configura a ação do botão "editar" para atualizar um registro no banco de
-// dados
-editar.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    // Chama o método "atualizar" do objeto operacoes com os valores dos
-    
-    //campos de entrada
-    
-    operacoes.atualizar(clienteNomeField.getText(), clienteEnderecoField.getText(),
-    
-    clienteTelefoneField.getText(),clienteEmailField.getText(), clienteCPFField.getText());
-    // Limpa os campos de entrada após a operação de atualização
-    clienteNomeField.setText("");
-    clienteEnderecoField.setText("");
-    clienteTelefoneField.setText("");
-    clienteEmailField.setText("");
-    clienteCPFField.setText("");
-    }
-    });
-// Configura a ação do botão "apagar" para excluir um registro no banco de dados
-apagar.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    // Chama o método "apagar" do objeto operacoes com o valor do campo de
-    
-    //entrada "placa"
-    
-    operacoes.apagar(clienteCPFField.getText());
-    // Limpa os campos de entrada após a operação de exclusão
-    clienteNomeField.setText("");
-    clienteEnderecoField.setText("");
-    clienteTelefoneField.setText("");
-    clienteEmailField.setText("");
-    clienteCPFField.setText("");
-    }
-    });
+        cadastrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String telefone = clienteTelefoneField.getText();
+                    if (telefone.isEmpty() || !telefone.matches("\\d{10}")) {
+                        JOptionPane.showMessageDialog(null, "Telefone inválido. Insira um número de telefone válido (10 dígitos).", "Erro", JOptionPane.ERROR_MESSAGE);
+                        clienteTelefoneField.setForeground(Color.RED);
+                        return;
+                    }
 
+                    String cpf = clienteCPFField.getText();
+                    if (cpf.isEmpty() || !cpf.matches("\\d{11}")) {
+                        JOptionPane.showMessageDialog(null, "CPF inválido. Insira um CPF válido (11 dígitos numéricos).", "Erro", JOptionPane.ERROR_MESSAGE);
+                        clienteCPFField.setForeground(Color.RED);
+                        return;
+                    }
 
-}
+                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if (confirmacao == JOptionPane.YES_OPTION) {
+                        boolean cadastroSucesso = operacoes.cadastrar(
+                                clienteNomeField.getText(),
+                                clienteEnderecoField.getText(),
+                                clienteTelefoneField.getText(),
+                                clienteEmailField.getText(),
+                                clienteCPFField.getText());
+
+                        if (cadastroSucesso) {
+                            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                            clienteNomeField.setText("");
+                            clienteEnderecoField.setText("");
+                            clienteTelefoneField.setText("");
+                            clienteEmailField.setText("");
+                            clienteCPFField.setText("");
+                            atualizarTabela();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o cliente. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro de formato. Certifique-se de inserir números válidos para Telefone e CPF.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        editar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente editar este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    operacoes.atualizar(
+                            clienteNomeField.getText(),
+                            clienteEnderecoField.getText(),
+                            clienteTelefoneField.getText(),
+                            clienteEmailField.getText(),
+                            clienteCPFField.getText());
+                    clienteNomeField.setText("");
+                    clienteEnderecoField.setText("");
+                    clienteTelefoneField.setText("");
+                    clienteEmailField.setText("");
+                    clienteCPFField.setText("");
+                    atualizarTabela();
+                }
+            }
+        });
+
+        apagar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente apagar este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    operacoes.apagar(clienteCPFField.getText());
+                    clienteNomeField.setText("");
+                    clienteEnderecoField.setText("");
+                    clienteTelefoneField.setText("");
+                    clienteEmailField.setText("");
+                    clienteCPFField.setText("");
+                    atualizarTabela();
+                }
+            }
+        });
+    }
 
 // Método para atualizar a tabela de exibição com dados do banco de dados
 private void atualizarTabela() {
