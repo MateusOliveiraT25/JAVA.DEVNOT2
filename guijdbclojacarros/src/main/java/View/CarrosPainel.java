@@ -48,7 +48,7 @@ public class CarrosPainel extends JPanel {
         botoes.add(editar);
         botoes.add(apagar);
         add(botoes);
-
+         // Configuração da tabela e seu modelo
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][]{},
@@ -56,6 +56,7 @@ public class CarrosPainel extends JPanel {
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 
+        // Configuração de eventos de clique na tabela
         new CarrosDAO().criaTabela();
         atualizarTabela();
 
@@ -72,34 +73,35 @@ public class CarrosPainel extends JPanel {
                 }
             }
         });
-
+      // Configuração das operações de controle
         CarrosControl operacoes = new CarrosControl(carros, tableModel, table);
-
+ // Ação do botão "Cadastrar"
         cadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                try { // Verificação de validade do ano inserido
                     if (!isNumeroValido(carAnoField.getText()) || Integer.parseInt(carAnoField.getText()) < 1886) {
                         JOptionPane.showMessageDialog(null, "Ano inválido. Insira um ano numérico válido maior que 1886.", "Erro", JOptionPane.ERROR_MESSAGE);
                          carAnoField.setForeground(Color.RED);
                         return;
                     }
-
+                    // Verificação de validade do valor inserido
                     if (!isNumeroValido(carValorField.getText())) {
                         JOptionPane.showMessageDialog(null, "Valor inválido. Insira um valor numérico válido.", "Erro", JOptionPane.ERROR_MESSAGE);
                          carValorField.setForeground(Color.RED);
                         return;
                     }
-
+  // Confirmação do cadastro
                     int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar este carro?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (confirmacao == JOptionPane.YES_OPTION) {
+                        // Execução do cadastro
                         boolean cadastroSucesso = operacoes.cadastrar(
                                 carMarcaField.getText(),
                                 carModeloField.getText(),
                                 Integer.parseInt(carAnoField.getText()),
                                 carPlacaField.getText(),
                                 Integer.parseInt(carValorField.getText()));
-
+     // Exibição de mensagem de sucesso ou erro
                         if (cadastroSucesso) {
                             JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
                             carMarcaField.setText("");
@@ -117,7 +119,7 @@ public class CarrosPainel extends JPanel {
                 }
             }
         });
-
+ // Ação do botão "Editar"
         editar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,7 +139,7 @@ public class CarrosPainel extends JPanel {
                 }
             }
         });
-
+  // Ação do botão "Apagar"
         apagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,7 +156,7 @@ public class CarrosPainel extends JPanel {
             }
         });
     }
-
+ // Atualiza a tabela com os dados mais recentes
     private void atualizarTabela() {
         tableModel.setRowCount(0);
         carros = new CarrosDAO().listarTodos();
