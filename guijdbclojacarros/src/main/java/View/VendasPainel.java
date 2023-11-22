@@ -1,11 +1,14 @@
  
 package View;
+import java.util.List;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import Controller.CarrosDAO;
 import Controller.ClientesDAO;
 import Controller.VendasDAO;
 import Model.Clientes;
@@ -68,17 +71,23 @@ private void atualizarComboBoxClientes() {
         clientesComboBox.addItem(cliente.getCpf());
     }
 }
+   // Atualiza o ComboBox de carros
+private void atualizarComboBoxCarros() {
+    // Limpa o ComboBox antes de atualizar
+    carrosComboBox.removeAllItems();
 
+    // Utiliza o método listarTodos() da classe CarrosDAO para obter a lista de carros
+    CarrosDAO carrosDAO = new CarrosDAO();
+    List<Carros> listaCarros = carrosDAO.listarTodos();
 
-    // Atualiza o ComboBox de carros
-    private void atualizarComboBoxCarros() {
-        // Lógica para obter a lista de carros e atualizar o ComboBox
-        // Utilize o método listarTodos() da classe CarrosDAO para obter a lista de carros
-        // Atualize o ComboBox com as placas dos carros
-        // Exemplo fictício:
-        carrosComboBox.addItem("Selecione um carro...");
-        
+    // Adiciona as placas dos carros ao ComboBox
+    carrosComboBox.addItem("Selecione um carro..."); // Adiciona um item default
+
+    for (Carros carro : listaCarros) {
+        carrosComboBox.addItem(carro.getPlaca());
     }
+}
+
 
    // Método para realizar a venda
 private void realizarVenda() {
