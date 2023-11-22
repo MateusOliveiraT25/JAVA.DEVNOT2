@@ -120,6 +120,31 @@ System.out.println("Dado apagado com sucesso");
 } catch (SQLException e) {
 throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
 } finally {ConnectionFactory.closeConnection(connection, stmt);
-}
-}
+// Dentro da classe ClientesDAO
+public Clientes obterClientePorCpf(String cpf) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    Clientes cliente = null;
+
+    try {
+        stmt = connection.prepareStatement("SELECT * FROM clientes_lojacarros WHERE cpf = ?");
+        stmt.setString(1, cpf);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            cliente = new Clientes(
+                rs.getString("nome"),
+                rs.getString("endereco"),
+                rs.getString("telefone"),
+                rs.getString("email"),
+                rs.getString("cpf")
+            );
+        }
+    } catch (SQLException e) {
+        System.out.println(e);
+    } finally {
+        ConnectionFactory.closeConnection(null, stmt, rs);
+    }
+
+    return cliente;
 }
