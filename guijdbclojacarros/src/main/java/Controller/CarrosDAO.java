@@ -108,6 +108,32 @@ public class CarrosDAO {
             throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
+     // Dentro da classe CarrosDAO
+public Carros obterCarroPorPlaca(String placa) {
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    Carros carro = null;
+
+    try {
+        stmt = connection.prepareStatement("SELECT * FROM carros_lojacarros WHERE placa = ?");
+        stmt.setString(1, placa);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            carro = new Carros(
+                rs.getString("marca"),
+                rs.getString("modelo"),
+                rs.getInt("ano"),
+                rs.getString("placa"),
+                rs.getInt("valor")
+            );
         }
+    } catch (SQLException e) {
+        System.out.println(e);
+    } finally {
+        ConnectionFactory.closeConnection(null, stmt, rs);
     }
+
+    return carro;
 }
+
