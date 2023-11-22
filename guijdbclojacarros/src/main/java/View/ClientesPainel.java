@@ -83,7 +83,7 @@ table.addMouseListener(new MouseAdapter() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String telefone = clienteTelefoneField.getText();
-                    if (telefone.isEmpty() || !telefone.matches("\\d{10}")) {
+                    if (telefone.isEmpty() || !telefone.matches("\\d{11}")) {
                         JOptionPane.showMessageDialog(null, "Telefone inválido. Insira um número de telefone válido (10 dígitos).", "Erro", JOptionPane.ERROR_MESSAGE);
                         clienteTelefoneField.setForeground(Color.RED);
                         return;
@@ -113,9 +113,7 @@ table.addMouseListener(new MouseAdapter() {
                             clienteEmailField.setText("");
                             clienteCPFField.setText("");
                             atualizarTabela();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o cliente. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
+                        } 
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Erro de formato. Certifique-se de inserir números válidos para Telefone e CPF.", "Erro", JOptionPane.ERROR_MESSAGE);

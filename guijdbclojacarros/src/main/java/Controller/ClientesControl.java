@@ -27,11 +27,12 @@ private void atualizarTabela() {
     }
     }
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String nome, String endereco, String telefone, String email, String
+    public boolean cadastrar(String nome, String endereco, String telefone, String email, String
     cpf) {
     new ClientesDAO().cadastrar(nome, endereco, telefone, email, cpf);
     // Chama o método de cadastro no banco de dados
     atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
+    return false;
 }
 // Método para atualizar os dados de um carro no banco de dados
 public void atualizar(String nome, String endereco, String telefone, String email, String

@@ -27,16 +27,17 @@ private void atualizarTabela() {
     }
     }
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String marca, String modelo, String ano, String placa, String
-    valor) {
-    new CarrosDAO().cadastrar(marca, modelo, ano, placa, valor);
+    public boolean cadastrar(String marca, String modelo, int i, String placa, int
+    j) {
+    new CarrosDAO().cadastrar(marca, modelo, i, placa, j);
     // Chama o método de cadastro no banco de dados
     atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
+    return false;
 }
 // Método para atualizar os dados de um carro no banco de dados
-public void atualizar(String marca, String modelo, String ano, String placa, String
-valor) {
-new CarrosDAO().atualizar(marca, modelo, ano, placa, valor);
+public void atualizar(String marca, String modelo, int i, String placa, int
+j) {
+new CarrosDAO().atualizar(marca, modelo, i, placa, j);
 // Chama o método de atualização no banco de dados
 atualizarTabela(); // Atualiza a tabela de exibição após a atualização
 }

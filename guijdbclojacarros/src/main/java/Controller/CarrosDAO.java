@@ -57,7 +57,7 @@ public class CarrosDAO {
         return carros;
     }
 
-    public void cadastrar(String marca, String modelo, int ano, String placa, int valor) {
+    public void cadastrar(String marca, String modelo, int i, String placa, int j) {
         PreparedStatement stmt = null;
         String sql = "INSERT INTO carros_lojacarros (marca, modelo, ano, placa, valor) VALUES (?, ?, ?, ?, ?)";
 
@@ -65,9 +65,9 @@ public class CarrosDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setInt(3, ano);
+            stmt.setInt(3, i);
             stmt.setString(4, placa);
-            stmt.setInt(5, valor);
+            stmt.setInt(5, j);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
@@ -77,15 +77,15 @@ public class CarrosDAO {
         }
     }
 
-    public void atualizar(String marca, String modelo, int ano, String placa, int valor) {
+    public void atualizar(String marca, String modelo, String ano, String placa, String valor) {
         PreparedStatement stmt = null;
         String sql = "UPDATE carros_lojacarros SET marca = ?, modelo = ?, ano = ?, valor =? WHERE placa = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setInt(3, ano);
-            stmt.setInt(4, valor);
+            stmt.setString(3, ano);
+            stmt.setString(4, valor);
             stmt.setString(5, placa);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
@@ -108,32 +108,38 @@ public class CarrosDAO {
             throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
-     // Dentro da classe CarrosDAO
-public Carros obterCarroPorPlaca(String placa) {
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Carros carro = null;
-
-    try {
-        stmt = connection.prepareStatement("SELECT * FROM carros_lojacarros WHERE placa = ?");
-        stmt.setString(1, placa);
-        rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            carro = new Carros(
-                rs.getString("marca"),
-                rs.getString("modelo"),
-                rs.getInt("ano"),
-                rs.getString("placa"),
-                rs.getInt("valor")
-            );
         }
-    } catch (SQLException e) {
-        System.out.println(e);
-    } finally {
-        ConnectionFactory.closeConnection(null, stmt, rs);
     }
 
-    return carro;
-}
+    // Dentro da classe CarrosDAO
+    public Carros obterCarroPorPlaca(String placa) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Carros carro = null;
 
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM carros_lojacarros WHERE placa = ?");
+            stmt.setString(1, placa);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                carro = new Carros(
+                        rs.getString("marca"),
+                        rs.getString("modelo"),
+                        rs.getInt("ano"),
+                        rs.getString("placa"),
+                        rs.getInt("valor")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            ConnectionFactory.closeConnection(null, stmt, rs);
+        }
+
+        return carro;
+    }
+
+    public void atualizar(String marca, String modelo, int i, String placa, int j) {
+    }
+}

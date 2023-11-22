@@ -54,4 +54,8 @@ public class VendasControl {
             });
         }
     }
+
+    public boolean realizarVenda(Clientes cliente, Carros carro) {
+        return false;
+    }
 }

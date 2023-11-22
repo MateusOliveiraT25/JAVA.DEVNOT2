@@ -1,12 +1,15 @@
-/* 
+ 
 package View;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import Controller.VendasControl;
+
+import Controller.ClientesDAO;
+import Controller.VendasDAO;
 import Model.Clientes;
+import Model.Vendas;
 import Model.Carros;
 
 public class VendasPainel extends JPanel {
@@ -49,16 +52,23 @@ public class VendasPainel extends JPanel {
         });
     }
 
-    // Atualiza o ComboBox de clientes
-    private void atualizarComboBoxClientes() {
-        // Lógica para obter a lista de clientes e atualizar o ComboBox
-        // Utilize o método listarTodos() da classe ClientesDAO para obter a lista de clientes
-        // Atualize o ComboBox com os CPFs dos clientes
-        // Exemplo fictício:
-        clientesComboBox.addItem("Selecione um cliente...");
-        clientesComboBox.addItem("111.222.333-44");
-        clientesComboBox.addItem("555.666.777-88");
+// Atualiza o ComboBox de clientes
+private void atualizarComboBoxClientes() {
+    // Limpa o ComboBox antes de atualizar
+    clientesComboBox.removeAllItems();
+
+    // Utiliza o método listarTodos() da classe ClientesDAO para obter a lista de clientes
+    ClientesDAO clientesDAO = new ClientesDAO();
+    List<Clientes> listaClientes = clientesDAO.listarTodos();
+
+    // Adiciona os CPFs ao ComboBox
+    clientesComboBox.addItem("Selecione um cliente..."); // Adiciona um item default
+
+    for (Clientes cliente : listaClientes) {
+        clientesComboBox.addItem(cliente.getCpf());
     }
+}
+
 
     // Atualiza o ComboBox de carros
     private void atualizarComboBoxCarros() {
@@ -67,82 +77,62 @@ public class VendasPainel extends JPanel {
         // Atualize o ComboBox com as placas dos carros
         // Exemplo fictício:
         carrosComboBox.addItem("Selecione um carro...");
-        carrosComboBox.addItem("ABC1234");
-        carrosComboBox.addItem("XYZ5678");
+        
     }
 
-    // Método para realizar a venda
-    private void realizarVenda() {
-        String clienteCpf = clienteCpfField.getText().trim();
-        String selectedCliente = (String) clientesComboBox.getSelectedItem();
-        String selectedCarroPlaca = (String) carrosComboBox.getSelectedItem();
+   // Método para realizar a venda
+private void realizarVenda() {
+    String clienteCpf = clienteCpfField.getText().trim();
+    String selectedCliente = (String) clientesComboBox.getSelectedItem();
+    String selectedCarroPlaca = (String) carrosComboBox.getSelectedItem();
 
-        if ("Selecione um cliente...".equals(selectedCliente)) {
-            JOptionPane.showMessageDialog(this, "Selecione um cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if ("Selecione um carro...".equals(selectedCarroPlaca)) {
-            JOptionPane.showMessageDialog(this, "Selecione um carro.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (clienteCpf.isEmpty() && "Selecione um cliente...".equals(selectedCliente)) {
-            JOptionPane.showMessageDialog(this, "Informe o CPF do cliente ou selecione um cliente existente.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Lógica para obter o cliente e o carro selecionados
-        // Utilize os métodos obterClientePorCpf() e obterCarroPorPlaca() das respectivas classes DAO
-        // Exemplo fictício:
-        Clientes cliente = obterClientePorCpf(clienteCpf);
-        Carros carro = obterCarroPorPlaca(selectedCarroPlaca);
-
-        // Lógica para realizar a venda
-        // Utilize o método realizarVenda() da classe VendasControl
-        // Exemplo fictício:
-        boolean vendaRealizada = realizarVenda(cliente, carro);
-
-        if (vendaRealizada) {
-            JOptionPane.showMessageDialog(this, "Venda realizada com sucesso!");
-            // Atualize os ComboBox de clientes e carros após a venda
-            atualizarComboBoxClientes();
-            atualizarComboBoxCarros();
-        } else {
-            JOptionPane.showMessageDialog(this, "Erro ao realizar a venda. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+    if ("Selecione um cliente...".equals(selectedCliente)) {
+        JOptionPane.showMessageDialog(this, "Selecione um cliente.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
-    // Método fictício para obter um cliente por CPF
-    private Clientes obterClientePorCpf(String cpf) {
-        // Lógica para obter o cliente por CPF
-        // Utilize o método obterClientePorCpf() da classe ClientesDAO
-        // Exemplo fictício:
-        ClientesDAO clientesDAO = new ClientesDAO();
-        return clientesDAO.obterClientePorCpf(cpf);
+    if ("Selecione um carro...".equals(selectedCarroPlaca)) {
+        JOptionPane.showMessageDialog(this, "Selecione um carro.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
-    // Método fictício para obter um carro por placa
-    private Carros obterCarroPorPlaca(String placa) {
-        // Lógica para obter o carro por placa
-        // Utilize o método obterCarroPorPlaca() da classe CarrosDAO
-        // Exemplo fictício:
-        CarrosDAO carrosDAO = new CarrosDAO();
-        return carrosDAO.obterCarroPorPlaca(placa);
+    if (clienteCpf.isEmpty() && "Selecione um cliente...".equals(selectedCliente)) {
+        JOptionPane.showMessageDialog(this, "Informe o CPF do cliente ou selecione um cliente existente.", "Erro", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
-    // Método fictício para realizar a venda
-    private boolean realizarVenda(Clientes cliente, Carros carro) {
-        // Lógica para realizar a venda
-        // Utilize o método realizarVenda() da classe VendasControl
-        // Exemplo fictício:
-        VendasControl vendasControl = new VendasControl();
-        return vendasControl.realizarVenda(cliente, carro);
-    }
+    // Lógica para obter o cliente e o carro selecionados
+    // Utilize os métodos obterClientePorCpf() e obterCarroPorPlaca() das respectivas classes DAO
+    Clientes cliente = obterClientePorCpf(clienteCpf);
+    Carros carro = obterCarroPorPlaca(selectedCarroPlaca);
 
- 
+    // Lógica para realizar a venda
+    // Utilize o método cadastrar() da classe VendasDAO para realizar a venda
+    VendasDAO vendasDAO = new VendasDAO();
+    Vendas venda = new Vendas(cliente, carro, calcularValorVenda()); // Você precisa ajustar isso conforme a lógica do seu programa
+    vendasDAO.cadastrar(venda);
+
+    JOptionPane.showMessageDialog(this, "Venda realizada com sucesso!");
+    // Atualize os ComboBox de clientes e carros após a venda
+    atualizarComboBoxClientes();
+    atualizarComboBoxCarros();
+}
+
+private Clientes obterClientePorCpf(String clienteCpf) {
+    return null;
+}
+
+private Carros obterCarroPorPlaca(String selectedCarroPlaca) {
+    return null;
+}
+
+// Método fictício para calcular o valor da venda
+private double calcularValorVenda() {
+    // Lógica para calcular o valor da venda
+    // Exemplo fictício:
+    return 10000.0;
 }
 
 
 
-*/
+}

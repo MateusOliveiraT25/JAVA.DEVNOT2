@@ -111,9 +111,7 @@ public class CarrosPainel extends JPanel {
                             carPlacaField.setText("");
                             carValorField.setText("");
                             atualizarTabela();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o carro. Verifique os dados e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
+                        } 
                     }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Erro de formato. Certifique-se de inserir números válidos para Ano e Valor.", "Erro", JOptionPane.ERROR_MESSAGE);
