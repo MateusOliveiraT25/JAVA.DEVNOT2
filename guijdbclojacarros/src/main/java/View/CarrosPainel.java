@@ -121,6 +121,7 @@ public class CarrosPainel extends JPanel {
  // Ação do botão "Editar"
         editar.addActionListener(new ActionListener() {
             @Override
+            
             public void actionPerformed(ActionEvent e) {
                 int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente editar este carro?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (confirmacao == JOptionPane.YES_OPTION) {
@@ -173,6 +174,13 @@ public class CarrosPainel extends JPanel {
         } catch (NumberFormatException e) {
             return false;
         }
+    }//Método auxiliar para verificar se os campos de cadastro/editar estão preenchidos
+    private boolean camposCadastroValidos() {
+        return !carMarcaField.getText().isEmpty() &&
+               !carModeloField.getText().isEmpty() &&
+               !carAnoField.getText().isEmpty() &&
+               !carPlacaField.getText().isEmpty() &&
+               !carValorField.getText().isEmpty();
     }
 
     public static void main(String[] args) {

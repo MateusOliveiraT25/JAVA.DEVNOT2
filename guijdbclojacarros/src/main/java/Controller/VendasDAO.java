@@ -17,20 +17,21 @@ public class VendasDAO {
     }
 
     public void criarTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS vendas (ID INT PRIMARY KEY AUTO_INCREMENT, CLIENTE_CPF VARCHAR(255), CARRO_PLACA VARCHAR(255), VALOR_VENDA DOUBLE, FOREIGN KEY (CLIENTE_CPF) REFERENCES clientes_lojacarros(CPF), FOREIGN KEY (CARRO_PLACA) REFERENCES carros_lojacarros(PLACA))";
+        String sql = "CREATE TABLE IF NOT EXISTS vendas_lojacarros (ID INT PRIMARY KEY AUTO_INCREMENT, CLIENTE_CPF VARCHAR(255), CARRO_PLACA VARCHAR(255), VALOR_VENDA DOUBLE, FOREIGN KEY (CLIENTE_CPF) REFERENCES clientes_lojacarros(CPF), FOREIGN KEY (CARRO_PLACA) REFERENCES carros_lojacarros(PLACA))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Tabela de vendas criada com sucesso.");
+            System.out.println("Tabela de vendas_lojacarros criada com sucesso.");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar a tabela de vendas: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao criar a tabela de vendas_lojacarros: " + e.getMessage(), e);
         } finally {
             ConnectionFactory.closeConnection(this.connection);
         }
     }
+    
 
     public void cadastrar(Vendas venda) {
         PreparedStatement stmt = null;
-        String sql = "INSERT INTO vendas (cliente_cpf, carro_placa, valor_venda) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO vendas_lojacarros (cliente_cpf, carro_placa, valor_venda) VALUES (?, ?, ?)";
 
         try {
             stmt = connection.prepareStatement(sql);
@@ -52,7 +53,7 @@ public class VendasDAO {
         List<Vendas> vendas = new ArrayList<>();
 
         try {
-            stmt = connection.prepareStatement("SELECT * FROM vendas");
+            stmt = connection.prepareStatement("SELECT * FROM vendas_lojacarros");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -75,13 +76,13 @@ public class VendasDAO {
 
     // Método para obter um cliente pelo CPF (você precisa implementar em ClientesDAO)
     private Clientes obterClientePorCpf(String cpf) {
-        // Implemente conforme a lógica do seu ClientesDAO
+        
         return null;
     }
 
     // Método para obter um carro pela placa (você precisa implementar em CarrosDAO)
     private Carros obterCarroPorPlaca(String placa) {
-        // Implemente conforme a lógica do seu CarrosDAO
+
         return null;
     }
 }
