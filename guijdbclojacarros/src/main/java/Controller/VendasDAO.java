@@ -11,7 +11,8 @@ import java.util.List;
 
 public class VendasDAO {
     private Connection connection;
-
+  private List<Vendas> vendas;
+    
     public VendasDAO() {
         this.connection = ConnectionFactory.getConnection();
     } 
