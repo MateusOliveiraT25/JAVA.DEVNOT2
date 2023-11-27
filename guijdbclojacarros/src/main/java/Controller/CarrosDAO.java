@@ -12,13 +12,16 @@ import Connection.ConnectionFactory;
 import Model.Carros;
 
 public class CarrosDAO {
+    // Variáveis de conexão e lista de carros
     private Connection connection;
     private List<Carros> carros;
 
+    // Construtor para inicializar a conexão
     public CarrosDAO() {
         this.connection = ConnectionFactory.getConnection();
     }
 
+    // Método para criar a tabela carros_lojacarros
     public void criaTabela() {
         String sql = "CREATE TABLE IF NOT EXISTS carros_lojacarros (MARCA VARCHAR(255), MODELO VARCHAR(255), ANO INT, PLACA VARCHAR(255) PRIMARY KEY, VALOR INT)";
         try (Statement stmt = this.connection.createStatement()) {
@@ -32,6 +35,7 @@ public class CarrosDAO {
         }
     }
 
+    // Método para recuperar uma lista de todos os carros do banco de dados
     public List<Carros> listarTodos() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -57,7 +61,8 @@ public class CarrosDAO {
         return carros;
     }
 
-    public void cadastrar(String marca, String modelo, int i, String placa, int j) {
+    // Método para inserir um novo carro no banco de dados
+    public void cadastrar(String marca, String modelo, int ano, String placa, int valor) {
         PreparedStatement stmt = null;
         String sql = "INSERT INTO carros_lojacarros (marca, modelo, ano, placa, valor) VALUES (?, ?, ?, ?, ?)";
 
@@ -65,9 +70,9 @@ public class CarrosDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setInt(3, i);
+            stmt.setInt(3, ano);
             stmt.setString(4, placa);
-            stmt.setInt(5, j);
+            stmt.setInt(5, valor);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
@@ -77,15 +82,16 @@ public class CarrosDAO {
         }
     }
 
-    public void atualizar(String marca, String modelo, String ano, String placa, String valor) {
+    // Método para atualizar informações de um carro no banco de dados
+    public void atualizar(String marca, String modelo, int ano, String placa, int valor) {
         PreparedStatement stmt = null;
         String sql = "UPDATE carros_lojacarros SET marca = ?, modelo = ?, ano = ?, valor =? WHERE placa = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
             stmt.setString(2, modelo);
-            stmt.setString(3, ano);
-            stmt.setString(4, valor);
+            stmt.setInt(3, ano);
+            stmt.setInt(4, valor);
             stmt.setString(5, placa);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
@@ -96,6 +102,7 @@ public class CarrosDAO {
         }
     }
 
+    // Método para excluir um carro do banco de dados
     public void apagar(String placa) {
         PreparedStatement stmt = null;
         String sql = "DELETE FROM carros_lojacarros WHERE placa = ?";
@@ -111,7 +118,7 @@ public class CarrosDAO {
         }
     }
 
-    // Dentro da classe CarrosDAO
+    // Método para obter um carro por sua placa
     public Carros obterCarroPorPlaca(String placa) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -138,8 +145,5 @@ public class CarrosDAO {
         }
 
         return carro;
-    }
-
-    public void atualizar(String marca, String modelo, int i, String placa, int j) {
     }
 }
