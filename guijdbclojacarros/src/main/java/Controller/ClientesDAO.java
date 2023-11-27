@@ -12,15 +12,18 @@ import Connection.ConnectionFactory;
 import Model.Clientes;
 
 public class ClientesDAO {
+    // Variáveis de conexão e lista de clientes
     private Connection connection;
     private List<Clientes> clientes;
 
+    // Construtor para inicializar a conexão
     public ClientesDAO() {
         this.connection = ConnectionFactory.getConnection();
     }
 
+    // Método para criar a tabela clientes_lojacarros
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS  clientes_lojacarros (NOME VARCHAR(255),ENDERECO VARCHAR(255),TELEFONE VARCHAR(255),CPF VARCHAR(255) PRIMARY KEY, EMAIL VARCHAR(255))";
+        String sql = "CREATE TABLE IF NOT EXISTS clientes_lojacarros (NOME VARCHAR(255),ENDERECO VARCHAR(255),TELEFONE VARCHAR(255),CPF VARCHAR(255) PRIMARY KEY, EMAIL VARCHAR(255))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -32,6 +35,7 @@ public class ClientesDAO {
         }
     }
 
+    // Método para recuperar uma lista de todos os clientes do banco de dados
     public List<Clientes> listarTodos() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -57,6 +61,7 @@ public class ClientesDAO {
         return clientes;
     }
 
+    // Método para inserir um novo cliente no banco de dados
     public void cadastrar(String nome, String endereco, String telefone, String email, String cpf) {
         PreparedStatement stmt = null;
         String sql = "INSERT INTO clientes_lojacarros (nome, endereco, telefone, email, cpf) VALUES (?, ?, ?, ?, ?)";
@@ -77,6 +82,7 @@ public class ClientesDAO {
         }
     }
 
+    // Método para atualizar informações de um cliente no banco de dados
     public void atualizar(String nome, String endereco, String telefone, String email, String cpf) {
         PreparedStatement stmt = null;
         String sql = "UPDATE clientes_lojacarros SET nome = ?, endereco = ?, telefone = ?, email =? WHERE cpf = ?";
@@ -96,6 +102,7 @@ public class ClientesDAO {
         }
     }
 
+    // Método para excluir um cliente do banco de dados
     public void apagar(String cpf) {
         PreparedStatement stmt = null;
         String sql = "DELETE FROM clientes_lojacarros WHERE cpf = ?";
@@ -111,6 +118,7 @@ public class ClientesDAO {
         }
     }
 
+    // Método para obter um cliente por seu CPF
     public Clientes obterClientePorCpf(String cpf) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
