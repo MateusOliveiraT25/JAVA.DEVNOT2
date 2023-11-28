@@ -15,7 +15,7 @@ add(jTPane);
 ClientesPainel tab1 = new ClientesPainel();
 
 
-jTPane.add("Carros", tab1);
+jTPane.add("Clientes Vip's", tab1);
 
 setBounds(100, 100, 600, 600);
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -21,9 +21,7 @@ private void atualizarTabela() {
     // Obtém os carros atualizados do banco de dados
     for (Clientes clientes : clientes) {
     // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-    tableModel.addRow(new Object[] { clientes.getNome(), clientes.getEndereco(),
-    
-    clientes.getTelefone(), clientes.getEmail(), clientes.getCpf() });
+    tableModel.addRow(new Object[] { clientes.getNome(),  clientes.getCpf() });
     }
     }
     // Método para cadastrar um novo carro no banco de dados
