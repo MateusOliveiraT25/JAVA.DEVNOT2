@@ -74,13 +74,13 @@ public void criarTabela() {
         return vendas;
     }
 
-    // Método para obter um cliente pelo CPF (você precisa implementar em ClientesDAO)
+    // Método para obter um cliente pelo CPF 
     private Clientes obterClientePorCpf(String cpf) {
         
         return null;
     }
 
-    // Método para obter um carro pela placa (você precisa implementar em CarrosDAO)
+    // Método para obter um carro pela placa 
     private Carros obterCarroPorPlaca(String placa) {
 
         return null;
