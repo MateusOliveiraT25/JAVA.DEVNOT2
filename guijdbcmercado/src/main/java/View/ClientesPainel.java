@@ -110,8 +110,65 @@ public class ClientesPainel extends JPanel {
         });
     }
 
-    private void atualizarTabela() {
-        // Lógica para atualizar a tabela com dados do banco de dados
-        // ...
+  private void atualizarTabela(List<Clientes> resultados) {
+    tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+    
+    // Adiciona os dados dos clientes encontrados como novas linhas na tabela Swing
+    for (Clientes cliente : resultados) {
+        Object[] rowData = { cliente.getNome(), cliente.getCpf() };
+        tableModel.addRow(rowData);
+
+        // Se o CPF estiver cadastrado, define a cor verde para a célula do CPF
+        int rowIndex = tableModel.getRowCount() - 1;
+        table.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer(cliente.getCpf(), rowIndex));
+    }
+    
+    // Se não houver resultados, pergunta ao usuário se deseja cadastrar o cliente
+    if (resultados.isEmpty()) {
+        int confirmacao = JOptionPane.showConfirmDialog(null, "CPF não cadastrado. Deseja cadastrar este cliente?", "Confirmação de Cadastro", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            // Adicione a lógica aqui para cadastrar o cliente
+            boolean cadastroSucesso = operacoes.cadastrar(
+                    "",
+                    clienteCPFField.getText(),
+                    "",
+                    "",
+                    "");
+
+            if (cadastroSucesso) {
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
+                clienteCPFField.setText("");
+            }
+            
+            // Atualiza a tabela após cadastrar o cliente
+            atualizarTabela();
+        }
+    }
+}
+
+// Classe para definir a cor da célula com base no CPF
+class CustomTableCellRenderer extends DefaultTableCellRenderer {
+    private String cpf;
+    private int rowIndex;
+
+    public CustomTableCellRenderer(String cpf, int rowIndex) {
+        this.cpf = cpf;
+        this.rowIndex = rowIndex;
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component rendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        // Se o CPF estiver cadastrado, define a cor verde
+        if (ClientesDAO.existeClienteComCpf(cpf)) {
+            rendererComponent.setForeground(Color.GREEN);
+        } else {
+            // Se o CPF não estiver cadastrado, define a cor vermelha
+            rendererComponent.setForeground(Color.RED);
+        }
+
+        return rendererComponent;
     }
 }
