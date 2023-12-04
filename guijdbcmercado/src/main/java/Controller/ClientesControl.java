@@ -38,7 +38,23 @@ cpf) {
 new ClientesDAO().atualizar(nome, endereco, telefone, email, cpf);
 // Chama o método de atualização no banco de dados
 atualizarTabela(); // Atualiza a tabela de exibição após a atualização
-}
+}// Método para buscar um cliente por CPF
+    public List<Clientes> buscarPorCpf(String cpf) {
+        List<Clientes> resultados = new ArrayList<>();
+        Clientes clienteEncontrado = new ClientesDAO().obterClientePorCpf(cpf);
+
+        if (clienteEncontrado != null) {
+            resultados.add(clienteEncontrado);
+        } else {
+            // Adicione lógica aqui para lidar com o caso em que o cliente não foi encontrado
+            // Pode exibir uma mensagem ou realizar outra ação apropriada.
+        }
+
+        // Atualiza a tabela com os resultados da busca
+        atualizarTabela(resultados);
+
+        return resultados;
+    }
 // Método para apagar um carro do banco de dados
 public void apagar(String cpf) {
 new ClientesDAO().apagar(cpf);
