@@ -135,4 +135,10 @@ public class ClientesDAO {
 
         return cliente;
     }
+    // Método para verificar se existe um cliente com o CPF fornecido
+    public static boolean existeClienteComCpf(String cpf) {
+        Clientes cliente = obterClientePorCpf(cpf);
+        return cliente != null;
+    }
+
 }
