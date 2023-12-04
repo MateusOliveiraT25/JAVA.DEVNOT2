@@ -67,17 +67,17 @@ public class ClientesPainel extends JPanel {
 
         ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
 
-        buscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
-                if (cpfBusca != null && !cpfBusca.isEmpty()) {
-                    // Adicione lógica aqui para buscar o cliente pelo CPF e exibir os resultados na tabela
-                    // Por exemplo, você pode chamar um método em ClientesControl para realizar a busca
-                    // e atualizar a tabela com os resultados.
-                }
-            }
-        });
+     buscar.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
+        if (cpfBusca != null && !cpfBusca.isEmpty()) {
+            List<Clientes> resultados = operacoes.buscarPorCpf(cpfBusca);
+            // Adicione lógica aqui para exibir os resultados na tabela ou realizar outra ação apropriada.
+        }
+    }
+});
+
 
         cadastrar.addActionListener(new ActionListener() {
             @Override
