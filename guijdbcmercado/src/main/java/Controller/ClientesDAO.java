@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +11,20 @@ import Connection.ConnectionFactory;
 import Model.Clientes;
 
 public class ClientesDAO {
-    // Variáveis de conexão e lista de clientes
+    // Variável de conexão
     private Connection connection;
-    private List<Clientes> clientes;
 
     // Construtor para inicializar a conexão
     public ClientesDAO() {
         this.connection = ConnectionFactory.getConnection();
     }
 
-    // Método para criar a tabela clientes_lojacarros
+    // Método para criar a tabela clientes_vip
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS clientes_vip (NOME VARCHAR(255),ENDERECO VARCHAR(255),TELEFONE VARCHAR(255),CPF VARCHAR(255) PRIMARY KEY, EMAIL VARCHAR(255))";
-        try (Statement stmt = this.connection.createStatement()) {
-            stmt.execute(sql);
+        String sql = "CREATE TABLE IF NOT EXISTS clientes_vip (NOME VARCHAR(255), CPF VARCHAR(255) PRIMARY KEY)";
+        try (PreparedStatement stmt = this.connection.prepareStatement(sql)) {
+            stmt.execute();
             System.out.println("Tabela criada com sucesso.");
-
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao criar a tabela: " + e.getMessage(), e);
         } finally {
@@ -39,14 +36,13 @@ public class ClientesDAO {
     public List<Clientes> listarTodos() {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        clientes = new ArrayList<>();
+        List<Clientes> clientes = new ArrayList<>();
         try {
             stmt = connection.prepareStatement("SELECT * FROM clientes_vip");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 Clientes cliente = new Clientes(
                         rs.getString("nome"),
-                    
                         rs.getString("cpf")
                 );
                 clientes.add(cliente);
@@ -59,28 +55,34 @@ public class ClientesDAO {
         return clientes;
     }
 
-    // Método para inserir um novo cliente no banco de dados
-    public void cadastrar(String nome, String endereco, String telefone, String email, String cpf) {
-        PreparedStatement stmt = null;
-        String sql = "INSERT INTO clientes_vip (nome, endereco, telefone, email, cpf) VALUES (?, ?, ?, ?, ?)";
+ // Em ClientesDAO
 
-        try {
-            stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
-            stmt.setString(2, cpf);
-            stmt.executeUpdate();
-            System.out.println("Dados inseridos com sucesso");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir dados no banco de dados.", e);
-        } finally {
-            ConnectionFactory.closeConnection(connection, stmt);
-        }
+public boolean cadastrarUsuario(String nome, String cpf, String endereco, String telefone, String email) {
+    PreparedStatement stmt = null;
+    String sql = "INSERT INTO clientes_vip (nome, cpf, endereco, telefone, email) VALUES (?, ?, ?, ?, ?)";
+
+    try {
+        stmt = connection.prepareStatement(sql);
+        stmt.setString(1, nome);
+        stmt.setString(2, cpf);
+        stmt.setString(3, endereco);
+        stmt.setString(4, telefone);
+        stmt.setString(5, email);
+        stmt.executeUpdate();
+        System.out.println("Usuário cadastrado com sucesso");
+        return true;
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro ao cadastrar usuário no banco de dados.", e);
+    } finally {
+        ConnectionFactory.closeConnection(connection, stmt);
     }
+}
+
 
     // Método para atualizar informações de um cliente no banco de dados
-    public void atualizar(String nome, String endereco, String telefone, String email, String cpf) {
+    public void atualizar(String nome, String cpf) {
         PreparedStatement stmt = null;
-        String sql = "UPDATE clientes_vip SET nome = ?, cpf = ?";
+        String sql = "UPDATE clientes_vip SET nome = ? WHERE cpf = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nome);
@@ -135,10 +137,4 @@ public class ClientesDAO {
 
         return cliente;
     }
-    // Método para verificar se existe um cliente com o CPF fornecido
-    public static boolean existeClienteComCpf(String cpf) {
-        Clientes cliente = obterClientePorCpf(cpf);
-        return cliente != null;
-    }
-
 }

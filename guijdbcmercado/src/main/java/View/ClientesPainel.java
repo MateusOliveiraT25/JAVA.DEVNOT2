@@ -2,20 +2,16 @@ package View;
 
 import java.awt.event.*;
 import java.awt.*;
-import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
-
+import javax.swing.*;
+import java.util.List;
 import Controller.ClientesControl;
 import Controller.ClientesDAO;
-
-import javax.swing.*;
-
 import Model.Clientes;
 
 public class ClientesPainel extends JPanel {
     private JButton cadastrar, apagar, editar, buscar;
-    private JTextField clienteCPFField;
+    private JTextField clienteCPFField, clienteNomeField;
     private List<Clientes> clientes;
     private JTable table;
     private DefaultTableModel tableModel;
@@ -24,6 +20,14 @@ public class ClientesPainel extends JPanel {
     public ClientesPainel() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // Diálogo inicial para verificar se o usuário está cadastrado
+        int respostaCadastro = JOptionPane.showConfirmDialog(null, "Você faz parte do clube de membros?", "Verificação de Cadastro", JOptionPane.YES_NO_OPTION);
+        if (respostaCadastro == JOptionPane.NO_OPTION) {
+            // Adicionar lógica para cadastrar o usuário
+            cadastrarUsuario();
+        }
+
         add(new JLabel("Cadastro Clientes"));
 
         JPanel inputPanel = new JPanel();
@@ -32,6 +36,10 @@ public class ClientesPainel extends JPanel {
         inputPanel.add(new JLabel("CPF"));
         clienteCPFField = new JTextField(20);
         inputPanel.add(clienteCPFField);
+
+        inputPanel.add(new JLabel("Nome"));
+        clienteNomeField = new JTextField(20);
+        inputPanel.add(clienteNomeField);
 
         add(inputPanel);
 
@@ -48,7 +56,7 @@ public class ClientesPainel extends JPanel {
 
         JScrollPane jScrollPane = new JScrollPane();
         add(jScrollPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Nome", "CPF", "VIP", "Endereço", "Telefone", "Email" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Nome", "CPF" });
         table = new JTable(tableModel);
         jScrollPane.setViewportView(table);
 
@@ -61,23 +69,24 @@ public class ClientesPainel extends JPanel {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
                     clienteCPFField.setText((String) table.getValueAt(linhaSelecionada, 1));
+                    clienteNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
                 }
             }
         });
 
         ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
 
-     buscar.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
-        if (cpfBusca != null && !cpfBusca.isEmpty()) {
-            List<Clientes> resultados = operacoes.buscarPorCpf(cpfBusca);
-            // Adicione lógica aqui para exibir os resultados na tabela ou realizar outra ação apropriada.
-        }
-    }
-});
-
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
+                if (cpfBusca != null && !cpfBusca.isEmpty()) {
+                    // Adicione lógica aqui para buscar o cliente pelo CPF e exibir os resultados na tabela
+                    // Por exemplo, você pode chamar um método em ClientesControl para realizar a busca
+                    // e atualizar a tabela com os resultados.
+                }
+            }
+        });
 
         cadastrar.addActionListener(new ActionListener() {
             @Override
@@ -93,7 +102,7 @@ public class ClientesPainel extends JPanel {
                     int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if (confirmacao == JOptionPane.YES_OPTION) {
                         boolean cadastroSucesso = operacoes.cadastrar(
-                                "",
+                                clienteNomeField.getText(),
                                 clienteCPFField.getText(),
                                 "",
                                 "",
@@ -102,6 +111,7 @@ public class ClientesPainel extends JPanel {
                         if (cadastroSucesso) {
                             JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
                             clienteCPFField.setText("");
+                            clienteNomeField.setText("");
                             atualizarTabela();
                         }
                     }
@@ -110,65 +120,37 @@ public class ClientesPainel extends JPanel {
         });
     }
 
-  private void atualizarTabela(List<Clientes> resultados) {
-    tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+    private void cadastrarUsuario() {
+        JTextField nomeField = new JTextField();
+        JTextField cpfField = new JTextField();
     
-    // Adiciona os dados dos clientes encontrados como novas linhas na tabela Swing
-    for (Clientes cliente : resultados) {
-        Object[] rowData = { cliente.getNome(), cliente.getCpf() };
-        tableModel.addRow(rowData);
-
-        // Se o CPF estiver cadastrado, define a cor verde para a célula do CPF
-        int rowIndex = tableModel.getRowCount() - 1;
-        table.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer(cliente.getCpf(), rowIndex));
-    }
+        JPanel panel = new JPanel(new GridLayout(2, 2));
+        panel.add(new JLabel("Nome:"));
+        panel.add(nomeField);
+        panel.add(new JLabel("CPF:"));
+        panel.add(cpfField);
     
-    // Se não houver resultados, pergunta ao usuário se deseja cadastrar o cliente
-    if (resultados.isEmpty()) {
-        int confirmacao = JOptionPane.showConfirmDialog(null, "CPF não cadastrado. Deseja cadastrar este cliente?", "Confirmação de Cadastro", JOptionPane.YES_NO_OPTION);
-
-        if (confirmacao == JOptionPane.YES_OPTION) {
-            // Adicione a lógica aqui para cadastrar o cliente
-            boolean cadastroSucesso = operacoes.cadastrar(
-                    "",
-                    clienteCPFField.getText(),
-                    "",
-                    "",
-                    "");
-
-            if (cadastroSucesso) {
-                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-                clienteCPFField.setText("");
-            }
-            
-            // Atualiza a tabela após cadastrar o cliente
-            atualizarTabela();
+        int option = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Usuário", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            // Coletar os dados dos campos e chamar o método de cadastro do usuário
+            String nome = nomeField.getText();
+            String cpf = cpfField.getText();
+    
+            ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
+            operacoes.cadastrarUsuario(nome, cpf);
         }
     }
-}
 
-// Classe para definir a cor da célula com base no CPF
-class CustomTableCellRenderer extends DefaultTableCellRenderer {
-    private String cpf;
-    private int rowIndex;
-
-    public CustomTableCellRenderer(String cpf, int rowIndex) {
-        this.cpf = cpf;
-        this.rowIndex = rowIndex;
+    private void atualizarTabela() {
+        // Lógica para atualizar a tabela com dados do banco de dados
+        // ...
     }
 
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component rendererComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    public DefaultTableModel getTableDefaultModel() {
+        return tableModel;
+    }
 
-        // Se o CPF estiver cadastrado, define a cor verde
-        if (ClientesDAO.existeClienteComCpf(cpf)) {
-            rendererComponent.setForeground(Color.GREEN);
-        } else {
-            // Se o CPF não estiver cadastrado, define a cor vermelha
-            rendererComponent.setForeground(Color.RED);
-        }
-
-        return rendererComponent;
+    public JTable getTable() {
+        return table;
     }
 }

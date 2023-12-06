@@ -13,10 +13,11 @@ add(jTPane);
 // tab1 carros
 
 ClientesPainel tab1 = new ClientesPainel();
-
-
-jTPane.add("Clientes Vip's", tab1);
-
+VendasPainel tab2 = new VendasPainel();
+ConclusaoCompraPainel tab3 = new ConclusaoCompraPainel();
+jTPane.add("Tela de Clientes", tab1);
+jTPane.add("Tela de Registro de venda", tab2);
+jTPane.add("Tela de Conclusão de Compras", tab3);
 setBounds(100, 100, 600, 600);
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }
