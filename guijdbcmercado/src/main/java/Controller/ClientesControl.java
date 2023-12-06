@@ -1,7 +1,6 @@
 package Controller;
 
 import java.util.List;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -32,19 +31,19 @@ public class ClientesControl {
         }
     }
 
-  public void cadastrarUsuario(String nome, String cpf, String endereco, String telefone, String email) {
-    boolean cadastroSucesso = new ClientesDAO().cadastrarUsuario(nome, cpf, endereco, telefone, email);
+    public void cadastrarUsuario(String nome, String cpf) {
+        boolean cadastroSucesso = new ClientesDAO().cadastrarUsuario(nome, cpf);
 
-    if (cadastroSucesso) {
-        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
-        // Adicione aqui qualquer lógica adicional após o cadastro do usuário
-    } else {
-        JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        if (cadastroSucesso) {
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+            // Adicione aqui qualquer lógica adicional após o cadastro do usuário
+        } else {
+            JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário. Verifique os dados e tente novamente.", "Erro de Cadastro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Atualiza a tabela de exibição após o cadastro do usuário
+        atualizarTabela();
     }
-
-    // Atualiza a tabela de exibição após o cadastro do usuário
-    atualizarTabela();
-}
 
     // Método para atualizar os dados de um cliente no banco de dados
     public void atualizar(String nome, String cpf) {
@@ -67,8 +66,5 @@ public class ClientesControl {
 
     public boolean cadastrar(String text, String text2, String string, String string2, String string3) {
         return false;
-    }
-
-    public void cadastrarUsuario(String nome, String cpf) {
     }
 }

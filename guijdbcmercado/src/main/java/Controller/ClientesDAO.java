@@ -57,17 +57,15 @@ public class ClientesDAO {
 
  // Em ClientesDAO
 
-public boolean cadastrarUsuario(String nome, String cpf, String endereco, String telefone, String email) {
+// Em ClientesDAO
+public boolean cadastrarUsuario(String nome, String cpf) {
     PreparedStatement stmt = null;
-    String sql = "INSERT INTO clientes_vip (nome, cpf, endereco, telefone, email) VALUES (?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO clientes_vip (nome, cpf) VALUES (?, ?)";
 
     try {
         stmt = connection.prepareStatement(sql);
         stmt.setString(1, nome);
         stmt.setString(2, cpf);
-        stmt.setString(3, endereco);
-        stmt.setString(4, telefone);
-        stmt.setString(5, email);
         stmt.executeUpdate();
         System.out.println("Usuário cadastrado com sucesso");
         return true;

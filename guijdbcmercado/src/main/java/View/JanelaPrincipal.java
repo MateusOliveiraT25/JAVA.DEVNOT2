@@ -13,14 +13,19 @@ add(jTPane);
 // tab1 carros
 
 ClientesPainel tab1 = new ClientesPainel();
+
 VendasPainel tab2 = new VendasPainel();
 ConclusaoCompraPainel tab3 = new ConclusaoCompraPainel();
+EstoquePainel tab4 = new EstoquePainel(null);
 jTPane.add("Tela de Clientes", tab1);
 jTPane.add("Tela de Registro de venda", tab2);
 jTPane.add("Tela de Conclusão de Compras", tab3);
+jTPane.add("Tela de Estoque", tab4);
+
 setBounds(100, 100, 600, 600);
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }
+
 //métodos para tornar a janela visível
 public void run(){
 this.setVisible(true);
