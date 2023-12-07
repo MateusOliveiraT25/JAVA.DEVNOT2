@@ -44,6 +44,11 @@ public class ClientesControl {
         // Atualiza a tabela de exibição após o cadastro do usuário
         atualizarTabela();
     }
+  // Método para obter um cliente por seu CPF
+  public Clientes obterClientePorCPF(String cpf) {
+    return new ClientesDAO().obterClientePorCpf(cpf);
+}
+
 
     // Método para atualizar os dados de um cliente no banco de dados
     public void atualizar(String nome, String cpf) {

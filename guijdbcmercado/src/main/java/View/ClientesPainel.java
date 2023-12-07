@@ -1,16 +1,14 @@
 package View;
-
-import java.awt.event.*;
+import java.util.List;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
-import java.util.List;
 import Controller.ClientesControl;
 import Controller.ClientesDAO;
 import Model.Clientes;
 
 public class ClientesPainel extends JPanel {
-    private JButton cadastrar, apagar, editar, buscar;
     private JTextField clienteCPFField, clienteNomeField;
     private List<Clientes> clientes;
     private JTable table;
@@ -39,20 +37,10 @@ public class ClientesPainel extends JPanel {
 
         inputPanel.add(new JLabel("Nome"));
         clienteNomeField = new JTextField(20);
+        clienteNomeField.setEditable(false); // Campo de nome não editável
         inputPanel.add(clienteNomeField);
 
         add(inputPanel);
-
-        JPanel botoes = new JPanel();
-        cadastrar = new JButton("Cadastrar");
-        editar = new JButton("Editar");
-        apagar = new JButton("Apagar");
-        buscar = new JButton("Buscar");
-        botoes.add(cadastrar);
-        botoes.add(editar);
-        botoes.add(apagar);
-        botoes.add(buscar);
-        add(botoes);
 
         JScrollPane jScrollPane = new JScrollPane();
         add(jScrollPane);
@@ -76,45 +64,19 @@ public class ClientesPainel extends JPanel {
 
         ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
 
-        buscar.addActionListener(new ActionListener() {
+        clienteCPFField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
-                if (cpfBusca != null && !cpfBusca.isEmpty()) {
-                    // Adicione lógica aqui para buscar o cliente pelo CPF e exibir os resultados na tabela
-                    // Por exemplo, você pode chamar um método em ClientesControl para realizar a busca
-                    // e atualizar a tabela com os resultados.
-                }
-            }
-        });
+                // Lógica para buscar o cliente pelo CPF e preencher os campos
+                String cpfBusca = clienteCPFField.getText();
+                Clientes clienteEncontrado = operacoes.obterClientePorCPF(cpfBusca);
 
-        cadastrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Adiciona lógica para verificar se o cliente é VIP
-                int resposta = JOptionPane.showConfirmDialog(null, "Este cliente é VIP?", "Verificação de VIP", JOptionPane.YES_NO_OPTION);
-                
-                if (resposta == JOptionPane.YES_OPTION) {
-                    // Adiciona lógica para tratamento de clientes VIP
-                    JOptionPane.showMessageDialog(null, "Cliente VIP");
+                if (clienteEncontrado != null) {
+                    // Se o cliente foi encontrado, preencha os campos
+                    clienteNomeField.setText(clienteEncontrado.getNome());
                 } else {
-                    // Adiciona lógica para tratamento de clientes não VIP
-                    int confirmacao = JOptionPane.showConfirmDialog(null, "Deseja realmente cadastrar este cliente?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                    if (confirmacao == JOptionPane.YES_OPTION) {
-                        boolean cadastroSucesso = operacoes.cadastrar(
-                                clienteNomeField.getText(),
-                                clienteCPFField.getText(),
-                                "",
-                                "",
-                                "");
-
-                        if (cadastroSucesso) {
-                            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-                            clienteCPFField.setText("");
-                            clienteNomeField.setText("");
-                            atualizarTabela();
-                        }
-                    }
+                    // Caso contrário, exiba uma mensagem indicando que o cliente não foi encontrado
+                    JOptionPane.showMessageDialog(null, "Cliente não encontrado", "Erro de Busca", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
