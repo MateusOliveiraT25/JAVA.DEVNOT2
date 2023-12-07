@@ -11,9 +11,9 @@ import Model.Clientes;
 public class ClientesPainel extends JPanel {
     private JTextField clienteCPFField, clienteNomeField;
     private List<Clientes> clientes;
-    private JTable table;
     private DefaultTableModel tableModel;
     private int linhaSelecionada = -1;
+    private JLabel resultadoLabel;
 
     public ClientesPainel() {
         super();
@@ -33,6 +33,7 @@ public class ClientesPainel extends JPanel {
 
         inputPanel.add(new JLabel("CPF"));
         clienteCPFField = new JTextField(20);
+        clienteCPFField.setEditable(false); // Campo de nome não editável
         inputPanel.add(clienteCPFField);
 
         inputPanel.add(new JLabel("Nome"));
@@ -42,41 +43,30 @@ public class ClientesPainel extends JPanel {
 
         add(inputPanel);
 
-        JScrollPane jScrollPane = new JScrollPane();
-        add(jScrollPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Nome", "CPF" });
-        table = new JTable(tableModel);
-        jScrollPane.setViewportView(table);
+        JPanel buttonPanel = new JPanel();
+        JButton buscarButton = new JButton("Procurar");
+        buttonPanel.add(buscarButton);
+        add(buttonPanel);
 
-        new ClientesDAO().criaTabela();
-        atualizarTabela();
+        resultadoLabel = new JLabel();
+        add(resultadoLabel);
 
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                linhaSelecionada = table.rowAtPoint(evt.getPoint());
-                if (linhaSelecionada != -1) {
-                    clienteCPFField.setText((String) table.getValueAt(linhaSelecionada, 1));
-                    clienteNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
-                }
-            }
-        });
+        ClientesControl operacoes = new ClientesControl(clientes, tableModel, null); // Passando 'null' para a tabela, pois não a usaremos aqui
 
-        ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
-
-        clienteCPFField.addActionListener(new ActionListener() {
+        buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para buscar o cliente pelo CPF e preencher os campos
-                String cpfBusca = clienteCPFField.getText();
-                Clientes clienteEncontrado = operacoes.obterClientePorCPF(cpfBusca);
-
-                if (clienteEncontrado != null) {
-                    // Se o cliente foi encontrado, preencha os campos
-                    clienteNomeField.setText(clienteEncontrado.getNome());
-                } else {
-                    // Caso contrário, exiba uma mensagem indicando que o cliente não foi encontrado
-                    JOptionPane.showMessageDialog(null, "Cliente não encontrado", "Erro de Busca", JOptionPane.ERROR_MESSAGE);
+                String cpfBusca = JOptionPane.showInputDialog(null, "Digite o CPF do cliente para buscar:", "Busca por CPF", JOptionPane.QUESTION_MESSAGE);
+                if (cpfBusca != null && !cpfBusca.isEmpty()) {
+                    Clientes clienteEncontrado = operacoes.obterClientePorCPF(cpfBusca);
+                    if (clienteEncontrado != null) {
+                        clienteCPFField.setText(clienteEncontrado.getCpf());
+                        clienteNomeField.setText(clienteEncontrado.getNome());
+                        resultadoLabel.setText("Resultado da Busca: CPF - " + clienteEncontrado.getCpf() + ", Nome - " + clienteEncontrado.getNome());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Cliente não encontrado", "Erro de Busca", JOptionPane.ERROR_MESSAGE);
+                        resultadoLabel.setText("Resultado da Busca: Cliente não encontrado");
+                    }
                 }
             }
         });
@@ -94,25 +84,11 @@ public class ClientesPainel extends JPanel {
     
         int option = JOptionPane.showConfirmDialog(null, panel, "Cadastro de Usuário", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
-            // Coletar os dados dos campos e chamar o método de cadastro do usuário
             String nome = nomeField.getText();
             String cpf = cpfField.getText();
     
-            ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
+            ClientesControl operacoes = new ClientesControl(clientes, tableModel, null); // Passando 'null' para a tabela, pois não a usaremos aqui
             operacoes.cadastrarUsuario(nome, cpf);
         }
-    }
-
-    private void atualizarTabela() {
-        // Lógica para atualizar a tabela com dados do banco de dados
-        // ...
-    }
-
-    public DefaultTableModel getTableDefaultModel() {
-        return tableModel;
-    }
-
-    public JTable getTable() {
-        return table;
     }
 }
