@@ -1,6 +1,6 @@
 package Controller;
 
-import java.sql.SQLException;
+
 import java.util.List;
 import Model.Estoque;
 import Model.Produto;
