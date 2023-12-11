@@ -29,7 +29,7 @@ public class VendasPainel extends JPanel {
         JScrollPane produtosScrollPane = new JScrollPane(produtosList);
 
         removerProdutoButton = new JButton("Remover Produto");
-        clienteVipCheckBox = new JCheckBox("Cliente VIP");
+        
 
         JPanel codigoBarrasPanel = new JPanel(new BorderLayout());
         codigoBarrasPanel.add(new JLabel("Código de Barras: "), BorderLayout.WEST);
