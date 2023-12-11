@@ -21,4 +21,8 @@ public class Estoque {
     public List<Produto> listarProdutos() {
         return produtos;
     }
+
+    public List<Produto> listarProdutosDoBanco() {
+        return null;
+    }
 }

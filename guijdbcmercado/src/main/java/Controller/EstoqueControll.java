@@ -1,6 +1,7 @@
 package Controller;
-
-
+import java.util.List;
+import java.util.Optional;
+import java.sql.SQLException;
 import java.util.List;
 import Model.Estoque;
 import Model.Produto;
@@ -13,8 +14,9 @@ public class EstoqueControll {
     public EstoqueControll() {
         this.estoque = new Estoque();
         this.produtoDAO = new ProdutoDAO(); // Inicialize o ProdutoDAO
-    }
-
+     // Adicione alguns produtos ao estoque para teste
+  
+ }
     /**
      * Adiciona um novo produto ao estoque e atualiza o banco de dados.
      *
@@ -70,7 +72,28 @@ public class EstoqueControll {
             return null;
         }
     }
-    
+    public Produto obterProdutoPorCodigoBarras(String codigoBarras) {
+        try {
+            Optional<Produto> produtoBanco = produtoDAO.listarTodos().stream()
+                    .filter(p -> codigoBarras.equals(p.getCodigoBarra()))
+                    .findFirst();
+
+            if (produtoBanco.isPresent()) {
+                return produtoBanco.get();
+            }
+
+            Optional<Produto> produtoEstoque = estoque.listarProdutos().stream()
+                    .filter(p -> codigoBarras.equals(p.getCodigoBarra()))
+                    .findFirst();
+
+            return produtoEstoque.orElse(null);
+        } catch (Exception e) {
+            System.err.println("Erro ao obter produto por código de barras: " + e.getMessage());
+            return null;
+        }
+    }
+
+
 
     /**
      * Atualiza a tabela do banco de dados com os produtos do estoque.
@@ -82,4 +105,5 @@ public class EstoqueControll {
         // Atualiza a tabela no banco de dados
         produtoDAO.atualizarTabelaBancoDados(produtos);
     }
+
 }

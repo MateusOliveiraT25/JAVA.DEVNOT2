@@ -2,7 +2,8 @@ package Controller;
 
 import Model.Produto;
 import Connection.ConnectionFactory;
-
+import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +67,7 @@ public class ProdutoDAO {
 
     // Cria a tabela de produtos no banco de dados
     private void criarTabelaProdutos() {
-        String sql = "CREATE TABLE IF NOT EXISTS produtos (codigo_barra VARCHAR(255), nome VARCHAR(255), quantidade INT, preco DOUBLE)";
+        String sql = "CREATE TABLE IF NOT EXISTS produtos (codigo_barra VARCHAR(255), nome VARCHAR(255), quantidade INT, preco NUMERIC)";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela de produtos criada com sucesso.");
@@ -74,21 +75,21 @@ public class ProdutoDAO {
             throw new RuntimeException("Erro ao criar a tabela de produtos: " + e.getMessage(), e);
         }
     }
-
-    // Adiciona um produto ao banco de dados
+    
     public void adicionarProduto(Produto produto) {
         String sql = "INSERT INTO produtos (codigo_barra, nome, quantidade, preco) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, produto.getCodigoBarra());
             preparedStatement.setString(2, produto.getNome());
             preparedStatement.setInt(3, produto.getQuantidade());
-            preparedStatement.setDouble(4, produto.getPreco());
+            preparedStatement.setBigDecimal(4, BigDecimal.valueOf(produto.getPreco()));
             preparedStatement.executeUpdate();
+
             System.out.println("Produto adicionado com sucesso!");
         } catch (SQLException e) {
             System.err.println("Erro ao adicionar produto: " + e.getMessage());
-
-            // Em caso de erro, faça o rollback da transação
             rollbackTransacao();
         }
     }

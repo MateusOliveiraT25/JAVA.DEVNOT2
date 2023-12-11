@@ -22,7 +22,8 @@ public class ClientesPainel extends JPanel {
         // Diálogo inicial para verificar se o usuário está cadastrado
         int respostaCadastro = JOptionPane.showConfirmDialog(null, "Você faz parte do clube de membros?", "Verificação de Cadastro", JOptionPane.YES_NO_OPTION);
         if (respostaCadastro == JOptionPane.NO_OPTION) {
-            // Adicionar lógica para cadastrar o usuário
+        
+            
             cadastrarUsuario();
         }
 
