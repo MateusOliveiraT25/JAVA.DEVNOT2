@@ -1,5 +1,5 @@
 package View;
-
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -72,7 +72,11 @@ public class ConclusaoCompraPainel extends JPanel {
         // Atualize conforme necessário
         JOptionPane.showMessageDialog(this, "Cupom Fiscal impresso com sucesso!");
     }
-
-   
-    
+       public void setProdutos(List<String> produtos) {
+        detalhesCompraModel.clear(); // Limpa a lista existente
+        for (String produto : produtos) {
+            detalhesCompraModel.addElement(produto); // Adiciona os novos produtos
+        }
+    }
 }
+
