@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class PainelElevador extends JFrame {
     private int andarElevador1;
     private int andarElevador2;
     private List<JButton> botoesAndar;
+    private AudioClip elevadorSound; // Adiciona variável para o som
 
     public PainelElevador() {
         super("Painel de Elevadores");
@@ -52,6 +56,10 @@ public class PainelElevador extends JFrame {
         }
 
         add(painelPrincipal);
+
+        // Carrega o som do elevador
+        URL soundUrl = getClass().getResource("/caminho/do/arquivo/som.wav");
+        elevadorSound = Applet.newAudioClip(soundUrl);
 
         setSize(400, 300); // Ajustei o tamanho do painel para acomodar os botões
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,7 +98,27 @@ public class PainelElevador extends JFrame {
         this.estadoElevador2.setText("Elevador 2: " + estadoElevador2 + " no Andar " + andarElevador2);
     }
 
-    private void moverElevador(int elevador, int andarDestino) {
+   private void moverElevador(int elevador, int andarDestino) {
+        // Obtém o URL do som
+        URL soundUrl = getClass().getResource("/caminho/do/arquivo/som.wav");
+
+        // Inicia o som do elevador em uma nova thread para permitir a reprodução contínua
+        new Thread(() -> {
+            // Toca o som enquanto o elevador está se movimentando
+            AudioClip elevadorSound = Applet.newAudioClip(soundUrl);
+            elevadorSound.loop();
+
+            // Aguarde o tempo de movimentação (simulando o movimento)
+            try {
+                Thread.sleep(2000); // Aguarda 2 segundos (ajuste conforme necessário)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Para o som quando o elevador chega ao destino
+            elevadorSound.stop();
+        }).start();
+
         // Atualiza o estado do elevador
         if (elevador == 1) {
             estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
@@ -102,7 +130,7 @@ public class PainelElevador extends JFrame {
 
         // Aguarde por algum tempo (simulando o movimento)
         try {
-            Thread.sleep(2000); // Aguarda 2 segundos
+            Thread.sleep(2000); // Aguarda 2 segundos (ajuste conforme necessário)
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -123,4 +151,6 @@ public class PainelElevador extends JFrame {
         }
         botoesAndar.get(andarDestino).setEnabled(false); // Desabilita o botão correspondente ao andar pressionado
     }
+
+   
 }
