@@ -91,7 +91,7 @@ private void chamarElevador(int andarDestino) {
 
     // Aguarde por algum tempo (simulando o movimento)
     try {
-        Thread.sleep(1000); // Aguarda 1 segundo
+        Thread.sleep(2000); // Aguarda 2 segundo
     } catch (InterruptedException e) {
         e.printStackTrace();
     }
