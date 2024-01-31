@@ -1,14 +1,13 @@
+package View;
+
+import javax.swing.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,23 +22,21 @@ public class PainelElevador extends JFrame {
     public PainelElevador() {
         super("Painel de Elevadores");
 
-        estadoElevador1 = new JLabel("Elevador 1: Parado no Andar 0");
-        estadoElevador2 = new JLabel("Elevador 2: Parado no Andar 0");
         andarElevador1 = 0;
         andarElevador2 = 0;
 
+        // Painel para o estado dos elevadores
+        JPanel painelEstado = new JPanel(new GridLayout(2, 2)); // 2 linhas, 2 colunas
+        estadoElevador1 = new JLabel("Elevador 1: Parado no Andar 0");
+        estadoElevador2 = new JLabel("Elevador 2: Parado no Andar 0");
+        painelEstado.add(new JLabel("Elevador 1:"));
+        painelEstado.add(estadoElevador1);
+        painelEstado.add(new JLabel("Elevador 2:"));
+        painelEstado.add(estadoElevador2);
+
+        // Painel para os botões de andar
+        JPanel painelBotoes = new JPanel(new GridLayout(5, 2)); // 5 linhas, 2 colunas
         botoesAndar = new ArrayList<>();
-
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new GridLayout(5, 2)); // 5 linhas (2 para o estado, 2 para os botões, 1 para abrir porta), 2 colunas
-
-        painelPrincipal.add(new JLabel("Elevador 1:"));
-        painelPrincipal.add(estadoElevador1);
-
-        painelPrincipal.add(new JLabel("Elevador 2:"));
-        painelPrincipal.add(estadoElevador2);
-
-        // Adiciona botões de andar
         for (int i = 0; i < 10; i++) {
             JButton botaoAndar = new JButton("Andar " + i);
             botoesAndar.add(botaoAndar); // Adiciona o botão à lista
@@ -50,22 +47,14 @@ public class PainelElevador extends JFrame {
                     chamarElevador(andar);
                 }
             });
-            painelPrincipal.add(botaoAndar);
+            painelBotoes.add(botaoAndar);
         }
 
-        // Adiciona botão para abrir a porta
-        JButton botaoAbrirPorta = new JButton("Abrir Porta");
-        botaoAbrirPorta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirPorta();
-            }
-        });
-        painelPrincipal.add(botaoAbrirPorta);
+        // Adiciona os painéis à janela principal
+        add(painelEstado, BorderLayout.NORTH);
+        add(painelBotoes, BorderLayout.CENTER);
 
-        add(painelPrincipal);
-
-        setSize(400, 350); // Ajustei o tamanho do painel para acomodar os botões
+        setSize(700, 500); // Ajustei o tamanho do painel para acomodar os botões
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -79,7 +68,8 @@ public class PainelElevador extends JFrame {
         // Verifica se os elevadores estão no mesmo andar
         if (andarElevador1 == andarElevador2) {
             // Ambos elevadores estão no mesmo andar
-            // Decide qual elevador mover baseado na regra de prioridade (o que estiver em cima desce)
+            // Decide qual elevador mover baseado na regra de prioridade (o que estiver em
+            // cima desce)
             if (andarElevador1 < andarDestino) {
                 moverElevador(1, andarDestino);
             } else {
@@ -112,8 +102,8 @@ public class PainelElevador extends JFrame {
     }
 
     private void moverElevador(int elevador, int andarDestino) {
-        // Obtém o caminho do arquivo MP3
-        String mp3FilePath = "caminho/do/arquivo/movimento.mp3"; // Substitua pelo caminho correto do seu arquivo MP3
+        // Obtém o caminho do arquivo WAV para o som de chegada ao andar
+        String wavFilePath = "C:\\Users\\DevNoite\\Documents\\Audio\\GarotadeIpanema.wav";
 
         // Calcula o tempo de movimentação (simulando o movimento) em milissegundos
         int tempoPorAndar = 2000; // 2 segundos por andar (ajuste conforme necessário)
@@ -123,7 +113,7 @@ public class PainelElevador extends JFrame {
         new Thread(() -> {
             try {
                 Clip clip = AudioSystem.getClip();
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new FileInputStream(mp3FilePath));
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(wavFilePath));
                 clip.open(audioInputStream);
                 clip.start();
                 Thread.sleep(tempoTotal); // Aguarda o tempo de reprodução
@@ -131,8 +121,6 @@ public class PainelElevador extends JFrame {
                 e.printStackTrace();
             }
 
-            // Atualiza o estado do elevador e a posição
-            int andarAtual = (elevador == 1) ? andarElevador1 : andarElevador2;
             if (elevador == 1) {
                 andarElevador1 = andarDestino;
                 estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
@@ -157,33 +145,13 @@ public class PainelElevador extends JFrame {
         }).start();
     }
 
-    private void abrirPorta() {
-        // Obtém o caminho do arquivo WAV para o som de abertura da porta
-        String wavFilePath = "caminho/do/arquivo/porta.wav"; // Substitua pelo caminho correto do seu arquivo WAV
-
-        try {
-            // Obtém um Clip para reprodução do som
-            Clip clip = AudioSystem.getClip();
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new FileInputStream(wavFilePath));
-            clip.open(audioInputStream);
-
-            // Adiciona um listener para saber quando a reprodução é concluída
-            clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    // Lógica para quando a reprodução é concluída
-                    // Adicione qualquer lógica adicional aqui, se necessário
-                }
-            });
-
-            // Inicia a reprodução
-            clip.start();
-
-            // Aguarde o tempo de reprodução
-            Thread.sleep(clip.getMicrosecondLength() / 1000); // Aguarda o tempo de reprodução em milissegundos
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    // Método para tornar a janela visível
+    public void run() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new PainelElevador().setVisible(true);
+            }
+        });
     }
 
-   
 }

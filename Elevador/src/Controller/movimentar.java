@@ -7,7 +7,7 @@ import View.PainelElevador;
 
 public class movimentar {
     public static void main(String[] args) {
-        predio predio = new predio(2, 10, 0); // Criar um prédio com 2 elevadores e 10 andares
+        predio predio = new predio(2, 10, 1); // Criar um prédio com 2 elevadores e 10 andares
 
         // Criar a instância do painel
         PainelElevador painel = new PainelElevador();
@@ -17,10 +17,11 @@ public class movimentar {
             predio.atualizar();
             predio.exibirEstadoPredio();
 
-          // Adicionar lógica para atualizar a parte gráfica
+            // Adicionar lógica para atualizar a parte gráfica
             painel.atualizarEstadoElevadores(predio.getEstadoElevador(1), predio.getEstadoElevador(2));
 
-            // Aqui você deve chamar métodos do painel para atualizar o estado visual dos elevadores
+            // Aqui você deve chamar métodos do painel para atualizar o estado visual dos
+            // elevadores
             // Exemplo: painel.atualizarEstadoElevadores("Em Movimento", "Parado");
 
             // Aguarde por algum tempo (simulando uma pausa)
@@ -32,5 +33,3 @@ public class movimentar {
         }
     }
 }
-
-
