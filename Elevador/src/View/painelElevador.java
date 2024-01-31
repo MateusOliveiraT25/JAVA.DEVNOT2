@@ -53,13 +53,53 @@ public class PainelElevador extends JFrame {
         setVisible(true);
     }
 
-    private void chamarElevador(int andarDestino) {
-        // Lógica para chamar o elevador
-        // Deixe essa lógica em movimentar.java
+private void chamarElevador(int andarDestino) {
+    // Calcula a distância dos elevadores até o andar de destino
+    int distanciaElevador1 = Math.abs(andarDestino - andarElevador1);
+    int distanciaElevador2 = Math.abs(andarDestino - andarElevador2);
+
+    // Verifica se os elevadores estão no mesmo andar
+    if (andarElevador1 == andarElevador2) {
+        // Ambos elevadores estão no mesmo andar
+        // Decide qual elevador mover baseado na regra de prioridade (o que estiver em cima desce)
+        if (andarElevador1 < andarDestino) {
+            moverElevador(1, andarDestino);
+        } else {
+            moverElevador(2, andarDestino);
+        }
+    } else {
+        // Elevadores estão em andares diferentes
+        // Move o elevador mais próximo do andar de destino
+        if (distanciaElevador1 < distanciaElevador2) {
+            moverElevador(1, andarDestino);
+        } else {
+            moverElevador(2, andarDestino);
+        }
+    }
+}
+
+
+  private void moverElevador(int elevador, int andarDestino) {
+    // Atualiza o estado do elevador
+    if (elevador == 1) {
+        estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
+        andarElevador1 = andarDestino;
+    } else if (elevador == 2) {
+        estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
+        andarElevador2 = andarDestino;
     }
 
-    private void moverElevador(int elevador, int andarDestino) {
-        // Lógica para mover o elevador
-        // Deixe essa lógica em movimentar.java
+    // Aguarde por algum tempo (simulando o movimento)
+    try {
+        Thread.sleep(1000); // Aguarda 1 segundo
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    // Atualiza o estado para refletir que o elevador chegou ao destino
+    if (elevador == 1) {
+        estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+    } else if (elevador == 2) {
+        estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
     }
 }
