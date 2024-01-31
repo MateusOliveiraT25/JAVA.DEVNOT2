@@ -52,7 +52,6 @@ public class PainelElevador extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
 private void chamarElevador(int andarDestino) {
     // Calcula a distância dos elevadores até o andar de destino
     int distanciaElevador1 = Math.abs(andarDestino - andarElevador1);
@@ -76,6 +75,10 @@ private void chamarElevador(int andarDestino) {
             moverElevador(2, andarDestino);
         }
     }
+
+    // Destacar o botão correspondente ao andar pressionado
+    JButton botaoAndar = (JButton) ((GridLayout) painelPrincipal.getLayout()).getComponent(andarDestino + 2); // +2 para compensar os rótulos
+    botaoAndar.setEnabled(false); // Desabilita o botão para destacar que foi pressionado
 }
 
 
