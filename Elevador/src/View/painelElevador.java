@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PainelElevador extends JFrame {
 
@@ -14,6 +16,7 @@ public class PainelElevador extends JFrame {
     private JLabel estadoElevador2;
     private int andarElevador1;
     private int andarElevador2;
+    private List<JButton> botoesAndar;
 
     public PainelElevador() {
         super("Painel de Elevadores");
@@ -22,6 +25,8 @@ public class PainelElevador extends JFrame {
         estadoElevador2 = new JLabel("Elevador 2: Parado no Andar 0");
         andarElevador1 = 0;
         andarElevador2 = 0;
+
+        botoesAndar = new ArrayList<>();
 
         JPanel painelPrincipal = new JPanel();
         painelPrincipal.setLayout(new GridLayout(4, 2)); // 4 linhas (2 para o estado e 2 para os botões), 2 colunas
@@ -35,6 +40,7 @@ public class PainelElevador extends JFrame {
         // Adiciona botões de andar
         for (int i = 0; i < 10; i++) {
             JButton botaoAndar = new JButton("Andar " + i);
+            botoesAndar.add(botaoAndar); // Adiciona o botão à lista
             final int andar = i;
             botaoAndar.addActionListener(new ActionListener() {
                 @Override
@@ -52,34 +58,45 @@ public class PainelElevador extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-private void chamarElevador(int andarDestino) {
-    // Calcula a distância dos elevadores até o andar de destino
-    int distanciaElevador1 = Math.abs(andarDestino - andarElevador1);
-    int distanciaElevador2 = Math.abs(andarDestino - andarElevador2);
 
-    // Verifica se os elevadores estão no mesmo andar
-    if (andarElevador1 == andarElevador2) {
-        // Ambos elevadores estão no mesmo andar
-        // Decide qual elevador mover baseado na regra de prioridade (o que estiver em cima desce)
-        if (andarElevador1 < andarDestino) {
-            moverElevador(1, andarDestino);
+    private void chamarElevador(int andarDestino) {
+        // Calcula a distância dos elevadores até o andar de destino
+        int distanciaElevador1 = Math.abs(andarDestino - andarElevador1);
+        int distanciaElevador2 = Math.abs(andarDestino - andarElevador2);
+
+        // Verifica se os elevadores estão no mesmo andar
+        if (andarElevador1 == andarElevador2) {
+            // Ambos elevadores estão no mesmo andar
+            // Decide qual elevador mover baseado na regra de prioridade (o que estiver em cima desce)
+            if (andarElevador1 < andarDestino) {
+                moverElevador(1, andarDestino);
+            } else {
+                moverElevador(2, andarDestino);
+            }
         } else {
-            moverElevador(2, andarDestino);
+            // Elevadores estão em andares diferentes
+            // Move o elevador mais próximo do andar de destino
+            if (distanciaElevador1 < distanciaElevador2) {
+                moverElevador(1, andarDestino);
+            } else {
+                moverElevador(2, andarDestino);
+            }
         }
-    } else {
-        // Elevadores estão em andares diferentes
-        // Move o elevador mais próximo do andar de destino
-        if (distanciaElevador1 < distanciaElevador2) {
-            moverElevador(1, andarDestino);
-        } else {
-            moverElevador(2, andarDestino);
+
+        // Após chamar o elevador, atualize o estado visual
+        atualizarEstadoElevadores("Em Movimento", "Parado");
+
+        // Destacar o botão correspondente ao andar pressionado
+        for (JButton botaoAndar : botoesAndar) {
+            botaoAndar.setEnabled(true); // Habilita todos os botões
         }
+        botoesAndar.get(andarDestino).setEnabled(false); // Desabilita o botão correspondente ao andar pressionado
     }
 
-    // Destacar o botão correspondente ao andar pressionado
-    JButton botaoAndar = (JButton) ((GridLayout) painelPrincipal.getLayout()).getComponent(andarDestino + 2); // +2 para compensar os rótulos
-    botaoAndar.setEnabled(false); // Desabilita o botão para destacar que foi pressionado
-}
+ // Método para atualizar o estado visual dos elevadores
+    public void atualizarEstadoElevadores(String estadoElevador1, String estadoElevador2) {
+        this.estadoElevador1.setText("Elevador 1: " + estadoElevador1);
+        this.estadoElevador2.setText("Elevador 2: " + estadoElevador2);
 
 
   private void moverElevador(int elevador, int andarDestino) {
