@@ -18,6 +18,7 @@ public class PainelElevador extends JFrame {
     private int andarElevador1;
     private int andarElevador2;
     private List<JButton> botoesAndar;
+    private Clip clip; // Variável para controlar a reprodução do som
 
     public PainelElevador() {
         super("Painel de Elevadores");
@@ -61,6 +62,11 @@ public class PainelElevador extends JFrame {
     }
 
     private void chamarElevador(int andarDestino) {
+        // Se já estiver tocando música, pare antes de iniciar uma nova
+        if (clip != null && clip.isRunning()) {
+            pararMusica();
+        }
+
         // Calcula a distância dos elevadores até o andar de destino
         int distanciaElevador1 = Math.abs(andarDestino - andarElevador1);
         int distanciaElevador2 = Math.abs(andarDestino - andarElevador2);
@@ -112,7 +118,7 @@ public class PainelElevador extends JFrame {
         // Inicia a reprodução do som em uma nova thread
         new Thread(() -> {
             try {
-                Clip clip = AudioSystem.getClip();
+                clip = AudioSystem.getClip();
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(wavFilePath));
                 clip.open(audioInputStream);
                 clip.start();
@@ -121,28 +127,39 @@ public class PainelElevador extends JFrame {
                 e.printStackTrace();
             }
 
-            if (elevador == 1) {
-                andarElevador1 = andarDestino;
-                estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-            } else {
-                andarElevador2 = andarDestino;
-                estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
-            }
+            // Se a música não foi interrompida, atualiza o estado do elevador
+            if (clip != null && clip.isRunning()) {
+                if (elevador == 1) {
+                    andarElevador1 = andarDestino;
+                    estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
+                } else {
+                    andarElevador2 = andarDestino;
+                    estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
+                }
 
-            // Aguarde o tempo de movimentação (simulando o movimento)
-            try {
-                Thread.sleep(tempoTotal); // Aguarda o tempo de movimentação
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                // Aguarde o tempo de movimentação (simulando o movimento)
+                try {
+                    Thread.sleep(tempoTotal); // Aguarda o tempo de movimentação
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            // Atualiza o estado para refletir que o elevador chegou ao destino
-            if (elevador == 1) {
-                estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
-            } else {
-                estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
+                // Atualiza o estado para refletir que o elevador chegou ao destino
+                if (elevador == 1) {
+                    estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+                } else {
+                    estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
+                }
             }
         }).start();
+    }
+
+    // Método para parar a reprodução da música
+    private void pararMusica() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+            clip.close();
+        }
     }
 
     // Método para tornar a janela visível
