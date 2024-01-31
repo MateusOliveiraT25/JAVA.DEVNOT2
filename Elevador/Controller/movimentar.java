@@ -18,21 +18,4 @@ public class movimentar {
             predio.exibirEstadoPredio();
         }
     }
-
-    private int obterAndarDesejado() {
-        try {
-            String andarDestinoStr = JOptionPane.showInputDialog("Informe o andar desejado:");
-            if (andarDestinoStr == null) {
-                // Usuário clicou em Cancelar ou fechou a janela
-                return 0;  // Andar inválido, tratado como o térreo
-            }
-
-            return Integer.parseInt(andarDestinoStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Por favor, insira um número válido para o andar.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return 0;  // Andar inválido, tratado como o térreo
-        }
-    }
-
-  
 }

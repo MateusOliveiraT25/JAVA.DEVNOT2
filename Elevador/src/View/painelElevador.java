@@ -56,37 +56,44 @@ public class painelElevador extends JFrame {
     private void chamarElevador(int andarDestino) {
         // Adiciona a lógica para mover o elevador até o andar de destino
         if (andarDestino > andarElevador1) {
-            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-            andarElevador1 = andarDestino;
+            moverElevador(1, andarDestino);
         } else if (andarDestino < andarElevador1) {
-            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-            andarElevador1 = andarDestino;
+            moverElevador(1, andarDestino);
         } else {
-            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+            // Elevador já está no andar de destino
         }
 
         // Faça o mesmo para o Elevador 2 se necessário
     }
 
-    public void run() {
-        // Aqui você pode adicionar a lógica que deseja executar
-        // por exemplo, um loop de atualização ou algo similar
-        for (int i = 0; i < 10; i++) {
-            // Alguma lógica de atualização simulada
-            atualizarEstadoElevadores("Em Movimento", "Parado");
+    private void moverElevador(int elevador, int andarDestino) {
+        // Atualiza o estado do elevador
+        if (elevador == 1) {
+            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
+            andarElevador1 = andarDestino;
+        } else if (elevador == 2) {
+            estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
+            andarElevador2 = andarDestino;
+        }
 
-            // Aguarde por algum tempo (simulando uma pausa)
-            try {
-                Thread.sleep(1000); // Aguarda 1 segundo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // Aguarde por algum tempo (simulando o movimento)
+        try {
+            Thread.sleep(1000); // Aguarda 1 segundo
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Atualiza o estado para refletir que o elevador chegou ao destino
+        if (elevador == 1) {
+            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+        } else if (elevador == 2) {
+            estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
         }
     }
 
-    private void atualizarEstadoElevadores(String string, String string2) {
+    public void run() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'atualizarEstadoElevadores'");
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
 }
