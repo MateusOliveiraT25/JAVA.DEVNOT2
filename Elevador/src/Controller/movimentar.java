@@ -1,62 +1,34 @@
 package Controller;
 
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import Model.predio;
+import View.PainelElevador;
 
 public class movimentar {
-    private Predio predio;
+    public static void main(String[] args) {
+        predio predio = new predio(2, 10, 0); // Criar um prédio com 2 elevadores e 10 andares
 
-    public Movimentar() {
-        this.predio = new Predio(2, 10, 0);
-    }
+        // Criar a instância do painel
+        PainelElevador painel = new PainelElevador();
 
-    public void run() {
-        criarInterfaceGrafica();
-    }
+        // Ciclos do sistema (movimentação dos elevadores)
+        for (int i = 0; i < 10; i++) {
+            predio.atualizar();
+            predio.exibirEstadoPredio();
 
-    private void criarInterfaceGrafica() {
-        JFrame frame = new JFrame("Movimentar Prédio");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // Adicionar lógica para atualizar a parte gráfica
+            // Aqui você deve chamar métodos do painel para atualizar o estado visual dos elevadores
+            // Exemplo: painel.atualizarEstadoElevadores("Em Movimento", "Parado");
 
-        JButton chamarElevadorButton = new JButton("Chamar Elevador");
-        chamarElevadorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                chamarElevadorPelaInterface();
+            // Aguarde por algum tempo (simulando uma pausa)
+            try {
+                Thread.sleep(1000); // Aguarda 1 segundo
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-
-        frame.getContentPane().add(chamarElevadorButton);
-        frame.setSize(300, 200);
-        frame.setVisible(true);
-    }
-
-    private void chamarElevadorPelaInterface() {
-        int andarDestino = obterAndarDesejado();
-        predio.chamarElevadorParaAndar(andarDestino);
-        predio.atualizar();
-        predio.exibirEstadoPredio();
-    }
-
-    private int obterAndarDesejado() {
-        try {
-            String andarDestinoStr = JOptionPane.showInputDialog("Informe o andar desejado:");
-            if (andarDestinoStr == null) {
-                // Usuário clicou em Cancelar ou fechou a janela
-                return 0;  // Andar inválido, tratado como o térreo
-            }
-
-            return Integer.parseInt(andarDestinoStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Por favor, insira um número válido para o andar.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return 0;  // Andar inválido, tratado como o térreo
         }
     }
+}
 
-    
-    }
 
