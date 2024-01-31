@@ -82,44 +82,45 @@ public class PainelElevador extends JFrame {
                 moverElevador(2, andarDestino);
             }
         }
+    }
 
-        // Após chamar o elevador, atualize o estado visual
-        atualizarEstadoElevadores("Em Movimento", "Parado");
+    // Método para atualizar o estado visual dos elevadores
+    public void atualizarEstadoElevadores(String estadoElevador1, String estadoElevador2) {
+        this.estadoElevador1.setText("Elevador 1: " + estadoElevador1 + " no Andar " + andarElevador1);
+        this.estadoElevador2.setText("Elevador 2: " + estadoElevador2 + " no Andar " + andarElevador2);
+    }
+
+    private void moverElevador(int elevador, int andarDestino) {
+        // Atualiza o estado do elevador
+        if (elevador == 1) {
+            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
+            andarElevador1 = andarDestino;
+        } else if (elevador == 2) {
+            estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
+            andarElevador2 = andarDestino;
+        }
+
+        // Aguarde por algum tempo (simulando o movimento)
+        try {
+            Thread.sleep(2000); // Aguarda 2 segundos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Atualiza o estado para refletir que o elevador chegou ao destino
+        if (elevador == 1) {
+            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+        } else if (elevador == 2) {
+            estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
+        }
+
+        // Após o elevador chegar ao destino, atualize o estado visual
+        atualizarEstadoElevadores("Parado", "Parado");
 
         // Destacar o botão correspondente ao andar pressionado
         for (JButton botaoAndar : botoesAndar) {
             botaoAndar.setEnabled(true); // Habilita todos os botões
         }
         botoesAndar.get(andarDestino).setEnabled(false); // Desabilita o botão correspondente ao andar pressionado
-    }
-
- // Método para atualizar o estado visual dos elevadores
-    public void atualizarEstadoElevadores(String estadoElevador1, String estadoElevador2) {
-        this.estadoElevador1.setText("Elevador 1: " + estadoElevador1);
-        this.estadoElevador2.setText("Elevador 2: " + estadoElevador2);
-
-
-  private void moverElevador(int elevador, int andarDestino) {
-    // Atualiza o estado do elevador
-    if (elevador == 1) {
-        estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-        andarElevador1 = andarDestino;
-    } else if (elevador == 2) {
-        estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
-        andarElevador2 = andarDestino;
-    }
-
-    // Aguarde por algum tempo (simulando o movimento)
-    try {
-        Thread.sleep(2000); // Aguarda 2 segundo
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-
-    // Atualiza o estado para refletir que o elevador chegou ao destino
-    if (elevador == 1) {
-        estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
-    } else if (elevador == 2) {
-        estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
     }
 }
