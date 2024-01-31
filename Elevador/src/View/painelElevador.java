@@ -8,14 +8,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class painelElevador extends JFrame {
+public class PainelElevador extends JFrame {
 
     private JLabel estadoElevador1;
     private JLabel estadoElevador2;
     private int andarElevador1;
     private int andarElevador2;
 
-    public painelElevador() {
+    public PainelElevador() {
         super("Painel de Elevadores");
 
         estadoElevador1 = new JLabel("Elevador 1: Parado no Andar 0");
@@ -54,46 +54,12 @@ public class painelElevador extends JFrame {
     }
 
     private void chamarElevador(int andarDestino) {
-        // Adiciona a lógica para mover o elevador até o andar de destino
-        if (andarDestino > andarElevador1) {
-            moverElevador(1, andarDestino);
-        } else if (andarDestino < andarElevador1) {
-            moverElevador(1, andarDestino);
-        } else {
-            // Elevador já está no andar de destino
-        }
-
-        // Faça o mesmo para o Elevador 2 se necessário
+        // Lógica para chamar o elevador
+        // Deixe essa lógica em movimentar.java
     }
 
     private void moverElevador(int elevador, int andarDestino) {
-        // Atualiza o estado do elevador
-        if (elevador == 1) {
-            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-            andarElevador1 = andarDestino;
-        } else if (elevador == 2) {
-            estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
-            andarElevador2 = andarDestino;
-        }
-
-        // Aguarde por algum tempo (simulando o movimento)
-        try {
-            Thread.sleep(1000); // Aguarda 1 segundo
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Atualiza o estado para refletir que o elevador chegou ao destino
-        if (elevador == 1) {
-            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
-        } else if (elevador == 2) {
-            estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
-        }
+        // Lógica para mover o elevador
+        // Deixe essa lógica em movimentar.java
     }
-
-    public void run() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
-    }
-
 }
