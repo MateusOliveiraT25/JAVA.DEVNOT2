@@ -1,4 +1,8 @@
-package View;
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackEventAdapter;
+import javazoom.jl.player.advanced.PlaybackThread;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -7,11 +11,7 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
 
 public class PainelElevador extends JFrame {
 
@@ -20,7 +20,6 @@ public class PainelElevador extends JFrame {
     private int andarElevador1;
     private int andarElevador2;
     private List<JButton> botoesAndar;
-    private AudioClip elevadorSound; // Adiciona variável para o som
 
     public PainelElevador() {
         super("Painel de Elevadores");
@@ -57,10 +56,6 @@ public class PainelElevador extends JFrame {
 
         add(painelPrincipal);
 
-        // Carrega o som do elevador
-        URL soundUrl = getClass().getResource("/caminho/do/arquivo/som.wav");
-        elevadorSound = Applet.newAudioClip(soundUrl);
-
         setSize(400, 300); // Ajustei o tamanho do painel para acomodar os botões
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -90,60 +85,9 @@ public class PainelElevador extends JFrame {
                 moverElevador(2, andarDestino);
             }
         }
-    }
 
-    // Método para atualizar o estado visual dos elevadores
-    public void atualizarEstadoElevadores(String estadoElevador1, String estadoElevador2) {
-        this.estadoElevador1.setText("Elevador 1: " + estadoElevador1 + " no Andar " + andarElevador1);
-        this.estadoElevador2.setText("Elevador 2: " + estadoElevador2 + " no Andar " + andarElevador2);
-    }
-
-   private void moverElevador(int elevador, int andarDestino) {
-        // Obtém o URL do som
-        URL soundUrl = getClass().getResource("/caminho/do/arquivo/som.wav");
-
-        // Inicia o som do elevador em uma nova thread para permitir a reprodução contínua
-        new Thread(() -> {
-            // Toca o som enquanto o elevador está se movimentando
-            AudioClip elevadorSound = Applet.newAudioClip(soundUrl);
-            elevadorSound.loop();
-
-            // Aguarde o tempo de movimentação (simulando o movimento)
-            try {
-                Thread.sleep(2000); // Aguarda 2 segundos (ajuste conforme necessário)
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // Para o som quando o elevador chega ao destino
-            elevadorSound.stop();
-        }).start();
-
-        // Atualiza o estado do elevador
-        if (elevador == 1) {
-            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
-            andarElevador1 = andarDestino;
-        } else if (elevador == 2) {
-            estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
-            andarElevador2 = andarDestino;
-        }
-
-        // Aguarde por algum tempo (simulando o movimento)
-        try {
-            Thread.sleep(2000); // Aguarda 2 segundos (ajuste conforme necessário)
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Atualiza o estado para refletir que o elevador chegou ao destino
-        if (elevador == 1) {
-            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
-        } else if (elevador == 2) {
-            estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
-        }
-
-        // Após o elevador chegar ao destino, atualize o estado visual
-        atualizarEstadoElevadores("Parado", "Parado");
+        // Após chamar o elevador, atualize o estado visual
+        atualizarEstadoElevadores("Em Movimento", "Parado");
 
         // Destacar o botão correspondente ao andar pressionado
         for (JButton botaoAndar : botoesAndar) {
@@ -152,5 +96,72 @@ public class PainelElevador extends JFrame {
         botoesAndar.get(andarDestino).setEnabled(false); // Desabilita o botão correspondente ao andar pressionado
     }
 
-   
+    // Método para atualizar o estado visual dos elevadores
+    public void atualizarEstadoElevadores(String estadoElevador1, String estadoElevador2) {
+        this.estadoElevador1.setText("Elevador 1: " + estadoElevador1);
+        this.estadoElevador2.setText("Elevador 2: " + estadoElevador2);
+    }
+
+    private void moverElevador(int elevador, int andarDestino) {
+        // Obtém o caminho do arquivo MP3
+        String mp3FilePath = "caminho/do/arquivo/som.mp3"; // Substitua pelo caminho correto do seu arquivo MP3
+
+        // Calcula o tempo de movimentação (simulando o movimento) em milissegundos
+        int tempoPorAndar = 2000; // 2 segundos por andar (ajuste conforme necessário)
+        int tempoTotal = Math.abs(andarDestino - (elevador == 1 ? andarElevador1 : andarElevador2)) * tempoPorAndar;
+
+        // Inicia a reprodução do som em uma nova thread
+        new Thread(() -> {
+            try {
+                Bitstream bitstream = new Bitstream(new FileInputStream(mp3FilePath));
+                int duration = bitstream.readFrame().max_number_of_frames(null) * 26; // Ajuste conforme necessário
+                AdvancedPlayer player = new AdvancedPlayer(new FileInputStream(mp3FilePath));
+                PlaybackThread playbackThread = new PlaybackThread(player);
+                playbackThread.setPlayBackListener(new PlaybackEventAdapter() {
+                    @Override
+                    public void playbackFinished(PlaybackEvent evt) {
+                        // Chamado quando a reprodução termina
+                        // Adicione qualquer lógica adicional aqui, se necessário
+                    }
+                });
+                playbackThread.start();
+
+                // Aguarde o tempo de movimentação (simulando o movimento)
+                Thread.sleep(tempoTotal); // Aguarda o tempo de reprodução
+
+                // Para a reprodução quando o elevador chega ao destino
+                playbackThread.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        // Atualiza o estado do elevador e a posição
+        int andarAtual = (elevador == 1) ? andarElevador1 : andarElevador2;
+        if (elevador == 1) {
+            andarElevador1 = andarDestino;
+            estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
+        } else {
+            andarElevador2 = andarDestino;
+            estadoElevador2.setText("Elevador 2: Indo para o Andar " + andarDestino);
+        }
+
+        // Aguarde o tempo de movimentação (simulando o movimento)
+        try {
+            Thread.sleep(tempoTotal); // Aguarda o tempo de movimentação
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Atualiza o estado para refletir que o elevador chegou ao destino
+        if (elevador == 1) {
+            estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
+        } else {
+            estadoElevador2.setText("Elevador 2: Parado no Andar " + andarDestino);
+        }
+    }
+
+    public static void main(String[] args) {
+        new PainelElevador();
+    }
 }
