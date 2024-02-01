@@ -18,7 +18,8 @@ public class PainelElevador extends JFrame {
     private int andarElevador1;
     private int andarElevador2;
     private List<JButton> botoesAndar;
-    private Clip clip; // Variável para controlar a reprodução do som
+    private Clip clipEmMovimento; // Som quando o elevador está em movimento
+    private Clip clipChegadaAoAndar; // Som quando o elevador chega ao andar
 
     public PainelElevador() {
         super("Painel de Elevadores");
@@ -63,8 +64,8 @@ public class PainelElevador extends JFrame {
 
     private void chamarElevador(int andarDestino) {
         // Se já estiver tocando música, pare antes de iniciar uma nova
-        if (clip != null && clip.isRunning()) {
-            pararMusica();
+        if (clipEmMovimento != null && clipEmMovimento.isRunning()) {
+            pararMusicaEmMovimento();
         }
 
         // Calcula a distância dos elevadores até o andar de destino
@@ -76,9 +77,16 @@ public class PainelElevador extends JFrame {
             // Ambos elevadores estão no mesmo andar
             // Decide qual elevador mover baseado na regra de prioridade (o que estiver em
             // cima desce)
-            if (andarElevador1 < andarDestino) {
+            if (andarElevador1 < andarDestino && andarElevador2 < andarDestino) {
+                // Ambos elevadores estão abaixo do destino, move o que estiver mais acima
+                if (andarElevador1 > andarElevador2) {
+                    moverElevador(1, andarDestino);
+                } else {
+                    moverElevador(2, andarDestino);
+                }
+            } else if (andarElevador1 < andarDestino) {
                 moverElevador(1, andarDestino);
-            } else {
+            } else if (andarElevador2 < andarDestino) {
                 moverElevador(2, andarDestino);
             }
         } else {
@@ -109,26 +117,30 @@ public class PainelElevador extends JFrame {
 
     private void moverElevador(int elevador, int andarDestino) {
         // Obtém o caminho do arquivo WAV para o som de chegada ao andar
-        String wavFilePath = "C:\\Users\\DevNoite\\Documents\\Audio\\GarotadeIpanema.wav";
+        String chegadaAoAndarFilePath = "C:\\Users\\DevNoite\\Documents\\Audio\\ChegadaAoAndar.wav";
+
+        // Obtém o caminho do arquivo WAV para o som de elevador em movimento
+        String emMovimentoFilePath = "C:\\Users\\DevNoite\\Documents\\Audio\\EmMovimento.wav";
 
         // Calcula o tempo de movimentação (simulando o movimento) em milissegundos
         int tempoPorAndar = 2000; // 2 segundos por andar (ajuste conforme necessário)
         int tempoTotal = Math.abs(andarDestino - (elevador == 1 ? andarElevador1 : andarElevador2)) * tempoPorAndar;
 
-        // Inicia a reprodução do som em uma nova thread
+        // Inicia a reprodução do som de elevador em movimento em uma nova thread
         new Thread(() -> {
             try {
-                clip = AudioSystem.getClip();
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(wavFilePath));
-                clip.open(audioInputStream);
-                clip.start();
+                clipEmMovimento = AudioSystem.getClip();
+                AudioInputStream audioInputStreamEmMovimento = AudioSystem
+                        .getAudioInputStream(new File(emMovimentoFilePath));
+                clipEmMovimento.open(audioInputStreamEmMovimento);
+                clipEmMovimento.start();
                 Thread.sleep(tempoTotal); // Aguarda o tempo de reprodução
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             // Se a música não foi interrompida, atualiza o estado do elevador
-            if (clip != null && clip.isRunning()) {
+            if (clipEmMovimento != null && clipEmMovimento.isRunning()) {
                 if (elevador == 1) {
                     andarElevador1 = andarDestino;
                     estadoElevador1.setText("Elevador 1: Indo para o Andar " + andarDestino);
@@ -144,6 +156,12 @@ public class PainelElevador extends JFrame {
                     e.printStackTrace();
                 }
 
+                // Parar o som de elevador em movimento ao chegar ao destino
+                pararMusicaEmMovimento();
+
+                // Tocar o som de chegada ao andar
+                tocarChegadaAoAndar();
+
                 // Atualiza o estado para refletir que o elevador chegou ao destino
                 if (elevador == 1) {
                     estadoElevador1.setText("Elevador 1: Parado no Andar " + andarDestino);
@@ -154,21 +172,51 @@ public class PainelElevador extends JFrame {
         }).start();
     }
 
-    // Método para parar a reprodução da música
-    private void pararMusica() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-            clip.close();
+    // Método para parar a reprodução do som de elevador em movimento
+    private void pararMusicaEmMovimento() {
+        if (clipEmMovimento != null && clipEmMovimento.isRunning()) {
+            clipEmMovimento.stop();
+            clipEmMovimento.close();
+        }
+    }
+
+    // Método para tocar o som de chegada ao andar
+    private void tocarChegadaAoAndar() {
+        // Obtém o caminho do arquivo WAV para o som de chegada ao andar
+        String chegadaAoAndarFilePath = "C:\\Users\\DevNoite\\Documents\\Audio\\ChegadaAoAndar.wav";
+
+        // Inicia a reprodução do som em uma nova thread
+        new Thread(() -> {
+            try {
+                clipChegadaAoAndar = AudioSystem.getClip();
+                AudioInputStream audioInputStreamChegadaAoAndar = AudioSystem
+                        .getAudioInputStream(new File(chegadaAoAndarFilePath));
+                clipChegadaAoAndar.open(audioInputStreamChegadaAoAndar);
+                clipChegadaAoAndar.start();
+                Thread.sleep(clipChegadaAoAndar.getMicrosecondLength() / 1000); // Aguarda o tempo de reprodução
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Se a música não foi interrompida, pare o som de chegada ao andar
+            if (clipChegadaAoAndar != null && clipChegadaAoAndar.isRunning()) {
+                clipChegadaAoAndar.stop();
+                clipChegadaAoAndar.close();
+            }
+        }).start();
+    }
+
+    // Método para parar a reprodução do som de chegada ao andar
+    private void pararChegadaAoAndar() {
+        if (clipChegadaAoAndar != null && clipChegadaAoAndar.isRunning()) {
+            clipChegadaAoAndar.stop();
+            clipChegadaAoAndar.close();
         }
     }
 
     // Método para tornar a janela visível
     public void run() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new PainelElevador().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new PainelElevador().setVisible(true));
     }
 
 }

@@ -6,6 +6,6 @@ import View.PainelElevador;
 
 public class app {
     public static void main(String[] args) {
-        new PainelElevador().run();
+        SwingUtilities.invokeLater(() -> new PainelElevador().setVisible(true));
     }
 }
