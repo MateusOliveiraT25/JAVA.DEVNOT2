@@ -1,5 +1,5 @@
 package Model;
-public class elevador {
+public class Elevador {
     private int andarAtual;
     private boolean emMovimento;
 
