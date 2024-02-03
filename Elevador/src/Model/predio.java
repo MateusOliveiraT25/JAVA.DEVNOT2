@@ -1,11 +1,11 @@
 package Model;
 import javax.swing.JOptionPane;
 
-public class predio {
+public class Predio {
     private elevador[] elevadores;
     private int[] andares;
 
-    public predio(int quantidadeElevadores, int numeroAndares, int numeroSubsolo) {
+    public Predio(int quantidadeElevadores, int numeroAndares, int numeroSubsolo) {
         int totalAndares = numeroAndares + Math.abs(numeroSubsolo); // Garante que o total de andares seja não negativo
         elevadores = new elevador[quantidadeElevadores];
         for (int i = 0; i < quantidadeElevadores; i++) {
