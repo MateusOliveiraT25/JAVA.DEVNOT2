@@ -31,6 +31,8 @@ public class PainelElevador extends JFrame {
         JPanel painelEstado = new JPanel(new GridLayout(2, 2)); // 2 linhas, 2 colunas
         estadoElevador1 = new JLabel("Elevador 1: Parado no Andar 0");
         estadoElevador2 = new JLabel("Elevador 2: Parado no Andar 0");
+        estiloLabel(estadoElevador1);
+        estiloLabel(estadoElevador2);
         painelEstado.add(new JLabel("Elevador 1:"));
         painelEstado.add(estadoElevador1);
         painelEstado.add(new JLabel("Elevador 2:"));
@@ -41,6 +43,7 @@ public class PainelElevador extends JFrame {
         botoesAndar = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             JButton botaoAndar = new JButton("Andar " + i);
+            estiloBotao(botaoAndar);
             botoesAndar.add(botaoAndar); // Adiciona o botão à lista
             final int andar = i;
             botaoAndar.addActionListener(new ActionListener() {
@@ -219,4 +222,21 @@ public class PainelElevador extends JFrame {
         SwingUtilities.invokeLater(() -> new PainelElevador().setVisible(true));
     }
 
+    // Método para adicionar estilo a um botão
+    private void estiloBotao(JButton botao) {
+        botao.setBackground(new Color(50, 205, 50)); // Cor de fundo verde-limão
+        botao.setForeground(Color.WHITE); // Texto branco
+        botao.setFocusPainted(false); // Remove a borda de foco
+    }
+
+    // Método para adicionar estilo a um rótulo
+    private void estiloLabel(JLabel label) {
+        label.setFont(new Font("Arial", Font.BOLD, 14));
+        label.setForeground(new Color(70, 130, 180)); // Cor azul aço
+    }
+
+    public static void main(String[] args) {
+        new PainelElevador().run();
+    }
 }
+
